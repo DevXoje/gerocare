@@ -1,0 +1,66 @@
+/* Layout Variables */
+:root {
+  --sidebar-width: 280px;
+  --sidebar-mobile-width: 280px;
+  --header-height: 64px;
+  --mobile-breakpoint: 768px;
+  
+  /* Colors */
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e5e7eb;
+  --sidebar-hover: #f3f4f6;
+  --sidebar-active-bg: #eff6ff;
+  --sidebar-active-color: #2563eb;
+  --overlay-bg: rgba(0, 0, 0, 0.5);
+  
+  /* Transitions */
+  --transition-speed: 0.3s;
+  --transition-easing: ease-in-out;
+}
+
+/* Mobile-first base styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Responsive utilities */
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+/* Smooth transitions for layout changes */
+.layout-transition {
+  transition: margin-left var(--transition-speed) var(--transition-easing);
+}
+
+/* Scrollbar styles for sidebar */
+.sidebar-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+

@@ -1,26 +1,23 @@
-import { useAuthStore } from "@/business/auth/store"
-import { createAuthRepository } from "@/business/auth/infrastructure/FirestoreAuth"
-import type { AuthComposable } from "@/business/auth/domain/AuthComposable"
+import { createAuthRepository } from '@/business/auth/infrastructure/FirestoreAuth'
+import type { AuthComposable } from '@/business/auth/domain/AuthComposable'
+
 export const useAuth = (): AuthComposable => {
-  const store = useAuthStore()
   const repository = createAuthRepository()
 
+  async function signIn(email: string, password: string) {
+    const result = await repository.signIn(email, password)
+    // VueFire automatically updates the user state in the store via useCurrentUser() on success
+    return result
+  }
+
+  async function signOut() {
+    const result = await repository.signOut()
+    // VueFire automatically updates the user state in the store via useCurrentUser() on success
+    return result
+  }
+
   return {
-    signIn: async (email: string, password: string) => {
-      await repository.signIn(email, password)
-      store.state.user = await repository.getCurrentUser()
-    },
-    signUp: async (email: string, password: string) => {
-      await repository.signUp(email, password)
-      store.state.user = await repository.getCurrentUser()
-    },
-    signOut: async () => {
-      await repository.signOut()
-      store.state.user = null
-    },
-    getCurrentUser: async () => {
-      store.state.user ??= await repository.getCurrentUser();
-      return store.state.user
-    },
+    signIn,
+    signOut,
   }
 }

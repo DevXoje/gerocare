@@ -1,19 +1,32 @@
 import { defineStore } from "pinia"
-import { ref } from "vue"
+import { computed } from "vue"
+import { useCurrentUser } from "vuefire"
 import type { User } from "./domain/User"
 
-interface AuthState {
-  user: User | null
-}
-
-const initialState: AuthState = {
-  user: null,
-}
-
 export const useAuthStore = defineStore('auth', () => {
-  const state = ref<AuthState>(initialState)
+  // Integrar VueFire's useCurrentUser para sincronización automática con Firebase
+  const firebaseUser = useCurrentUser()
+
+  // Computed que mapea el usuario de Firebase a nuestro dominio User
+  const user = computed<User | null>(() => {
+    if (!firebaseUser.value) {
+      return null
+    }
+
+    return {
+      uid: firebaseUser.value.uid,
+      email: firebaseUser.value.email,
+      displayName: firebaseUser.value.displayName,
+      photoURL: firebaseUser.value.photoURL,
+      emailVerified: firebaseUser.value.emailVerified,
+    }
+  })
+
+  // Getter para verificar si el usuario está autenticado
+  const isAuthenticated = computed(() => user.value !== null)
 
   return {
-    state,
+    user,
+    isAuthenticated,
   }
 })

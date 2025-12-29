@@ -15,7 +15,9 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix --cache",
-    "format": "prettier --write --experimental-cli src/"
+    "format": "prettier --write --experimental-cli src/",
+    "emulators": "firebase emulators:start",
+    "dev:emulators": "npm-run-all --parallel dev emulators"
   },
   "dependencies": {
     "firebase": "12.7.0",

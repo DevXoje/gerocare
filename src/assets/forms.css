@@ -1,0 +1,47 @@
+/* Form Block */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form Elements */
+.form__group {
+  margin-bottom: 1.5rem;
+}
+
+.form__label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-weight: 500;
+}
+
+/* Input Block */
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+/* Input Modifiers */
+.input--disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.input--error {
+  border-color: #c33;
+}
+
+.input--error:focus {
+  border-color: #c33;
+}
+

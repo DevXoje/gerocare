@@ -1,8 +1,8 @@
-import type { User } from "@/business/auth/domain/User"
+import type { Result } from '@/shared/domain/Result'
+import type { AuthError } from './AuthErrors'
+import type { User } from '@/business/auth/domain/User'
 
 export interface AuthRepository {
-  signIn(email: string, password: string): Promise<void>
-  signUp(email: string, password: string): Promise<void>
-  signOut(): Promise<void>
-  getCurrentUser(): Promise<User | null>
+  signIn(email: string, password: string): Promise<Result<User, AuthError>>
+  signOut(): Promise<Result<void, AuthError>>
 }
