@@ -1,6 +1,18 @@
-# gerocare
+# GeroCare
 
-This template should help get you started developing with Vue 3 in Vite.
+Aplicación web para asistir a gerocultores durante su jornada laboral, facilitando la gestión de residentes, registro de actividades, administración de medicación y comunicación entre el equipo de cuidado.
+
+## Documentación
+
+- **[Plan de Desarrollo](./docs/DEVELOPMENT_PLAN.md)**: Roadmap completo con todas las features planificadas, organizadas por fases, con detalles técnicos y criterios de aceptación.
+
+## Tecnologías
+
+- Vue 3 + TypeScript
+- Firebase (Auth, Firestore)
+- VueFire
+- Pinia
+- Vite
 
 ## Recommended IDE Setup
 
@@ -70,4 +82,14 @@ npm run test:e2e -- --debug
 
 ```sh
 npm run lint
+```
+
+### Firebase Emulators
+
+```sh
+# Start Firebase emulators (Auth, Firestore, UI)
+npm run emulators
+
+# Start dev server with emulators
+npm run dev:emulators
 ```
