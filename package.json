@@ -16,7 +16,7 @@
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix --cache",
     "format": "prettier --write --experimental-cli src/",
-    "emulators": "firebase emulators:start",
+    "emulators": "firebase emulators:start --only \"firestore,auth\" --export-on-exit --import=./firestore_export",
     "dev:emulators": "npm-run-all --parallel dev emulators"
   },
   "dependencies": {
