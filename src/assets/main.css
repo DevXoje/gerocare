@@ -1,4 +1,6 @@
 @import './base.css';
+@import './themes/tokens.css';
+@import './themes/semantic.css';
 @import './forms.css';
 @import './buttons.css';
 @import './messages.css';
@@ -12,14 +14,14 @@
 a,
 .green {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+  color: var(--color-text-link);
+  transition: var(--transition-base);
+  padding: var(--spacing-xs);
 }
 
 @media (hover: hover) {
   a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+    background-color: var(--color-bg-hover);
   }
 }
 

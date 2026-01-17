@@ -6,6 +6,8 @@ export type AuthError =
   | { type: 'USER_DISABLED'; message: string; code: string }
   | { type: 'OPERATION_NOT_ALLOWED'; message: string; code: string }
   | { type: 'INVALID_EMAIL'; message: string; code: string }
+  | { type: 'EMAIL_ALREADY_IN_USE'; message: string; code: string }
+  | { type: 'WEAK_PASSWORD'; message: string; code: string }
   | { type: 'UNKNOWN'; message: string; code: string }
 
 // Factory functions
@@ -43,6 +45,18 @@ export const createInvalidEmailError = (message: string = 'El email no es válid
   type: 'INVALID_EMAIL',
   message,
   code: 'INVALID_EMAIL',
+})
+
+export const createEmailAlreadyInUseError = (message: string = 'El email ya está en uso'): AuthError => ({
+  type: 'EMAIL_ALREADY_IN_USE',
+  message,
+  code: 'EMAIL_ALREADY_IN_USE',
+})
+
+export const createWeakPasswordError = (message: string = 'La contraseña es demasiado débil'): AuthError => ({
+  type: 'WEAK_PASSWORD',
+  message,
+  code: 'WEAK_PASSWORD',
 })
 
 export const createUnknownAuthError = (message: string = 'Error desconocido al iniciar sesión'): AuthError => ({
@@ -86,6 +100,18 @@ export const isInvalidEmailError = (
   error: AuthError
 ): error is Extract<AuthError, { type: 'INVALID_EMAIL' }> => {
   return error.type === 'INVALID_EMAIL'
+}
+
+export const isEmailAlreadyInUseError = (
+  error: AuthError
+): error is Extract<AuthError, { type: 'EMAIL_ALREADY_IN_USE' }> => {
+  return error.type === 'EMAIL_ALREADY_IN_USE'
+}
+
+export const isWeakPasswordError = (
+  error: AuthError
+): error is Extract<AuthError, { type: 'WEAK_PASSWORD' }> => {
+  return error.type === 'WEAK_PASSWORD'
 }
 
 export const isUnknownAuthError = (

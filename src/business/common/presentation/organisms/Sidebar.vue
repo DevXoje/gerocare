@@ -3,6 +3,11 @@ import { useRouter } from 'vue-router'
 import { useAuth } from '@/business/auth/app/useAuth'
 import { useAuthStore } from '@/business/auth/store'
 import { useSidebar } from '@/shared/composables/useSidebar'
+import ThemeSelector from '@/business/common/theming/presentation/atoms/ThemeSelector.vue';
+
+defineOptions({
+  name: 'AppSidebar',
+})
 
 const router = useRouter()
 const { signOut } = useAuth()
@@ -38,25 +43,23 @@ const handleNavigation = (path: string) => {
       </div>
 
       <nav class="sidebar-nav">
-        <router-link
-          to="/dashboard"
-          class="nav-item"
-          active-class="nav-item-active"
-          @click="handleNavigation('/dashboard')"
-        >
+        <router-link to="/dashboard" class="nav-item" active-class="nav-item-active"
+          @click="handleNavigation('/dashboard')">
           <span class="nav-icon">📊</span>
           <span class="nav-label">Dashboard</span>
+        </router-link>
+        <router-link to="/residents" class="nav-item" active-class="nav-item-active"
+          @click="handleNavigation('/residents')">
+          <span class="nav-icon">👥</span>
+          <span class="nav-label">Residentes</span>
         </router-link>
       </nav>
 
       <div class="sidebar-footer">
+        <ThemeSelector />
         <div v-if="user" class="user-profile">
           <div class="user-avatar">
-            <img
-              v-if="user.photoURL"
-              :src="user.photoURL"
-              :alt="user.displayName || 'Usuario'"
-            />
+            <img v-if="user.photoURL" :src="user.photoURL" :alt="user.displayName || 'Usuario'" />
             <span v-else class="avatar-placeholder">
               {{ user.displayName?.[0]?.toUpperCase() || user.email?.[0]?.toUpperCase() || 'U' }}
             </span>
@@ -74,11 +77,7 @@ const handleNavigation = (path: string) => {
     </div>
   </aside>
 
-  <div
-    v-if="isMobile && isOpen"
-    class="sidebar-overlay"
-    @click="close"
-  ></div>
+  <div v-if="isMobile && isOpen" class="sidebar-overlay" @click="close"></div>
 </template>
 
 <style scoped>
@@ -88,10 +87,10 @@ const handleNavigation = (path: string) => {
   left: 0;
   height: 100vh;
   width: 280px;
-  background: white;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  background: var(--color-bg-primary);
+  box-shadow: var(--shadow-md);
   transform: translateX(-100%);
-  transition: transform 0.3s ease-in-out;
+  transition: transform var(--transition-slow);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -120,15 +119,15 @@ const handleNavigation = (path: string) => {
 }
 
 .sidebar-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
+  padding: var(--spacing-xl);
+  border-bottom: 1px solid var(--color-border-default);
 }
 
 .logo h2 {
   margin: 0;
-  color: #333;
-  font-size: 1.5rem;
-  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
 }
 
 .sidebar-nav {
@@ -140,22 +139,22 @@ const handleNavigation = (path: string) => {
 .nav-item {
   display: flex;
   align-items: center;
-  padding: 0.75rem 1.5rem;
-  color: #6b7280;
+  padding: var(--spacing-md) var(--spacing-xl);
+  color: var(--color-text-secondary);
   text-decoration: none;
-  transition: all 0.2s;
-  gap: 0.75rem;
+  transition: all var(--transition-base);
+  gap: var(--spacing-md);
 }
 
 .nav-item:hover {
-  background-color: #f3f4f6;
-  color: #111827;
+  background-color: var(--color-bg-hover);
+  color: var(--color-text-primary);
 }
 
 .nav-item-active {
-  background-color: #eff6ff;
-  color: #2563eb;
-  border-right: 3px solid #2563eb;
+  background-color: var(--color-bg-active);
+  color: var(--token-color-info-600);
+  border-right: 3px solid var(--token-color-info-600);
 }
 
 .nav-icon {
@@ -169,27 +168,27 @@ const handleNavigation = (path: string) => {
 }
 
 .sidebar-footer {
-  padding: 1.5rem;
-  border-top: 1px solid #e5e7eb;
-  background-color: #f9fafb;
+  padding: var(--spacing-xl);
+  border-top: 1px solid var(--color-border-default);
+  background-color: var(--color-bg-secondary);
 }
 
 .user-profile {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #e5e7eb;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-default);
 }
 
 .user-avatar {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   overflow: hidden;
   flex-shrink: 0;
-  background-color: #e5e7eb;
+  background-color: var(--color-border-default);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -202,9 +201,9 @@ const handleNavigation = (path: string) => {
 }
 
 .avatar-placeholder {
-  font-weight: 600;
-  color: #6b7280;
-  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
 }
 
 .user-info {
@@ -214,18 +213,18 @@ const handleNavigation = (path: string) => {
 
 .user-name {
   margin: 0;
-  font-weight: 600;
-  color: #111827;
-  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .user-email {
-  margin: 0.25rem 0 0 0;
-  font-size: 0.75rem;
-  color: #6b7280;
+  margin: var(--spacing-xs) 0 0 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -236,20 +235,20 @@ const handleNavigation = (path: string) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  background-color: #dc3545;
-  color: white;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background-color: var(--color-button-danger-bg);
+  color: var(--color-button-danger-text);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-lg);
   cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: background-color 0.2s;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: background-color var(--transition-base);
 }
 
 .logout-button:hover {
-  background-color: #c82333;
+  background-color: var(--color-button-danger-hover);
 }
 
 .logout-icon {
@@ -262,18 +261,18 @@ const handleNavigation = (path: string) => {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--overlay-bg);
   z-index: 999;
-  animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn var(--transition-slow);
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
 </style>
-

@@ -1,0 +1,55 @@
+# Dependencies
+node_modules
+npm-debug.log
+package-lock.json
+
+# Build outputs
+dist
+.vite
+build
+
+# Firebase
+.firebase
+firebase-debug.log
+firestore-debug.log
+firebase-export-*
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Environment files
+.env.local
+.env.*.local
+.env
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs
+
+# Testing
+coverage
+.nyc_output
+playwright-report
+test-results
+
+# Temporary files
+*.tmp
+*.temp
+.cache
+
+# Documentation (opcional, descomenta si no quieres incluir docs en la imagen)
+# docs/

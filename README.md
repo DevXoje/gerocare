@@ -37,6 +37,32 @@ See [Vite Configuration Reference](https://vite.dev/config/).
 
 ## Project Setup
 
+### Desarrollo con Docker (Recomendado)
+
+El entorno de desarrollo está completamente dockerizado. No necesitas instalar Node.js, npm o Firebase Tools localmente.
+
+**Requisitos:**
+- [Docker](https://www.docker.com/get-started) instalado
+
+**Inicio rápido:**
+```sh
+# Construir e iniciar el entorno
+docker-compose up --build
+
+# O simplemente iniciar (si ya está construido)
+docker-compose up
+```
+
+Una vez iniciado, accede a:
+- **Aplicación**: http://localhost:5173
+- **Firebase UI**: http://localhost:4000
+
+Para más detalles, comandos y troubleshooting, consulta la [documentación completa de Docker](./docs/DOCKER.md).
+
+### Desarrollo Local (Opcional)
+
+Si prefieres desarrollar sin Docker:
+
 ```sh
 npm install
 ```

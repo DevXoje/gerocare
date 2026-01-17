@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import Sidebar from '@/presentation/components/organisms/Sidebar.vue'
 import { useSidebar } from '@/shared/composables/useSidebar'
-
-const { isOpen, isMobile, toggle } = useSidebar()
+import AppSidebar from '@/business/common/presentation/organisms/Sidebar.vue'
+const { isMobile, toggle } = useSidebar()
 </script>
 
 <template>
   <div class="private-layout">
-    <Sidebar />
-    
+    <AppSidebar />
+
     <div class="layout-main">
       <header class="layout-header" v-if="isMobile">
         <button class="menu-toggle" @click="toggle" aria-label="Toggle menu">
@@ -49,12 +48,12 @@ const { isOpen, isMobile, toggle } = useSidebar()
   position: sticky;
   top: 0;
   z-index: 100;
-  background: white;
-  padding: 1rem 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: var(--color-bg-primary);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--spacing-lg);
 }
 
 @media (min-width: 768px) {
@@ -66,19 +65,19 @@ const { isOpen, isMobile, toggle } = useSidebar()
 .menu-toggle {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: var(--font-size-2xl);
   cursor: pointer;
-  padding: 0.5rem;
-  color: #333;
+  padding: var(--spacing-sm);
+  color: var(--color-text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-base);
 }
 
 .menu-toggle:hover {
-  background-color: #f3f4f6;
+  background-color: var(--color-bg-hover);
 }
 
 .hamburger-icon {
@@ -88,9 +87,9 @@ const { isOpen, isMobile, toggle } = useSidebar()
 
 .layout-title {
   margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #333;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
 }
 
 .layout-content {
@@ -99,4 +98,3 @@ const { isOpen, isMobile, toggle } = useSidebar()
   overflow-x: hidden;
 }
 </style>
-

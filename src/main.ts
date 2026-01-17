@@ -1,6 +1,11 @@
 import './assets/main.css'
 import './assets/layouts.css'
 
+import { initTheme } from './shared/theme/initTheme'
+
+// Initialize theme before app mount to prevent FOUC
+initTheme()
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { VueFire, VueFireAuth } from 'vuefire'

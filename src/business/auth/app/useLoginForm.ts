@@ -6,12 +6,37 @@ import { useNotifications } from '@/shared/composables/useNotifications'
 export const useLoginForm = () => {
   const router = useRouter()
   const route = useRoute()
-  const { signIn } = useAuth()
+  const { signIn, signInWithGoogle } = useAuth()
   const notifications = useNotifications()
 
   const email = ref('')
   const password = ref('')
   const loading = ref(false)
+
+  const handleAuthResult = async (authPromise: Promise<any>) => {
+    loading.value = true
+
+    try {
+      const result = await authPromise
+
+      if (!result.success) {
+        notifications.error(result.error.message)
+        loading.value = false
+        return
+      }
+
+      notifications.success('Sesión iniciada correctamente')
+
+      // Redirect to dashboard or the original destination
+      const redirect = (route.query.redirect as string) || '/dashboard'
+      router.push(redirect)
+
+      loading.value = false
+    } catch (error) {
+      loading.value = false
+      throw error
+    }
+  }
 
   const handleSubmit = async () => {
     if (!email.value || !password.value) {
@@ -19,23 +44,11 @@ export const useLoginForm = () => {
       return
     }
 
-    loading.value = true
+    await handleAuthResult(signIn(email.value, password.value))
+  }
 
-    const result = await signIn(email.value, password.value)
-
-    if (!result.success) {
-      notifications.error(result.error.message)
-      loading.value = false
-      return
-    }
-
-    notifications.success('Sesión iniciada correctamente')
-
-    // Redirect to dashboard or the original destination
-    const redirect = (route.query.redirect as string) || '/dashboard'
-    router.push(redirect)
-
-    loading.value = false
+  const handleGoogleSignIn = async () => {
+    await handleAuthResult(signInWithGoogle())
   }
 
   return {
@@ -43,6 +56,7 @@ export const useLoginForm = () => {
     password,
     loading,
     handleSubmit,
+    handleGoogleSignIn,
   }
 }
 

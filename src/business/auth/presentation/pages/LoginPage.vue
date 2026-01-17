@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useLoginForm } from '@/business/auth/app/useLoginForm'
+import { RouterLink } from 'vue-router'
 
-const { email, password, loading, handleSubmit } = useLoginForm()
+const { email, password, loading, handleSubmit, handleGoogleSignIn } = useLoginForm()
 </script>
 
 <template>
@@ -29,6 +30,24 @@ const { email, password, loading, handleSubmit } = useLoginForm()
           <span v-else>Iniciar Sesión</span>
         </button>
       </form>
+
+      <div data-testid="login-separator" class="login__separator">
+        <span class="login__separator-text">o</span>
+      </div>
+
+      <button type="button" data-testid="google-sign-in-button" class="button button--google"
+        :class="{ 'button--disabled': loading, 'button--loading': loading }" :disabled="loading"
+        @click="handleGoogleSignIn">
+        <span v-if="loading">Iniciando sesión...</span>
+        <span v-else>Continuar con Google</span>
+      </button>
+
+      <div class="login__footer">
+        <p class="login__footer-text">
+          ¿No tienes cuenta?
+          <RouterLink to="/signup" class="login__link">Regístrate</RouterLink>
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -39,22 +58,76 @@ const { email, password, loading, handleSubmit } = useLoginForm()
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: var(--spacing-lg);
+  background: var(--color-button-primary-bg);
 }
 
 .login__card {
-  background: white;
-  border-radius: 8px;
-  padding: 2rem;
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-xl);
 }
 
 .login__title {
-  margin: 0 0 2rem 0;
+  margin: 0 0 var(--spacing-2xl) 0;
   text-align: center;
-  color: #333;
+  color: var(--color-text-primary);
+}
+
+.login__separator {
+  display: flex;
+  align-items: center;
+  margin: var(--spacing-xl) 0;
+  position: relative;
+}
+
+.login__separator::before,
+.login__separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border-default);
+}
+
+.login__separator-text {
+  padding: 0 var(--spacing-lg);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.button--google {
+  width: 100%;
+  background: var(--color-button-google-bg);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-button-google-border);
+}
+
+.button--google:hover:not(:disabled) {
+  background: var(--color-button-google-hover-bg);
+  border-color: var(--color-border-hover);
+}
+
+.login__footer {
+  margin-top: var(--spacing-xl);
+  text-align: center;
+}
+
+.login__footer-text {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.login__link {
+  color: var(--color-text-link);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+}
+
+.login__link:hover {
+  text-decoration: underline;
 }
 </style>

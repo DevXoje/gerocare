@@ -1,0 +1,58 @@
+/* Design Tokens - Base Color Palette
+ * Raw color values that serve as the foundation for semantic tokens
+ */
+
+:root {
+  /* === Primary Colors === */
+  --token-color-primary-50: #eef2ff;
+  --token-color-primary-100: #e0e7ff;
+  --token-color-primary-200: #c7d2fe;
+  --token-color-primary-300: #a5b4fc;
+  --token-color-primary-400: #818cf8;
+  --token-color-primary-500: #667eea;
+  --token-color-primary-600: #5568d3;
+  --token-color-primary-700: #764ba2;
+  --token-color-primary-800: #5b3d7a;
+  --token-color-primary-900: #4c3473;
+
+  /* === Neutral/Gray Scale === */
+  --token-color-neutral-50: #f9fafb;
+  --token-color-neutral-100: #f3f4f6;
+  --token-color-neutral-200: #e5e7eb;
+  --token-color-neutral-300: #d1d5db;
+  --token-color-neutral-400: #9ca3af;
+  --token-color-neutral-500: #6b7280;
+  --token-color-neutral-600: #4b5563;
+  --token-color-neutral-700: #374151;
+  --token-color-neutral-800: #1f2937;
+  --token-color-neutral-900: #111827;
+
+  /* === Success Colors === */
+  --token-color-success-50: #f0fdf4;
+  --token-color-success-100: #dcfce7;
+  --token-color-success-500: #22c55e;
+  --token-color-success-600: #16a34a;
+  --token-color-success-700: #15803d;
+
+  /* === Error/Danger Colors === */
+  --token-color-error-50: #fef2f2;
+  --token-color-error-100: #fee2e2;
+  --token-color-error-500: #ef4444;
+  --token-color-error-600: #dc2626;
+  --token-color-error-700: #b91c1c;
+  --token-color-error-800: #c82333;
+
+  /* === Warning Colors === */
+  --token-color-warning-50: #fffbeb;
+  --token-color-warning-100: #fef3c7;
+  --token-color-warning-500: #f59e0b;
+  --token-color-warning-600: #d97706;
+  --token-color-warning-700: #b45309;
+
+  /* === Info Colors === */
+  --token-color-info-50: #eff6ff;
+  --token-color-info-100: #dbeafe;
+  --token-color-info-500: #3b82f6;
+  --token-color-info-600: #2563eb;
+  --token-color-info-700: #1d4ed8;
+}
