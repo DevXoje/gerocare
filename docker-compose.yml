@@ -1,27 +1,53 @@
 services:
+  emulators:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gerocare-emulators
+    command: npm run emulators
+    volumes:
+      # Persistir datos de Firebase emulators
+      - firestore-data:/app/firestore_export
+    ports:
+      - "127.0.0.1:4000:4000" # Firebase UI (solo localhost)
+      - "127.0.0.1:8080:8080" # Firestore emulator (opcional, para acceso directo)
+      - "127.0.0.1:9099:9099" # Auth emulator (opcional, para acceso directo)
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - gerocare-network
+
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: gerocare-dev
+    container_name: gerocare-app
+    command: npm run dev
     volumes:
       # Montar el código para hot-reload
       - .:/app
       # Montar node_modules como volumen para mejor rendimiento
       - /app/node_modules
-      # Persistir datos de Firebase emulators
-      - firestore-data:/app/firestore_export
     ports:
       - "127.0.0.1:5173:5173" # Vite dev server (solo localhost)
-      - "127.0.0.1:8080:8080" # Firestore emulator (solo localhost)
-      - "127.0.0.1:9099:9099" # Auth emulator (solo localhost)
-      - "127.0.0.1:4000:4000" # Firebase UI (solo localhost)
     environment:
       - NODE_ENV=development
       - DOCKER_CONTAINER=true # Indicador para que Vite use 0.0.0.0
+    depends_on:
+      emulators:
+        condition: service_healthy
+    networks:
+      - gerocare-network
     stdin_open: true
     tty: true
-    command: npm run dev:emulators
+
+networks:
+  gerocare-network:
+    driver: bridge
 
 volumes:
   firestore-data:

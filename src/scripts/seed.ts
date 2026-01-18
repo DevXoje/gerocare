@@ -1,9 +1,16 @@
+import { clearActivityLogs } from '@/business/activity-logs/infrastructure/seeds/clearActivityLogs'
 import { seedActivityLogs } from '@/business/activity-logs/infrastructure/seeds/seedActivityLogs'
+import { clearUsers } from '@/business/auth/infrastructure/seeds/clearUsers'
 import { seedUsers } from '@/business/auth/infrastructure/seeds/seedUsers'
+import { clearCarePlans } from '@/business/care-plans/infrastructure/seeds/clearCarePlans'
 import { seedCarePlans } from '@/business/care-plans/infrastructure/seeds/seedCarePlans'
+import { clearIncidents } from '@/business/incidents/infrastructure/seeds/clearIncidents'
 import { seedIncidents } from '@/business/incidents/infrastructure/seeds/seedIncidents'
+import { clearMedications } from '@/business/medication/infrastructure/seeds/clearMedications'
 import { seedMedications } from '@/business/medication/infrastructure/seeds/seedMedications'
+import { clearResidents } from '@/business/residents/infrastructure/seeds/clearResidents'
 import { seedResidents } from '@/business/residents/infrastructure/seeds/seedResidents'
+import { clearShifts } from '@/business/shifts/infrastructure/seeds/clearShifts'
 import { seedShifts } from '@/business/shifts/infrastructure/seeds/seedShifts'
 
 interface SeedOptions {
@@ -99,11 +106,105 @@ export async function seedDatabase(options: SeedOptions = {}) {
 	}
 }
 
+interface ClearOptions {
+	activityLogs?: boolean
+	shifts?: boolean
+	incidents?: boolean
+	carePlans?: boolean
+	medications?: boolean
+	residents?: boolean
+	users?: boolean
+}
+
+/**
+ * Limpia todos los datos de la base de datos
+ * Orden inverso al seeding para respetar dependencias
+ */
+export async function clearDatabase(options: ClearOptions = {}) {
+	const {
+		activityLogs = true,
+		shifts = true,
+		incidents = true,
+		carePlans = true,
+		medications = true,
+		residents = true,
+		users = true,
+	} = options
+
+	console.log('🧹 Iniciando limpieza de la base de datos...\n')
+
+	try {
+		// Limpiar en orden inverso al seeding (dependencias primero)
+
+		// 7. Registros de actividad (depende de residentes y usuarios)
+		if (activityLogs) {
+			console.log('📝 Limpiando registros de actividad...')
+			const deleted = await clearActivityLogs()
+			console.log(`✓ ${deleted} registros eliminados\n`)
+		}
+
+		// 6. Turnos (depende de usuarios)
+		if (shifts) {
+			console.log('🕐 Limpiando turnos...')
+			const deleted = await clearShifts()
+			console.log(`✓ ${deleted} turnos eliminados\n`)
+		}
+
+		// 5. Incidentes (depende de residentes)
+		if (incidents) {
+			console.log('⚠️  Limpiando incidentes...')
+			const deleted = await clearIncidents()
+			console.log(`✓ ${deleted} incidentes eliminados\n`)
+		}
+
+		// 4. Planes de cuidado (depende de residentes)
+		if (carePlans) {
+			console.log('📋 Limpiando planes de cuidado...')
+			const deleted = await clearCarePlans()
+			console.log(`✓ ${deleted} planes eliminados\n`)
+		}
+
+		// 3. Medicaciones (depende de residentes)
+		if (medications) {
+			console.log('💊 Limpiando medicaciones...')
+			const deleted = await clearMedications()
+			console.log(`✓ ${deleted} medicaciones eliminadas\n`)
+		}
+
+		// 2. Residentes (depende de usuarios para asignaciones)
+		if (residents) {
+			console.log('👥 Limpiando residentes...')
+			const deleted = await clearResidents()
+			console.log(`✓ ${deleted} residentes eliminados\n`)
+		}
+
+		// 1. Usuarios (últimos porque pueden estar referenciados por otras entidades)
+		// Nota: Para limpiar usuarios de Firebase Auth completamente, reinicia los emuladores
+		if (users) {
+			console.log('📝 Limpiando usuarios...')
+			const deleted = await clearUsers()
+			console.log(`✓ ${deleted} usuarios eliminados\n`)
+		}
+
+		console.log('✅ Limpieza completada exitosamente!')
+	} catch (error) {
+		console.error('❌ Error durante la limpieza:', error)
+		throw error
+	}
+}
+
 // Ejecutar si se llama directamente
+const command = process.argv[2]
+
 if (import.meta.url === `file://${process.argv[1]}`) {
 	try {
-		await seedDatabase()
-		console.log('\n✨ Proceso completado')
+		if (command === 'clear' || command === 'clean') {
+			await clearDatabase()
+			console.log('\n✨ Limpieza completada')
+		} else {
+			await seedDatabase()
+			console.log('\n✨ Proceso completado')
+		}
 		process.exit(0)
 	} catch (error) {
 		console.error('❌ Error fatal:', error)

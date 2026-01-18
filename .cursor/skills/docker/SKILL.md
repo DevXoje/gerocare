@@ -22,9 +22,13 @@ GeroCare uses Docker to containerize the development environment, eliminating th
 ### Architecture
 
 - **Base Image**: `node:20.19.0` (matches package.json engines requirement)
-- **Services**: Single `app` service running both Vite dev server and Firebase emulators
-- **Hot Reload**: Enabled via volume mounts for source code
+- **Services**: Two separate services for better isolation:
+  - `app`: Vite dev server
+  - `emulators`: Firebase emulators (Auth, Firestore, UI)
+- **Network**: Internal Docker network (`gerocare-network`) for service communication
+- **Hot Reload**: Enabled via volume mounts for source code in `app` service
 - **Data Persistence**: Firebase emulator data persisted in Docker volumes
+- **Healthcheck**: Emulators service has healthcheck to ensure readiness before `app` starts
 
 ### Port Mapping
 
@@ -37,9 +41,15 @@ GeroCare uses Docker to containerize the development environment, eliminating th
 
 ### Volume Strategy
 
-1. **Source Code Volume**: `.:/app` - Mounts project root for hot-reload
-2. **Node Modules Volume**: `/app/node_modules` - Anonymous volume to prevent host/container conflicts
-3. **Firestore Data Volume**: `firestore-data:/app/firestore_export` - Persistent volume for emulator data
+1. **Source Code Volume** (`app` service only): `.:/app` - Mounts project root for hot-reload
+2. **Node Modules Volume** (`app` service only): `/app/node_modules` - Anonymous volume to prevent host/container conflicts
+3. **Firestore Data Volume** (`emulators` service only): `firestore-data:/app/firestore_export` - Persistent volume for emulator data
+
+### Network Strategy
+
+- **Internal Network**: `gerocare-network` (bridge driver)
+- **Service Communication**: Services use service names as hostnames
+- **App → Emulators**: `app` connects to emulators using `emulators` as hostname (via `VITE_EMULATORS_HOST` env var)
 
 ## Common Commands
 
@@ -69,14 +79,17 @@ docker-compose down -v
 ### Running Commands in Container
 
 ```bash
-# Run npm commands
+# Run npm commands in app service
 docker-compose exec app npm run lint
 docker-compose exec app npm run test:unit
 docker-compose exec app npm run build
 
+# Run commands in emulators service
+docker-compose exec emulators firebase --version
+
 # Run shell commands
-docker-compose exec app sh
-docker-compose exec app bash
+docker-compose exec app sh        # In app service
+docker-compose exec emulators sh  # In emulators service
 ```
 
 ### Viewing Logs
@@ -86,7 +99,8 @@ docker-compose exec app bash
 docker-compose logs -f
 
 # Specific service
-docker-compose logs -f app
+docker-compose logs -f app       # App (Vite) logs
+docker-compose logs -f emulators # Emulators logs
 
 # Last 100 lines
 docker-compose logs --tail=100
@@ -106,17 +120,27 @@ docker-compose up --build
 
 ### Dockerfile
 - Base: `node:20.19.0`
-- Installs `firebase-tools` globally
+- Installs Java 21 (for Firebase Emulators), curl (for healthchecks), and `firebase-tools` globally
 - Copies package files and runs `npm ci`
 - Exposes ports: 5173, 8080, 9099, 4000
-- Default command: `npm run dev:emulators`
+- No default CMD (each service defines its own command)
 
 ### docker-compose.yml
-- Service: `app`
-- Builds from Dockerfile
-- Mounts source code for hot-reload
-- Creates separate volumes for node_modules and Firebase data
-- Maps all required ports
+- **Service: `app`**
+  - Runs `npm run dev` (Vite dev server)
+  - Mounts source code for hot-reload
+  - Exposes port 5173
+  - Depends on `emulators` with healthcheck condition
+  - Environment: `VITE_EMULATORS_HOST=emulators` for internal communication
+  
+- **Service: `emulators`**
+  - Runs `npm run emulators` (Firebase emulators)
+  - Persistent volume for Firestore data
+  - Exposes ports 4000 (UI), 8080 (Firestore), 9099 (Auth)
+  - Healthcheck to verify readiness
+  
+- **Network: `gerocare-network`**
+  - Bridge network for internal service communication
 
 ### .dockerignore
 - Excludes `node_modules`, `dist`, logs
@@ -140,10 +164,18 @@ If you get "port already in use" errors:
 
 ### Firebase Emulators Not Starting
 
-1. Check logs: `docker-compose logs app`
-2. Verify Firebase Tools installation: `docker-compose exec app firebase --version`
+1. Check logs: `docker-compose logs emulators`
+2. Verify Firebase Tools installation: `docker-compose exec emulators firebase --version`
 3. Check `firebase.json` configuration
-4. Ensure `firestore_export` directory exists or is created
+4. Verify healthcheck status: `docker-compose ps`
+5. Ensure `firestore_export` directory exists or is created
+
+### App Not Connecting to Emulators
+
+1. Verify both services are running: `docker-compose ps`
+2. Check emulators health: `docker-compose logs emulators`
+3. Verify network connectivity: `docker-compose exec app ping emulators`
+4. Check `VITE_EMULATORS_HOST` environment variable in `app` service
 
 ### Node Modules Issues
 
@@ -169,10 +201,19 @@ If you encounter module resolution errors:
 
 ## Integration with Development Workflow
 
-The Docker setup runs the same commands as local development:
-- `npm run dev:emulators` - Starts Vite + Firebase emulators
-- All npm scripts work the same inside the container
+The Docker setup runs services separately:
+- `npm run dev` - Vite dev server (in `app` service)
+- `npm run emulators` - Firebase emulators (in `emulators` service)
+- All npm scripts work the same inside containers
 - Hot-reload works identically to local development
+- Services communicate via internal Docker network
+
+### Starting Services Separately
+
+You can start services independently:
+- `docker-compose up emulators` - Only emulators
+- `docker-compose up app` - Only app (waits for emulators)
+- `docker-compose up` - Both services
 
 ## Accessing Services
 

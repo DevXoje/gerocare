@@ -62,7 +62,8 @@ docker-compose down -v
 docker-compose logs -f
 
 # Ver logs de un servicio específico
-docker-compose logs -f app
+docker-compose logs -f app      # Logs de Vite dev server
+docker-compose logs -f emulators # Logs de Firebase emulators
 
 # Ver últimas 100 líneas
 docker-compose logs --tail=100
@@ -71,16 +72,18 @@ docker-compose logs --tail=100
 ### Ejecutar Comandos en el Contenedor
 
 ```bash
-# Ejecutar comandos npm
+# Ejecutar comandos npm en el servicio app
 docker-compose exec app npm run lint
 docker-compose exec app npm run test:unit
 docker-compose exec app npm run build
 docker-compose exec app npm run type-check
 
+# Ejecutar comandos en el servicio emulators
+docker-compose exec emulators firebase --version
+
 # Abrir shell interactivo
-docker-compose exec app sh
-# o
-docker-compose exec app bash
+docker-compose exec app sh        # En servicio app
+docker-compose exec emulators sh  # En servicio emulators
 ```
 
 ### Reconstruir la Imagen
@@ -97,9 +100,19 @@ docker-compose up --build
 
 ### Servicios
 
-El proyecto usa un único servicio `app` que ejecuta:
-- **Vite Dev Server**: Servidor de desarrollo de Vue
-- **Firebase Emulators**: Auth y Firestore emulators
+El proyecto usa dos servicios separados para mejor aislamiento y escalabilidad:
+
+1. **`app`**: Ejecuta el servidor de desarrollo Vite
+   - Puerto: 5173 (expuesto al host)
+   - Hot-reload activado mediante volúmenes
+   - Depende de `emulators` (healthcheck)
+
+2. **`emulators`**: Ejecuta Firebase Emulators (Auth y Firestore)
+   - Puertos: 8080 (Firestore), 9099 (Auth), 4000 (UI)
+   - Datos persistentes en volumen `firestore-data`
+   - Healthcheck para asegurar que esté listo antes de iniciar `app`
+
+Los servicios se comunican a través de una red interna de Docker (`gerocare-network`), donde `app` accede a los emuladores usando el nombre de servicio `emulators` como hostname.
 
 ### Puertos
 
@@ -112,9 +125,15 @@ El proyecto usa un único servicio `app` que ejecuta:
 
 ### Volúmenes
 
-1. **Código Fuente** (`.:/app`): Monta el proyecto completo para hot-reload
-2. **Node Modules** (`/app/node_modules`): Volumen anónimo para evitar conflictos entre host y contenedor
-3. **Firestore Data** (`firestore-data:/app/firestore_export`): Volumen persistente para datos de emulators
+1. **Código Fuente** (`.:/app`): Monta el proyecto completo para hot-reload (solo en `app`)
+2. **Node Modules** (`/app/node_modules`): Volumen anónimo para evitar conflictos entre host y contenedor (solo en `app`)
+3. **Firestore Data** (`firestore-data:/app/firestore_export`): Volumen persistente para datos de emulators (solo en `emulators`)
+
+### Red
+
+- **`gerocare-network`**: Red interna bridge que permite comunicación entre servicios
+- Los servicios se comunican usando el nombre del servicio como hostname
+- `app` accede a emuladores usando `emulators:9099` (Auth) y `emulators:8080` (Firestore)
 
 ## Hot Reload
 
@@ -190,29 +209,53 @@ ports:
 
 1. Revisa los logs:
    ```bash
-   docker-compose logs app
+   docker-compose logs emulators
    ```
 
 2. Verifica que Firebase Tools esté instalado:
    ```bash
-   docker-compose exec app firebase --version
+   docker-compose exec emulators firebase --version
    ```
 
 3. Verifica la configuración en `firebase.json`
 
-4. Asegúrate de que el directorio `firestore_export` exista o se cree automáticamente
+4. Verifica el healthcheck:
+   ```bash
+   docker-compose ps
+   ```
+
+5. Asegúrate de que el directorio `firestore_export` exista o se cree automáticamente
+
+### App No Se Conecta a Emuladores
+
+1. Verifica que ambos servicios estén corriendo:
+   ```bash
+   docker-compose ps
+   ```
+
+2. Verifica que `emulators` esté saludable:
+   ```bash
+   docker-compose logs emulators
+   ```
+
+3. Verifica la red:
+   ```bash
+   docker-compose exec app ping emulators
+   ```
+
+4. Revisa la variable de entorno `VITE_EMULATORS_HOST` en el servicio `app`
 
 ### Problemas con Node Modules
 
 Si encuentras errores de resolución de módulos:
 
-1. Reconstruye el contenedor:
+1. Reconstruye los contenedores:
    ```bash
    docker-compose down
    docker-compose up --build
    ```
 
-2. Limpia el volumen de node_modules:
+2. Limpia los volúmenes (esto eliminará también datos de Firebase):
    ```bash
    docker-compose down -v
    docker-compose up --build
@@ -234,7 +277,7 @@ Si encuentras errores de resolución de módulos:
 
 Después de agregar o modificar dependencias en `package.json`:
 
-1. Reconstruye la imagen:
+1. Reconstruye las imágenes:
    ```bash
    docker-compose build --no-cache
    docker-compose up
@@ -244,6 +287,21 @@ Después de agregar o modificar dependencias en `package.json`:
    ```bash
    docker-compose exec app npm install
    ```
+
+### Iniciar Servicios por Separado
+
+Puedes iniciar solo un servicio si lo necesitas:
+
+```bash
+# Solo iniciar emuladores
+docker-compose up emulators
+
+# Solo iniciar app (espera a que emulators esté listo)
+docker-compose up app
+
+# Iniciar todo
+docker-compose up
+```
 
 ## Mejores Prácticas
 

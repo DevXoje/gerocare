@@ -1,7 +1,39 @@
 <script setup lang="ts">
+import { createActivityLogRepository } from '@/business/activity-logs/infrastructure'
+import { createCarePlanRepository } from '@/business/care-plans/infrastructure'
 import AppSidebar from '@/business/common/presentation/organisms/Sidebar.vue'
+import { createIncidentRepository } from '@/business/incidents/infrastructure'
+import { createMedicationRepository } from '@/business/medication/infrastructure'
+import { createResidentRepository } from '@/business/residents/infrastructure'
+import { createShiftRepository } from '@/business/shifts/infrastructure'
 import { useSidebar } from '@/shared/composables/useSidebar'
+import { useNetworkNotifications } from '@/shared/offline/app/useNetworkNotifications'
+import { useSyncQueue } from '@/shared/offline/app/useSyncQueue'
+import { createOfflineQueueRepository } from '@/shared/offline/infrastructure/index'
+import NetworkStatusBadge from '@/shared/offline/presentation/components/NetworkStatusBadge.vue'
+
 const { isMobile, toggle } = useSidebar()
+
+// Initialize offline capabilities only for private routes
+useNetworkNotifications()
+
+// Initialize offline sync queue with all repositories that support offline operations
+const queue = createOfflineQueueRepository()
+const residentRepository = createResidentRepository()
+const activityLogRepository = createActivityLogRepository()
+const incidentRepository = createIncidentRepository()
+const medicationRepository = createMedicationRepository()
+const carePlanRepository = createCarePlanRepository()
+const shiftRepository = createShiftRepository()
+
+useSyncQueue(queue, {
+	resident: residentRepository,
+	'activity-log': activityLogRepository,
+	incident: incidentRepository,
+	medication: medicationRepository,
+	'care-plan': carePlanRepository,
+	shift: shiftRepository,
+})
 </script>
 
 <template>
@@ -20,6 +52,8 @@ const { isMobile, toggle } = useSidebar()
 				<RouterView />
 			</main>
 		</div>
+
+		<NetworkStatusBadge position="fixed" :show-label="true" />
 	</div>
 </template>
 

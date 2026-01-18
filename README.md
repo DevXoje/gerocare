@@ -46,18 +46,22 @@ El entorno de desarrollo está completamente dockerizado. No necesitas instalar 
 
 **Inicio rápido:**
 ```sh
-# Construir e iniciar el entorno
+# Construir e iniciar todos los servicios
 docker-compose up --build
 
 # O simplemente iniciar (si ya está construido)
 docker-compose up
+
+# Iniciar solo un servicio específico
+docker-compose up emulators  # Solo Firebase emulators
+docker-compose up app        # Solo Vite dev server
 ```
 
 Una vez iniciado, accede a:
 - **Aplicación**: http://localhost:5173
 - **Firebase UI**: http://localhost:4000
 
-Para más detalles, comandos y troubleshooting, consulta la [documentación completa de Docker](./docs/DOCKER.md).
+Los servicios se comunican a través de una red interna de Docker. Para más detalles, comandos y troubleshooting, consulta la [documentación completa de Docker](./docs/DOCKER.md).
 
 ### Desarrollo Local (Opcional)
 
