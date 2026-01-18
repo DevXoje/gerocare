@@ -20,8 +20,8 @@ import { ActivityLogSchema } from '../domain/ActivityLog.schema'
 import type { ActivityLogError } from '../domain/ActivityLogErrors'
 import {
   createActivityLogNotFoundError,
-  createActivityLogValidationError,
   createActivityLogRepositoryError,
+  createActivityLogValidationError,
 } from '../domain/ActivityLogErrors'
 import type { ActivityLogRepository } from '../domain/ActivityLogRepository'
 

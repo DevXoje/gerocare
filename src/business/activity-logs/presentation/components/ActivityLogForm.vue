@@ -9,8 +9,8 @@ import Select from '@/business/common/presentation/atoms/Select.vue'
 import Textarea from '@/business/common/presentation/atoms/Textarea.vue'
 import Modal from '@/business/common/presentation/organisms/Modal.vue'
 
-import type { ActivityLog } from '../../domain/ActivityLog'
 import { useActivityLogForm } from '../../app/useActivityLogForm'
+import type { ActivityLog } from '../../domain/ActivityLog'
 
 interface Props {
   modelValue: boolean

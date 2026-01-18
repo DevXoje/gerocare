@@ -4,5 +4,7 @@ import { expect,test } from '@playwright/test';
 // https://playwright.dev/docs/intro
 test('visits the app root url', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('h1')).toHaveText('You did it!');
+  // La aplicación redirige a login, verificamos que la página de login carga
+  await expect(page.locator('h1')).toHaveText('Iniciar Sesión');
+  await expect(page).toHaveTitle('Gerocare');
 })
