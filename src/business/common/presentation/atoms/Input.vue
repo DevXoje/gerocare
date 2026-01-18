@@ -7,7 +7,7 @@ defineOptions({
 
 interface Props {
   modelValue: string | number
-  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search'
+  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'time'
   placeholder?: string
   disabled?: boolean
   required?: boolean
@@ -15,6 +15,8 @@ interface Props {
   autocomplete?: string
   id?: string
   name?: string
+  min?: string
+  max?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -26,6 +28,8 @@ const props = withDefaults(defineProps<Props>(), {
   autocomplete: undefined,
   id: undefined,
   name: undefined,
+  min: undefined,
+  max: undefined,
 })
 
 const emit = defineEmits<{
@@ -69,6 +73,8 @@ const handleFocus = (event: FocusEvent) => {
     :disabled="disabled"
     :required="required"
     :autocomplete="autocomplete"
+    :min="min"
+    :max="max"
     :class="inputClasses"
     @input="handleInput"
     @blur="handleBlur"

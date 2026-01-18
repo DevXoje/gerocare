@@ -135,6 +135,7 @@ const handleSubmit = async () => {
           :model-value="form.endTime || '16:00'"
           @update:model-value="(v) => (form.endTime = v)"
           type="time"
+          :min="form.startTime || '08:00'"
           required
           placeholder="16:00"
         />

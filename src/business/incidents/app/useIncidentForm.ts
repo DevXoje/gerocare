@@ -1,6 +1,7 @@
 import { computed,ref } from 'vue'
 
 import { useAuthStore } from '@/business/auth/store'
+import { useNotifications } from '@/shared/composables/useNotifications'
 
 import type { Incident } from '../domain/Incident'
 import type { IncidentCreateInput } from '../domain/Incident.schema'
@@ -11,6 +12,7 @@ const repository = createIncidentRepository()
 
 export function useIncidentForm() {
   const authStore = useAuthStore()
+  const { success, error: showError } = useNotifications()
   const form = ref<Partial<Omit<Incident, 'id' | 'createdAt' | 'updatedAt'>>>({
     residentId: '',
     type: 'other',
@@ -86,21 +88,28 @@ export function useIncidentForm() {
       const validation = IncidentCreateSchema.safeParse(incidentData)
       if (!validation.success) {
         const firstError = validation.error.issues[0]
-        error.value = firstError?.message || 'Validation failed'
+        const errorMessage = firstError?.message || 'Error de validación. Por favor, verifique los campos requeridos.'
+        error.value = errorMessage
+        showError(errorMessage)
         return null
       }
 
       const result = await repository.create(validation.data)
 
       if (result.success) {
+        success('Incidencia registrada exitosamente')
         resetForm()
         return result.value
       } else {
-        error.value = result.error.message
+        const errorMessage = result.error.message || 'Error al registrar la incidencia. Por favor, intente nuevamente.'
+        error.value = errorMessage
+        showError(errorMessage)
         return null
       }
     } catch (err) {
-      error.value = 'Failed to create incident'
+      const errorMessage = 'Error al registrar la incidencia. Por favor, verifique su conexión e intente nuevamente.'
+      error.value = errorMessage
+      showError(errorMessage)
       return null
     } finally {
       isLoading.value = false
@@ -134,13 +143,18 @@ export function useIncidentForm() {
       const result = await repository.update(id, updates)
 
       if (result.success) {
+        success('Incidencia actualizada exitosamente')
         return result.value
       } else {
-        error.value = result.error.message
+        const errorMessage = result.error.message || 'Error al actualizar la incidencia. Por favor, intente nuevamente.'
+        error.value = errorMessage
+        showError(errorMessage)
         return null
       }
     } catch (err) {
-      error.value = 'Failed to update incident'
+      const errorMessage = 'Error al actualizar la incidencia. Por favor, verifique su conexión e intente nuevamente.'
+      error.value = errorMessage
+      showError(errorMessage)
       return null
     } finally {
       isLoading.value = false

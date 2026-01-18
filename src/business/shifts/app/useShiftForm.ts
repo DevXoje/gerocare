@@ -1,16 +1,18 @@
 import { computed, ref } from 'vue'
 
 import { useAuthStore } from '@/business/auth/store'
+import { useNotifications } from '@/shared/composables/useNotifications'
 
 import type { Shift } from '../domain/Shift'
-import { ShiftCreateSchema } from '../domain/Shift.schema'
 import type { ShiftCreateInput } from '../domain/Shift.schema'
+import { ShiftCreateSchema } from '../domain/Shift.schema'
 import { createShiftRepository } from '../infrastructure'
 
 const repository = createShiftRepository()
 
 export function useShiftForm() {
   const authStore = useAuthStore()
+  const { success, error: showError } = useNotifications()
   const form = ref<Partial<Omit<Shift, 'id' | 'createdAt' | 'updatedAt'>>>({
     caregiverId: '',
     type: 'morning',
@@ -74,21 +76,28 @@ export function useShiftForm() {
       const validation = ShiftCreateSchema.safeParse(shiftData)
       if (!validation.success) {
         const firstError = validation.error.issues[0]
-        error.value = firstError?.message || 'Validation failed'
+        const errorMessage = firstError?.message || 'Error de validación. Por favor, verifique los campos requeridos.'
+        error.value = errorMessage
+        showError(errorMessage)
         return null
       }
 
       const result = await repository.create(validation.data)
 
       if (result.success) {
+        success('Turno creado exitosamente')
         resetForm()
         return result.value
       } else {
-        error.value = result.error.message
+        const errorMessage = result.error.message || 'Error al crear el turno. Por favor, intente nuevamente.'
+        error.value = errorMessage
+        showError(errorMessage)
         return null
       }
     } catch (err) {
-      error.value = 'Failed to create shift'
+      const errorMessage = 'Error al crear el turno. Por favor, verifique su conexión e intente nuevamente.'
+      error.value = errorMessage
+      showError(errorMessage)
       return null
     } finally {
       isLoading.value = false
@@ -119,13 +128,18 @@ export function useShiftForm() {
       const result = await repository.update(id, updates)
 
       if (result.success) {
+        success('Turno actualizado exitosamente')
         return result.value
       } else {
-        error.value = result.error.message
+        const errorMessage = result.error.message || 'Error al actualizar el turno. Por favor, intente nuevamente.'
+        error.value = errorMessage
+        showError(errorMessage)
         return null
       }
     } catch (err) {
-      error.value = 'Failed to update shift'
+      const errorMessage = 'Error al actualizar el turno. Por favor, verifique su conexión e intente nuevamente.'
+      error.value = errorMessage
+      showError(errorMessage)
       return null
     } finally {
       isLoading.value = false

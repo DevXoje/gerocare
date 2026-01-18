@@ -1,9 +1,11 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import pluginVitest from '@vitest/eslint-plugin'
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
 import { globalIgnores } from 'eslint/config'
 import pluginPlaywright from 'eslint-plugin-playwright'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import storybook from "eslint-plugin-storybook";
 import pluginVue from 'eslint-plugin-vue'
 
 // To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
@@ -64,15 +66,8 @@ export default defineConfigWithVueTs(
   },
 
   {
-    // Prohibir imports relativos en código fuente (excluir tests y configs)
+    // Prohibir imports relativos en código fuente
     files: ['src/**/*.{vue,ts}'],
-    ignores: [
-      '**/__tests__/**',
-      '**/*.spec.ts',
-      '**/*.test.ts',
-      'src/test/**',
-      '**/*.config.ts',
-    ],
     rules: {
       'no-restricted-imports': [
         'error',
@@ -85,6 +80,23 @@ export default defineConfigWithVueTs(
           ],
         },
       ],
+    },
+  },
+
+  {
+    // Permitir imports relativos en tests y archivos de configuración
+    files: [
+      'src/**/__tests__/**/*.{ts,vue}',
+      'src/**/*.spec.ts',
+      'src/**/*.test.ts',
+      'src/test/**/*.ts',
+      '**/*.config.{ts,js}',
+      'vitest.config.ts',
+      'playwright.config.ts',
+      'vite.config.ts',
+    ],
+    rules: {
+      'no-restricted-imports': 'off',
     },
   },
 

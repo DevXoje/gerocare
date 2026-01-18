@@ -54,8 +54,8 @@ const handleNavigation = (path: string) => {
           <span class="nav-icon">👥</span>
           <span class="nav-label">Residentes</span>
         </router-link>
-        <router-link to="/medication" class="nav-item" active-class="nav-item-active"
-          @click="handleNavigation('/medication')">
+        <router-link to="/medications" class="nav-item" active-class="nav-item-active"
+          @click="handleNavigation('/medications')">
           <span class="nav-icon">💊</span>
           <span class="nav-label">Medicación</span>
         </router-link>
@@ -68,6 +68,21 @@ const handleNavigation = (path: string) => {
           @click="handleNavigation('/incidents')">
           <span class="nav-icon">⚠️</span>
           <span class="nav-label">Incidencias</span>
+        </router-link>
+        <router-link to="/activity-logs" class="nav-item" active-class="nav-item-active"
+          @click="handleNavigation('/activity-logs')">
+          <span class="nav-icon">📝</span>
+          <span class="nav-label">Registro de Actividades</span>
+        </router-link>
+        <router-link to="/shifts" class="nav-item" active-class="nav-item-active"
+          @click="handleNavigation('/shifts')">
+          <span class="nav-icon">📅</span>
+          <span class="nav-label">Turnos</span>
+        </router-link>
+        <router-link to="/reports" class="nav-item" active-class="nav-item-active"
+          @click="handleNavigation('/reports')">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Reportes</span>
         </router-link>
       </nav>
 

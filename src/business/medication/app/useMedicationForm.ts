@@ -1,6 +1,7 @@
 import { computed,ref } from 'vue'
 
 import { useAuthStore } from '@/business/auth/store'
+import { useNotifications } from '@/shared/composables/useNotifications'
 
 import type { Medication } from '../domain/Medication'
 import type { MedicationCreateInput } from '../domain/Medication.schema'
@@ -11,6 +12,7 @@ const repository = createMedicationRepository()
 
 export function useMedicationForm() {
   const authStore = useAuthStore()
+  const { success, error: showError } = useNotifications()
   const form = ref<Partial<Omit<Medication, 'id' | 'createdAt' | 'updatedAt'>>>({
     residentId: '',
     name: '',
@@ -74,21 +76,28 @@ export function useMedicationForm() {
       const validation = MedicationCreateSchema.safeParse(medicationData)
       if (!validation.success) {
         const firstError = validation.error.issues[0]
-        error.value = firstError?.message || 'Validation failed'
+        const errorMessage = firstError?.message || 'Error de validación. Por favor, verifique los campos requeridos.'
+        error.value = errorMessage
+        showError(errorMessage)
         return null
       }
 
       const result = await repository.create(validation.data)
 
       if (result.success) {
+        success('Medicación creada exitosamente')
         resetForm()
         return result.value
       } else {
-        error.value = result.error.message
+        const errorMessage = result.error.message || 'Error al crear la medicación. Por favor, intente nuevamente.'
+        error.value = errorMessage
+        showError(errorMessage)
         return null
       }
     } catch (err) {
-      error.value = 'Failed to create medication'
+      const errorMessage = 'Error al crear la medicación. Por favor, verifique su conexión e intente nuevamente.'
+      error.value = errorMessage
+      showError(errorMessage)
       return null
     } finally {
       isLoading.value = false
@@ -119,13 +128,18 @@ export function useMedicationForm() {
       const result = await repository.update(id, updates)
 
       if (result.success) {
+        success('Medicación actualizada exitosamente')
         return result.value
       } else {
-        error.value = result.error.message
+        const errorMessage = result.error.message || 'Error al actualizar la medicación. Por favor, intente nuevamente.'
+        error.value = errorMessage
+        showError(errorMessage)
         return null
       }
     } catch (err) {
-      error.value = 'Failed to update medication'
+      const errorMessage = 'Error al actualizar la medicación. Por favor, verifique su conexión e intente nuevamente.'
+      error.value = errorMessage
+      showError(errorMessage)
       return null
     } finally {
       isLoading.value = false
