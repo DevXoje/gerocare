@@ -10,29 +10,29 @@ import { createTestRouter, type CreateTestRouterOptions } from './router'
  * Options for rendering a component in tests
  */
 export interface RenderOptions {
-  /**
-   * Props to pass to the component
-   */
-  props?: Record<string, any>
-  /**
-   * Global options for Vue Test Utils
-   */
-  global?: ComponentMountingOptions<any>['global']
-  /**
-   * Whether to include Pinia store
-   * Default: false
-   */
-  pinia?: boolean | Pinia
-  /**
-   * Whether to include Vue Router
-   * Default: false
-   * Can also pass router options or a router instance
-   */
-  router?: boolean | Router | CreateTestRouterOptions
-  /**
-   * Additional mounting options
-   */
-  [key: string]: any
+	/**
+	 * Props to pass to the component
+	 */
+	props?: Record<string, unknown>
+	/**
+	 * Global options for Vue Test Utils
+	 */
+	global?: ComponentMountingOptions<unknown>['global']
+	/**
+	 * Whether to include Pinia store
+	 * Default: false
+	 */
+	pinia?: boolean | Pinia
+	/**
+	 * Whether to include Vue Router
+	 * Default: false
+	 * Can also pass router options or a router instance
+	 */
+	router?: boolean | Router | CreateTestRouterOptions
+	/**
+	 * Additional mounting options
+	 */
+	[key: string]: unknown
 }
 
 /**
@@ -74,52 +74,49 @@ export interface RenderOptions {
  * })
  * ```
  */
-export function renderComponent(
-  component: Component,
-  options: RenderOptions = {}
-): VueWrapper {
-  const {
-    props = {},
-    global = {},
-    pinia: usePinia = false,
-    router: useRouter = false,
-    ...mountingOptions
-  } = options
+export function renderComponent(component: Component, options: RenderOptions = {}): VueWrapper {
+	const {
+		props = {},
+		global = {},
+		pinia: usePinia = false,
+		router: useRouter = false,
+		...mountingOptions
+	} = options
 
-  const plugins = [...(global.plugins || [])]
+	const plugins = [...(global.plugins || [])]
 
-  // Setup Pinia
-  let piniaInstance: Pinia | undefined
-  if (usePinia) {
-    if (usePinia === true) {
-      piniaInstance = createPinia()
-    } else {
-      piniaInstance = usePinia
-    }
-    plugins.push(piniaInstance)
-  }
+	// Setup Pinia
+	let piniaInstance: Pinia | undefined
+	if (usePinia) {
+		if (usePinia === true) {
+			piniaInstance = createPinia()
+		} else {
+			piniaInstance = usePinia
+		}
+		plugins.push(piniaInstance)
+	}
 
-  // Setup Router
-  let routerInstance: Router | undefined
-  if (useRouter) {
-    if (useRouter === true) {
-      routerInstance = createTestRouter()
-    } else if ('push' in useRouter || 'currentRoute' in useRouter) {
-      // It's a Router instance
-      routerInstance = useRouter as Router
-    } else {
-      // It's CreateTestRouterOptions
-      routerInstance = createTestRouter(useRouter as CreateTestRouterOptions)
-    }
-    plugins.push(routerInstance)
-  }
+	// Setup Router
+	let routerInstance: Router | undefined
+	if (useRouter) {
+		if (useRouter === true) {
+			routerInstance = createTestRouter()
+		} else if ('push' in useRouter || 'currentRoute' in useRouter) {
+			// It's a Router instance
+			routerInstance = useRouter as Router
+		} else {
+			// It's CreateTestRouterOptions
+			routerInstance = createTestRouter(useRouter as CreateTestRouterOptions)
+		}
+		plugins.push(routerInstance)
+	}
 
-  return mount(component, {
-    props,
-    global: {
-      ...global,
-      plugins,
-    },
-    ...mountingOptions,
-  })
+	return mount(component, {
+		props,
+		global: {
+			...global,
+			plugins,
+		},
+		...mountingOptions,
+	})
 }

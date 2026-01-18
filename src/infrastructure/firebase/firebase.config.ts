@@ -1,16 +1,16 @@
 import { initializeApp } from 'firebase/app'
-import { connectAuthEmulator,getAuth } from 'firebase/auth'
-import { connectFirestoreEmulator,getFirestore } from 'firebase/firestore'
+import { connectAuthEmulator, getAuth } from 'firebase/auth'
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore'
 
 // Firebase configuration for emulator
 // In production, these would come from environment variables
 const firebaseConfig = {
-  apiKey: 'demo-api-key',
-  authDomain: 'demo-project.firebaseapp.com',
-  projectId: 'demo-project',
-  storageBucket: 'demo-project.appspot.com',
-  messagingSenderId: '123456789',
-  appId: 'demo-app-id'
+	apiKey: 'demo-api-key',
+	authDomain: 'demo-project.firebaseapp.com',
+	projectId: 'demo-project',
+	storageBucket: 'demo-project.appspot.com',
+	messagingSenderId: '123456789',
+	appId: 'demo-app-id',
 }
 
 // Initialize Firebase
@@ -24,19 +24,17 @@ export const db = getFirestore(app)
 
 // Connect to emulators in development
 if (import.meta.env.DEV) {
-  try {
-    connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true })
-  } catch (error) {
-    // Emulator already connected, ignore
-    console.warn('Auth emulator connection:', error)
-  }
+	try {
+		connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true })
+	} catch (error) {
+		// Emulator already connected, ignore
+		console.warn('Auth emulator connection:', error)
+	}
 
-  try {
-    connectFirestoreEmulator(db, 'localhost', 8080)
-  } catch (error) {
-    // Emulator already connected, ignore
-    console.warn('Firestore emulator connection:', error)
-  }
+	try {
+		connectFirestoreEmulator(db, 'localhost', 8080)
+	} catch (error) {
+		// Emulator already connected, ignore
+		console.warn('Firestore emulator connection:', error)
+	}
 }
-
-

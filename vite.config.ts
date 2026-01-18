@@ -13,17 +13,14 @@ const host = process.env.VITE_HOST || (isDocker ? '0.0.0.0' : 'localhost')
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    vueDevTools(),
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    },
-  },
-  server: {
-    host,
-    port: 5173,
-  },
+	plugins: [vue(), vueDevTools()],
+	resolve: {
+		alias: {
+			'@': fileURLToPath(new URL('./src', import.meta.url)),
+		},
+	},
+	server: {
+		host,
+		port: 5173,
+	},
 })

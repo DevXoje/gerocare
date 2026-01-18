@@ -1,33 +1,22 @@
-export interface ResidentError {
-  code: string
-  message: string
-}
+import type { AppError } from '@/shared/domain/AppError'
+import { createAppError } from '@/shared/domain/AppError'
 
-export function createResidentNotFoundError(message: string = 'Resident not found'): ResidentError {
-  return {
-    code: 'RESIDENT_NOT_FOUND',
-    message,
-  }
+export type ResidentError = AppError
+
+export function createResidentNotFoundError(
+	message: string = 'Residente no encontrado'
+): ResidentError {
+	return createAppError('NOT_FOUND', message)
 }
 
 export function createResidentValidationError(message: string): ResidentError {
-  return {
-    code: 'RESIDENT_VALIDATION_ERROR',
-    message,
-  }
+	return createAppError('VALIDATION_ERROR', message)
 }
 
-export function createResidentPermissionError(message: string = 'Permission denied'): ResidentError {
-  return {
-    code: 'RESIDENT_PERMISSION_ERROR',
-    message,
-  }
+export function createResidentPermissionError(message: string = 'Permiso denegado'): ResidentError {
+	return createAppError('PERMISSION_ERROR', message)
 }
 
-export function createUnknownResidentError(message: string = 'Unknown error'): ResidentError {
-  return {
-    code: 'UNKNOWN_RESIDENT_ERROR',
-    message,
-  }
+export function createUnknownResidentError(message: string = 'Error desconocido'): ResidentError {
+	return createAppError('UNKNOWN_ERROR', message)
 }
-

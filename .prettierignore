@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+dist-ssr/
+coverage/
+storybook-static/
+
+# Cache directories
+.cache/
+.eslintcache
+.prettiercache
+
+# Test reports and results
+test-results/
+playwright-report/
+
+# Generated/minified files
+*.min.js
+*.min.css
+package-lock.json
+
+# Logs
+*.log
+firebase-debug.log
+firestore-debug.log
+debug-storybook.log

@@ -1,32 +1,22 @@
-export interface IncidentError {
-  code: string
-  message: string
-}
+import type { AppError } from '@/shared/domain/AppError'
+import { createAppError } from '@/shared/domain/AppError'
 
-export function createIncidentNotFoundError(message: string = 'Incident not found'): IncidentError {
-  return {
-    code: 'INCIDENT_NOT_FOUND',
-    message,
-  }
+export type IncidentError = AppError
+
+export function createIncidentNotFoundError(
+	message: string = 'Incidente no encontrado'
+): IncidentError {
+	return createAppError('NOT_FOUND', message)
 }
 
 export function createIncidentValidationError(message: string): IncidentError {
-  return {
-    code: 'INCIDENT_VALIDATION_ERROR',
-    message,
-  }
+	return createAppError('VALIDATION_ERROR', message)
 }
 
-export function createIncidentPermissionError(message: string = 'Permission denied'): IncidentError {
-  return {
-    code: 'INCIDENT_PERMISSION_ERROR',
-    message,
-  }
+export function createIncidentPermissionError(message: string = 'Permiso denegado'): IncidentError {
+	return createAppError('PERMISSION_ERROR', message)
 }
 
-export function createUnknownIncidentError(message: string = 'Unknown error'): IncidentError {
-  return {
-    code: 'UNKNOWN_INCIDENT_ERROR',
-    message,
-  }
+export function createUnknownIncidentError(message: string = 'Error desconocido'): IncidentError {
+	return createAppError('UNKNOWN_ERROR', message)
 }

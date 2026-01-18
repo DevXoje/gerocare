@@ -1,10 +1,7 @@
+import type { ResidentRepository } from '@/business/residents/domain/ResidentRepository'
+import { createResidentRepository as createFirestoreResidentRepository } from '@/business/residents/infrastructure/FirestoreResidentRepository'
 import { db } from '@/infrastructure/firebase/firebase.config'
 
-import type { ResidentRepository } from '../domain/ResidentRepository'
-
-import { createResidentRepository as createFirestoreResidentRepository } from './FirestoreResidentRepository'
-
 export function createResidentRepository(): ResidentRepository {
-  return createFirestoreResidentRepository(db)
+	return createFirestoreResidentRepository(db)
 }
-

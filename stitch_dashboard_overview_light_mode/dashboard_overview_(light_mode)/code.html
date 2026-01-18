@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Residencia360 Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#141414",
+                        "background-light": "#f7f7f7",
+                        "background-dark": "#191919",
+                        "brand-blue": "#0B5FFF",
+                        "brand-teal": "#00A99D",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light text-primary font-display antialiased overflow-x-hidden pb-24">
+<!-- Mobile Header -->
+<header class="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-100 px-4 py-3 flex items-center justify-between">
+<button aria-label="Menu" class="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors">
+<span class="material-symbols-outlined text-primary text-[28px]">menu</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight text-primary">Residencia360</h1>
+<div class="flex items-center gap-2">
+<button aria-label="Search" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+<span class="material-symbols-outlined text-primary text-[24px]">search</span>
+</button>
+<div class="size-9 rounded-full bg-gray-200 overflow-hidden border border-gray-100 shadow-sm relative">
+<img alt="Nurse Profile Picture" class="w-full h-full object-cover" data-alt="Close up portrait of a nurse smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEBT7i5Wdg3MBytfzQIIVaCZI_ZRA35sKqu_k77hr_SM0i-WplSbDQELxCJwnIN6PfkszuC8dJlnf9t5imA9ZI2J446jWlG99hN8CmAghht6do8O5nY5vdS8-Edlup_9QxhktfcifvUrK8x1KnPTzh__llkogGbQW6hgb_NHy_3fIdzVKHbX462LIehh3MOpC4IHmavIo_GUVtyhiwXPr9Goh2BL5VbwdLZiQ-H9Cdw08UNDhlgY8BxSW423HcgrGelFv0XlrR1Qw"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="mt-[72px] px-4">
+<!-- Welcome Section -->
+<div class="py-4">
+<p class="text-gray-500 text-sm font-medium mb-1">Good Morning,</p>
+<h2 class="text-2xl font-bold text-primary">Head Nurse Sarah</h2>
+</div>
+<!-- Search Bar (Quick Access) -->
+<div class="mb-6 relative">
+<div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-400">search</span>
+</div>
+<input class="w-full bg-white border-none rounded-xl py-3.5 pl-10 pr-4 text-sm font-medium shadow-sm focus:ring-2 focus:ring-brand-blue/20 text-primary placeholder-gray-400" placeholder="Search resident, med, or staff..." type="text"/>
+</div>
+<!-- KPI Grid -->
+<div class="grid grid-cols-2 gap-3 mb-8">
+<!-- Alerts Card (Priority) -->
+<div class="bg-red-50 p-4 rounded-xl border border-red-100 shadow-sm flex flex-col justify-between h-[140px] relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 bg-red-100/50 w-24 h-24 rounded-full group-hover:scale-110 transition-transform duration-500"></div>
+<div class="flex items-start justify-between relative z-10">
+<div class="p-2 bg-white rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-red-600">warning</span>
+</div>
+<span class="flex h-2 w-2 rounded-full bg-red-500"></span>
+</div>
+<div class="relative z-10">
+<p class="text-3xl font-bold text-gray-900 mb-1">5</p>
+<p class="text-sm font-semibold text-red-700">Active Alerts</p>
+</div>
+</div>
+<!-- Residents Card -->
+<div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between h-[140px]">
+<div class="flex items-start justify-between">
+<div class="p-2 bg-gray-50 rounded-lg">
+<span class="material-symbols-outlined text-brand-blue">groups</span>
+</div>
+</div>
+<div>
+<p class="text-3xl font-bold text-primary mb-1">124</p>
+<p class="text-sm font-medium text-gray-500">Total Residents</p>
+</div>
+</div>
+<!-- Occupancy Card -->
+<div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between h-[140px]">
+<div class="flex items-start justify-between">
+<div class="p-2 bg-gray-50 rounded-lg">
+<span class="material-symbols-outlined text-brand-teal">bed</span>
+</div>
+</div>
+<div class="flex items-end justify-between">
+<div>
+<p class="text-3xl font-bold text-primary mb-1">88<span class="text-lg text-gray-400">%</span></p>
+<p class="text-sm font-medium text-gray-500">Occupancy</p>
+</div>
+<!-- Mini donut chart viz using SVG -->
+<div class="relative size-10">
+<svg class="size-full -rotate-90" viewbox="0 0 36 36">
+<path class="text-gray-100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4"></path>
+<path class="text-brand-teal" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="88, 100" stroke-linecap="round" stroke-width="4"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- Next Shift Card -->
+<div class="bg-brand-blue p-4 rounded-xl shadow-md flex flex-col justify-between h-[140px] text-white relative overflow-hidden">
+<div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+<div class="flex items-start justify-between relative z-10">
+<div class="p-2 bg-white/20 backdrop-blur-sm rounded-lg">
+<span class="material-symbols-outlined text-white">calendar_clock</span>
+</div>
+</div>
+<div class="relative z-10">
+<p class="text-lg font-bold mb-0 leading-tight">Today</p>
+<p class="text-2xl font-bold mb-1">2:00 PM</p>
+<p class="text-xs font-medium text-blue-100">Ward A - Senior Nurse</p>
+</div>
+</div>
+</div>
+<!-- Staff on Duty -->
+<div class="mb-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-primary">Staff on Duty</h3>
+<button class="text-sm font-semibold text-brand-blue">View Schedule</button>
+</div>
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-2 -mx-4 px-4">
+<!-- Staff Item 1 -->
+<div class="flex flex-col items-center gap-2 min-w-[72px]">
+<div class="relative">
+<div class="size-14 rounded-full p-0.5 border-2 border-brand-teal/50">
+<img alt="Dr. Lee Portrait" class="w-full h-full rounded-full object-cover" data-alt="Portrait of a male doctor in white coat" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByuZB5TwFRneu_wnXcEMfHRiWy25K2dtQK735aIfctIBTlPMY61llFfitCmf8f1RNcz0h2d1XTOR-thBEr-fygaiPTy4bfiL6HDCtRF0tJNX_sDPjv2Ojr0lg-mPD-PcB3MUw8AKQ62kSX4KYyqr9-vjYwCVQqOqx-CQL7rRy-oR7mds3SpctktiJ6f17MjEypxQrizR0xz9NvcxpgsebDfcYk7TEnV4rPCFyScsgb21coQMfUY6WVBgfcrpDJf7yAlg5uf0P3NWg"/>
+</div>
+<div class="absolute bottom-0 right-0 size-3.5 bg-green-500 border-2 border-white rounded-full"></div>
+</div>
+<span class="text-xs font-medium text-center text-gray-700 truncate w-full">Dr. Lee</span>
+</div>
+<!-- Staff Item 2 -->
+<div class="flex flex-col items-center gap-2 min-w-[72px]">
+<div class="relative">
+<div class="size-14 rounded-full p-0.5 border-2 border-transparent">
+<img alt="Nurse Mike Portrait" class="w-full h-full rounded-full object-cover grayscale opacity-70" data-alt="Portrait of a male nurse in scrubs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXjPlJAiETT0w3b4qW5iGGUzlGInEq9dur0ffc_QI1MuwqtdAMXV1YlgfhBldnrFTOMQHOi83j7fxTcAlNHFw2C05LtwuOV9_IrJJN6r52Hux5ua_siPrTjFY6UiJscoEMa6W0MZoNs3VyVzmXOZRF2v9udERaOrHsRemhdBhpBYA-y8LVAs5HwshUFFCht0JYSf6oane3eP3zRD1BSbklnvPxTb8XxvBUjOzG3ZXt7ENAMXBe3A3Im4iSD0lucZ-WwMC8GwBkMvs"/>
+</div>
+<div class="absolute bottom-0 right-0 size-3.5 bg-yellow-500 border-2 border-white rounded-full"></div>
+</div>
+<span class="text-xs font-medium text-center text-gray-700 truncate w-full">Nurse Mike</span>
+</div>
+<!-- Staff Item 3 -->
+<div class="flex flex-col items-center gap-2 min-w-[72px]">
+<div class="relative">
+<div class="size-14 rounded-full p-0.5 border-2 border-brand-teal/50">
+<img alt="Nurse Emma Portrait" class="w-full h-full rounded-full object-cover" data-alt="Portrait of a young female nurse smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNPw4jhB0W1i9jBnY8M3FRrNrfkXX7KL5REFKD03JtNeBKZnAHU8ag8Dg-73A2Nqp13PDSxVDouogkIxlSnbDjVPAsRdo22zCgNVRx8WRu6piHOazDj7yKrzdl27OthRhwo58nJ94MNIIexw0V6bVt3x51RwAqLEG_EB2h72TxE498ejuOlJGZWWfZdMiTLyIUf6aUo96CrOUDnrEjyl7LzcsZJ3AZhYPi7URcXcOz8aTKGKS_9eMaNMwS2tB7fsHXMsERjpjpFfg"/>
+</div>
+<div class="absolute bottom-0 right-0 size-3.5 bg-green-500 border-2 border-white rounded-full"></div>
+</div>
+<span class="text-xs font-medium text-center text-gray-700 truncate w-full">Emma W.</span>
+</div>
+<!-- Staff Item 4 -->
+<div class="flex flex-col items-center gap-2 min-w-[72px]">
+<div class="relative">
+<div class="size-14 rounded-full p-0.5 border-2 border-transparent">
+<img alt="Dr. Sarah Portrait" class="w-full h-full rounded-full object-cover" data-alt="Portrait of a female doctor with stethoscope" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0ydZ8XAtUR8ZBdWi54gbhvCUZILwTQNrMi2zX53-xq7aC6eFwmbf0YUQNPhb00LNZoEYvR2tFHeLYu17pAnmmdL5UG-LlI8njjWKCar94M18R8CvasZp4JwgILEnvPgQJxzm8nix10HW-MmSkMQxXjltSCtyoFJA4LBxV-plTiHZ8iLXaYxE1MBvo08Y-qn-nXGiqxWludqaF9K0A04mbHwpEbfPsJC6-_Sj6teqFPqnUMzzeKKwqH_GvASuX0_k3adRzstkCrmg"/>
+</div>
+<div class="absolute bottom-0 right-0 size-3.5 bg-green-500 border-2 border-white rounded-full"></div>
+</div>
+<span class="text-xs font-medium text-center text-gray-700 truncate w-full">Dr. Sarah</span>
+</div>
+<!-- Add Staff Button -->
+<div class="flex flex-col items-center gap-2 min-w-[72px]">
+<button class="size-14 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 hover:bg-gray-200 hover:text-gray-600 transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+<span class="text-xs font-medium text-center text-gray-400 truncate w-full">Add</span>
+</div>
+</div>
+</div>
+<!-- Recent Incidents -->
+<div class="pb-6">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-primary">Recent Incidents</h3>
+<button class="text-sm font-semibold text-brand-blue">View All</button>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Incident Item 1 (High Severity) -->
+<div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-start gap-4 hover:shadow-md transition-shadow">
+<div class="size-10 rounded-full bg-red-100 flex items-center justify-center shrink-0 text-red-600">
+<span class="material-symbols-outlined text-[20px]">medication</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-sm text-primary truncate">Missed Medication</h4>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-100 text-red-700 uppercase tracking-wide">High</span>
+</div>
+<p class="text-sm text-gray-600 mb-1">Maria Gonzalez <span class="text-gray-400">•</span> Room 204</p>
+<p class="text-xs text-gray-400 font-medium">10 minutes ago</p>
+</div>
+</div>
+<!-- Incident Item 2 (Medium Severity) -->
+<div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-start gap-4 hover:shadow-md transition-shadow">
+<div class="size-10 rounded-full bg-orange-100 flex items-center justify-center shrink-0 text-orange-600">
+<span class="material-symbols-outlined text-[20px]">personal_injury</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-sm text-primary truncate">Fall Detected</h4>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 text-orange-700 uppercase tracking-wide">Medium</span>
+</div>
+<p class="text-sm text-gray-600 mb-1">John Doe <span class="text-gray-400">•</span> Room 112</p>
+<p class="text-xs text-gray-400 font-medium">1 hour ago</p>
+</div>
+</div>
+<!-- Incident Item 3 (Low Severity) -->
+<div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-start gap-4 hover:shadow-md transition-shadow">
+<div class="size-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0 text-blue-600">
+<span class="material-symbols-outlined text-[20px]">wifi_off</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-sm text-primary truncate">Sensor Disconnected</h4>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 text-gray-600 uppercase tracking-wide">Low</span>
+</div>
+<p class="text-sm text-gray-600 mb-1">Bed Sensor <span class="text-gray-400">•</span> Room 305</p>
+<p class="text-xs text-gray-400 font-medium">2 hours ago</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (iOS style) -->
+<nav class="fixed bottom-0 w-full bg-white border-t border-gray-200 z-50 pb-safe">
+<div class="flex justify-around items-center h-16 px-2">
+<a class="flex flex-col items-center justify-center w-full h-full text-brand-blue gap-1" href="#">
+<span class="material-symbols-outlined fill-1">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-gray-600 gap-1" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-[10px] font-medium">Residents</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-gray-600 gap-1" href="#">
+<div class="size-12 bg-brand-blue rounded-full flex items-center justify-center -mt-8 shadow-lg shadow-blue-200 border-4 border-white">
+<span class="material-symbols-outlined text-white">add</span>
+</div>
+<span class="text-[10px] font-medium opacity-0 h-0 overflow-hidden">New</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-gray-600 gap-1" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="text-[10px] font-medium">Shifts</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-gray-600 gap-1" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Safe Area Spacing for iPhone Home Indicator -->
+<div class="h-6 w-full bg-white"></div>
+</body></html>

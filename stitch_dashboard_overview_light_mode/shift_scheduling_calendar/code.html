@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Residencia360 - Shift Schedule</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#141414",
+                        "background-light": "#f7f7f7",
+                        "background-dark": "#191919",
+                        "shift-morning": "#0B5FFF",
+                        "shift-afternoon": "#00A99D",
+                        "shift-night": "#4F46E5",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hiding */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-primary font-display antialiased overflow-hidden h-screen w-full flex flex-col relative">
+<!-- Top Navigation Area -->
+<div class="flex-none bg-background-light dark:bg-background-dark pt-safe-top pb-2 px-4 z-20">
+<!-- Header Row -->
+<div class="flex items-center justify-between h-14">
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Residencia360</span>
+<div class="flex items-center gap-1">
+<h1 class="text-2xl font-bold tracking-tight">Schedule</h1>
+<span class="material-symbols-outlined text-gray-400 text-xl">expand_more</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="size-10 flex items-center justify-center rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-sm">
+<span class="material-symbols-outlined text-primary dark:text-white" style="font-size: 20px;">search</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded-full bg-primary text-white shadow-md hover:bg-neutral-800 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">add</span>
+</button>
+</div>
+</div>
+<!-- Weekly Calendar Strip (Custom Component based on logic) -->
+<div class="mt-4 flex flex-col gap-3">
+<div class="flex items-center justify-between px-1">
+<h2 class="text-base font-bold text-primary dark:text-white">October 2023</h2>
+<div class="flex gap-1">
+<button class="p-1 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-700">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="p-1 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-700">
+<span class="material-symbols-outlined text-sm">today</span>
+</button>
+<button class="p-1 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-700">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="flex justify-between items-center text-center gap-1">
+<!-- Day Items -->
+<div class="flex flex-col items-center gap-1 flex-1 opacity-50">
+<span class="text-[10px] font-semibold uppercase tracking-wide">Mon</span>
+<div class="size-9 flex items-center justify-center rounded-full text-sm font-medium">16</div>
+</div>
+<div class="flex flex-col items-center gap-1 flex-1 opacity-50">
+<span class="text-[10px] font-semibold uppercase tracking-wide">Tue</span>
+<div class="size-9 flex items-center justify-center rounded-full text-sm font-medium">17</div>
+</div>
+<!-- Active Day -->
+<div class="flex flex-col items-center gap-1 flex-1">
+<span class="text-[10px] font-bold uppercase tracking-wide text-primary dark:text-white">Wed</span>
+<div class="size-9 flex items-center justify-center rounded-full bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30">18</div>
+<div class="size-1 rounded-full bg-primary mt-1"></div>
+</div>
+<div class="flex flex-col items-center gap-1 flex-1 opacity-50">
+<span class="text-[10px] font-semibold uppercase tracking-wide">Thu</span>
+<div class="size-9 flex items-center justify-center rounded-full text-sm font-medium">19</div>
+</div>
+<div class="flex flex-col items-center gap-1 flex-1 opacity-50">
+<span class="text-[10px] font-semibold uppercase tracking-wide">Fri</span>
+<div class="size-9 flex items-center justify-center rounded-full text-sm font-medium">20</div>
+</div>
+<div class="flex flex-col items-center gap-1 flex-1 opacity-50">
+<span class="text-[10px] font-semibold uppercase tracking-wide">Sat</span>
+<div class="size-9 flex items-center justify-center rounded-full text-sm font-medium text-shift-morning">21</div>
+</div>
+<div class="flex flex-col items-center gap-1 flex-1 opacity-50">
+<span class="text-[10px] font-semibold uppercase tracking-wide">Sun</span>
+<div class="size-9 flex items-center justify-center rounded-full text-sm font-medium text-shift-morning">22</div>
+</div>
+</div>
+</div>
+<!-- Quick Stats / Shift Summary -->
+<div class="flex gap-3 mt-4 overflow-x-auto no-scrollbar pb-2">
+<div class="flex-none px-3 py-1.5 rounded-full bg-primary text-white text-xs font-medium border border-transparent">
+                All Shifts (12)
+            </div>
+<div class="flex-none px-3 py-1.5 rounded-full bg-white dark:bg-neutral-800 text-gray-600 dark:text-gray-300 text-xs font-medium border border-gray-200 dark:border-neutral-700 flex items-center gap-1">
+<div class="size-1.5 rounded-full bg-shift-morning"></div>
+                Morning (5)
+            </div>
+<div class="flex-none px-3 py-1.5 rounded-full bg-white dark:bg-neutral-800 text-gray-600 dark:text-gray-300 text-xs font-medium border border-gray-200 dark:border-neutral-700 flex items-center gap-1">
+<div class="size-1.5 rounded-full bg-shift-afternoon"></div>
+                Afternoon (4)
+            </div>
+<div class="flex-none px-3 py-1.5 rounded-full bg-white dark:bg-neutral-800 text-gray-600 dark:text-gray-300 text-xs font-medium border border-gray-200 dark:border-neutral-700 flex items-center gap-1">
+<div class="size-1.5 rounded-full bg-shift-night"></div>
+                Night (3)
+            </div>
+</div>
+</div>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto no-scrollbar relative bg-background-light dark:bg-background-dark">
+<!-- Decoration Line -->
+<div class="absolute left-[27px] top-0 bottom-0 w-px bg-gray-200 dark:bg-neutral-800 z-0"></div>
+<!-- Morning Section -->
+<div class="relative z-10 mb-6">
+<div class="sticky top-0 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm z-20 py-3 px-4 flex items-center gap-3 border-b border-gray-100 dark:border-neutral-800">
+<div class="size-3 rounded-full bg-shift-morning ring-4 ring-background-light dark:ring-background-dark"></div>
+<h3 class="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">Morning <span class="text-gray-400 font-normal ml-1 normal-case tracking-normal">07:00 - 15:00</span></h3>
+</div>
+<div class="px-4 flex flex-col gap-3 mt-2">
+<!-- Card 1 -->
+<div class="group bg-white dark:bg-neutral-800 p-3 rounded-2xl border border-gray-100 dark:border-neutral-700 shadow-sm flex items-start gap-3 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-shift-morning"></div>
+<div class="relative size-12 flex-none">
+<div class="w-full h-full rounded-full bg-gray-200 bg-cover bg-center" data-alt="Portrait of Maria Garcia, nurse" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCPtDu5Nw9U8h2o6h9IgE91QKvibe3llEK4ouAj2lqpM-RX-Vea8xSb8ndedWNxhg4SVK6p6dT13zJ0V4e57nNgPFgPsO3pMChGfugeLUZGjgA54jnsSGGheoBK0j4EOKarvEOkOQSxBbRoCqnb0BQeU4-KUVN58xvIo-LEibk8_z_yz6yoFhJvSjsk7B3kCZmQr4MeVhoyABrI6XQ4kE_EELHj2F7g0NFxT8HB5zPvg81af-vkD57T6p4C5FPNORJho2xOyggRL_o');"></div>
+<div class="absolute bottom-0 right-0 size-4 bg-white dark:bg-neutral-800 rounded-full flex items-center justify-center border border-gray-100 dark:border-neutral-700">
+<span class="material-symbols-outlined text-[10px] text-shift-morning">medication</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-sm font-bold text-gray-900 dark:text-white truncate">Maria Garcia</h4>
+<p class="text-xs text-shift-morning font-medium">Head Nurse</p>
+</div>
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</div>
+<div class="mt-2 flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+<div class="flex items-center gap-1 bg-gray-50 dark:bg-neutral-700/50 px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                                07:00 - 15:00
+                            </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+<span data-location="Floor 2">Floor 2</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-white dark:bg-neutral-800 p-3 rounded-2xl border border-gray-100 dark:border-neutral-700 shadow-sm flex items-start gap-3 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-shift-morning"></div>
+<div class="relative size-12 flex-none">
+<div class="w-full h-full rounded-full bg-gray-200 bg-cover bg-center" data-alt="Portrait of James Wilson, caregiver" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD3y4YDr0y-RiansgFvBOAXW2JMs1muQ1U7MJ2g03zkjEKn-2dcVmdgX5H7dDhCwi97nAfsnt7MM6cg_kPhxCAyxJ1DIv9qgJScycBrF9mC0PyECyXaIcMPrKgR8jNQgIqJ79oUkDGWSHGQ5AiQRBUzFn6YYlxtumDTQntXTAnyKBUVkEf57jCiA0bRQfwp3woyZlbG96mym4TFjNmo_Ulz31LfqnVfkSe_dTsKghtHhaq7EHoKLqw_d5Mw0QjtjKet7lZhBP2FxbM');"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-sm font-bold text-gray-900 dark:text-white truncate">James Wilson</h4>
+<p class="text-xs text-gray-500 font-medium">Caregiver</p>
+</div>
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</div>
+<div class="mt-2 flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+<div class="flex items-center gap-1 bg-gray-50 dark:bg-neutral-700/50 px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                                07:00 - 15:00
+                            </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+<span data-location="Common Area">Common Area</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Afternoon Section -->
+<div class="relative z-10 mb-6">
+<div class="sticky top-0 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm z-20 py-3 px-4 flex items-center gap-3 border-b border-gray-100 dark:border-neutral-800">
+<div class="size-3 rounded-full bg-shift-afternoon ring-4 ring-background-light dark:ring-background-dark"></div>
+<h3 class="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">Afternoon <span class="text-gray-400 font-normal ml-1 normal-case tracking-normal">15:00 - 23:00</span></h3>
+</div>
+<div class="px-4 flex flex-col gap-3 mt-2">
+<!-- Card 3 -->
+<div class="group bg-white dark:bg-neutral-800 p-3 rounded-2xl border border-gray-100 dark:border-neutral-700 shadow-sm flex items-start gap-3 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-shift-afternoon"></div>
+<div class="relative size-12 flex-none">
+<div class="w-full h-full rounded-full bg-gray-200 bg-cover bg-center" data-alt="Portrait of Sarah Chen, nurse" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDsYASVZ6TphKKFcJjvZeRgDemi4OvBmLykgtkguynWQ9xmSIFiRuZe8_7vRBpuCtSAQEP4xwg_kovWc6gPut9BNqfULzZo-q9vqfv88Fo1YZvrDN7pylTel7SKFwSTMNzcZRzOs2yarQMSMittjd0B1LoUltGdgkOxkaBFeJmHUZt5p3AMLExhCW4x8x6i1YDuLgXqSjUOyVJ_C0ax7C08aNaTYPVOtmNvp2RexbSkahaMFHuLlm5Bta1YeWN6XfRpLiC6Anpsv0s');"></div>
+<div class="absolute bottom-0 right-0 size-4 bg-white dark:bg-neutral-800 rounded-full flex items-center justify-center border border-gray-100 dark:border-neutral-700">
+<span class="material-symbols-outlined text-[10px] text-shift-afternoon">medication</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-sm font-bold text-gray-900 dark:text-white truncate">Sarah Chen</h4>
+<p class="text-xs text-shift-afternoon font-medium">Nurse</p>
+</div>
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</div>
+<div class="mt-2 flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+<div class="flex items-center gap-1 bg-gray-50 dark:bg-neutral-700/50 px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                                15:00 - 23:00
+                            </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+<span data-location="Floor 1">Floor 1</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group bg-white dark:bg-neutral-800 p-3 rounded-2xl border border-gray-100 dark:border-neutral-700 shadow-sm flex items-start gap-3 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-shift-afternoon"></div>
+<div class="relative size-12 flex-none">
+<div class="w-full h-full rounded-full bg-gray-200 bg-cover bg-center" data-alt="Portrait of Marcus Johnson, Physical Therapist" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAiMcACpr--qOUZbzUpNfb_Bhhh5GyPaxQVkV-ozgDlzwMWuPnFsTsWbjFQEI-qo0L9lzFpsOLvEl9-9p31akNnUVdd7lzsmcaTjjpvxs4MWZeQ1l14XoARACAdd05KGu0Lte_5XYVsijGJmWcHBfYyMk1INImJuxZ6OOkBKTnXYNfp3QOgK69p-q74BfJNJhoXYcvcAjCc-W-I463WIZ7fKAlrq3d3yBIEdxvZHQhFLuwNxDf9qM0451FP4UgWyi50C-uQpn5R2s4');"></div>
+<div class="absolute bottom-0 right-0 size-4 bg-white dark:bg-neutral-800 rounded-full flex items-center justify-center border border-gray-100 dark:border-neutral-700">
+<span class="material-symbols-outlined text-[10px] text-shift-afternoon">accessibility_new</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-sm font-bold text-gray-900 dark:text-white truncate">Marcus Johnson</h4>
+<p class="text-xs text-gray-500 font-medium">Physical Therapist</p>
+</div>
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</div>
+<div class="mt-2 flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+<div class="flex items-center gap-1 bg-gray-50 dark:bg-neutral-700/50 px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                                14:00 - 18:00
+                            </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+<span data-location="Gym">Gym</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Night Section -->
+<div class="relative z-10 pb-24">
+<div class="sticky top-0 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm z-20 py-3 px-4 flex items-center gap-3 border-b border-gray-100 dark:border-neutral-800">
+<div class="size-3 rounded-full bg-shift-night ring-4 ring-background-light dark:ring-background-dark"></div>
+<h3 class="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">Night <span class="text-gray-400 font-normal ml-1 normal-case tracking-normal">23:00 - 07:00</span></h3>
+</div>
+<div class="px-4 flex flex-col gap-3 mt-2">
+<!-- Card 5 -->
+<div class="group bg-white dark:bg-neutral-800 p-3 rounded-2xl border border-gray-100 dark:border-neutral-700 shadow-sm flex items-start gap-3 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-shift-night"></div>
+<div class="relative size-12 flex-none">
+<div class="w-full h-full rounded-full bg-gray-200 bg-cover bg-center" data-alt="Portrait of Elena Rodriguez, night nurse" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAPip05yqRsN5PFKERUW6KscDbVr2PfY5NQARUHZCovk-lIh-XsrjqCIMPU9DUbKtxis_rMyIE69lQDXfMukF11KNSXUbM2qnWPvouDZqJrywuDiShlgwCDOIG8Ee2LHgj-RfMPHGFX3WQbAIOCdI6OvdTZ7jfpcW3Ruk7xBrz6VxcbonuFsZyfSKZHk4kBKIqv3rljWVouOgfo6To-k2WDFhZMinytXu0tpnDFgFugLlk_C8qlyGYVOKgff0xBIUbhJjwxOn_13eI');"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-sm font-bold text-gray-900 dark:text-white truncate">Elena Rodriguez</h4>
+<p class="text-xs text-shift-night font-medium">Night Nurse</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-1.5 py-0.5 rounded bg-shift-night/10 text-shift-night text-[10px] font-bold uppercase tracking-wide">On Call</span>
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</div>
+</div>
+<div class="mt-2 flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+<div class="flex items-center gap-1 bg-gray-50 dark:bg-neutral-700/50 px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                                23:00 - 07:00
+                            </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+<span data-location="All Floors">All Floors</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State for visual interest -->
+<div class="mt-6 mx-4 p-4 rounded-xl border border-dashed border-gray-300 dark:border-neutral-700 flex flex-col items-center justify-center text-center gap-2">
+<div class="size-10 rounded-full bg-gray-100 dark:bg-neutral-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-gray-400">add_task</span>
+</div>
+<p class="text-sm font-medium text-gray-500">Need more coverage?</p>
+<button class="text-xs font-bold text-primary dark:text-white underline">Add a shift</button>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation -->
+<div class="flex-none bg-white dark:bg-neutral-900 border-t border-gray-100 dark:border-neutral-800 pb-safe-bottom">
+<div class="flex items-center justify-around h-16 px-2">
+<button class="flex flex-col items-center gap-1 p-2 w-16 text-gray-400 hover:text-primary dark:hover:text-white transition-colors group">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 w-16 text-gray-400 hover:text-primary dark:hover:text-white transition-colors group">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">groups</span>
+<span class="text-[10px] font-medium">Residents</span>
+</button>
+<!-- Active Tab -->
+<button class="flex flex-col items-center gap-1 p-2 w-16 text-primary dark:text-white relative">
+<div class="absolute -top-[1px] w-8 h-0.5 bg-primary dark:bg-white rounded-b-full"></div>
+<span class="material-symbols-outlined text-2xl fill-1">calendar_month</span>
+<span class="text-[10px] font-bold">Schedule</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 w-16 text-gray-400 hover:text-primary dark:hover:text-white transition-colors group">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">medication</span>
+<span class="text-[10px] font-medium">Meds</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 w-16 text-gray-400 hover:text-primary dark:hover:text-white transition-colors group">
+<div class="size-6 rounded-full overflow-hidden border border-gray-200 dark:border-neutral-700 group-hover:border-primary transition-colors">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATBmLG_Zm3wEPEVNxKDVXLTxtZQyvtXfwQt6u501L0gWx7XCsFoQ-CmdDG5aqOBuLbXM_4Etx2enC7ohuHZLMi28bBLL1COzZUcBy5Ez_ViAN0GFC3_L2TUTPUv8NTWe7GBLVvO349o87DD7U9dVubxrUk1MWPto6ethhprL8Cmin9Ynnv-K8KMgslKhjlCL7DX8YUXnURhzcdQABq2qUy921Sz-89CdG7baVVy52mOEYJGkpBgmiVkCru1M0dBuK4h_2UsMwK39c"/>
+</div>
+<span class="text-[10px] font-medium">Account</span>
+</button>
+</div>
+</div>
+<!-- Floating 'Today' quick jump button (Optional UX enhancement) -->
+<!-- Not strictly needed with sticky header, but adds flair. Omitting for cleanliness as requested. -->
+</body></html>

@@ -27,6 +27,7 @@ coverage
 *.tsbuildinfo
 
 .eslintcache
+.prettiercache
 
 # Cypress
 /cypress/videos/
@@ -41,3 +42,4 @@ playwright-report/
 firestore_export-*
 *storybook.log
 storybook-static
+.eslintcache

@@ -13,18 +13,27 @@ import { residentRoutes } from '@/business/residents/routes'
 import { shiftRoutes } from '@/business/shifts/routes'
 
 export const routes: RouteRecordRaw[] = [
-  {
-    path: '/',
-    redirect: '/dashboard'
-  },
-  {
-    path: '/',
-    component: PublicLayout,
-    children: authRoutes
-  },
-  {
-    path: '/',
-    component: PrivateLayout,
-    children: [...dashboardRoutes, ...residentRoutes, ...medicationRoutes, ...carePlansRoutes, ...incidentRoutes, ...activityLogsRoutes, ...shiftRoutes, ...reportsRoutes]
-  }
+	{
+		path: '/',
+		redirect: '/dashboard',
+	},
+	{
+		path: '/',
+		component: PublicLayout,
+		children: authRoutes,
+	},
+	{
+		path: '/',
+		component: PrivateLayout,
+		children: [
+			...dashboardRoutes,
+			...residentRoutes,
+			...medicationRoutes,
+			...carePlansRoutes,
+			...incidentRoutes,
+			...activityLogsRoutes,
+			...shiftRoutes,
+			...reportsRoutes,
+		],
+	},
 ]

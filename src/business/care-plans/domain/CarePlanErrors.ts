@@ -1,32 +1,22 @@
-export interface CarePlanError {
-  code: string
-  message: string
-}
+import type { AppError } from '@/shared/domain/AppError'
+import { createAppError } from '@/shared/domain/AppError'
 
-export function createCarePlanNotFoundError(message: string = 'Care plan not found'): CarePlanError {
-  return {
-    code: 'CARE_PLAN_NOT_FOUND',
-    message,
-  }
+export type CarePlanError = AppError
+
+export function createCarePlanNotFoundError(
+	message: string = 'Plan de cuidado no encontrado'
+): CarePlanError {
+	return createAppError('NOT_FOUND', message)
 }
 
 export function createCarePlanValidationError(message: string): CarePlanError {
-  return {
-    code: 'CARE_PLAN_VALIDATION_ERROR',
-    message,
-  }
+	return createAppError('VALIDATION_ERROR', message)
 }
 
-export function createCarePlanPermissionError(message: string = 'Permission denied'): CarePlanError {
-  return {
-    code: 'CARE_PLAN_PERMISSION_ERROR',
-    message,
-  }
+export function createCarePlanPermissionError(message: string = 'Permiso denegado'): CarePlanError {
+	return createAppError('PERMISSION_ERROR', message)
 }
 
-export function createUnknownCarePlanError(message: string = 'Unknown error'): CarePlanError {
-  return {
-    code: 'UNKNOWN_CARE_PLAN_ERROR',
-    message,
-  }
+export function createUnknownCarePlanError(message: string = 'Error desconocido'): CarePlanError {
+	return createAppError('UNKNOWN_ERROR', message)
 }

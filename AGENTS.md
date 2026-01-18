@@ -21,6 +21,7 @@ Use these skills for detailed patterns on-demand:
 | `ui-components` | Patterns and conventions for creating agnostic UI components in GeroCare | [SKILL.md](.cursor/skills/ui-components/SKILL.md) |
 | `feature-development` | Patterns and conventions for implementing complete features following Clean Architecture | [SKILL.md](.cursor/skills/feature-development/SKILL.md) |
 | `zod` | Patterns and conventions for using Zod validation schemas in GeroCare following Clean Architecture | [SKILL.md](.cursor/skills/zod/SKILL.md) |
+| `coding-style` | Coding style guide and conventions for GeroCare | [SKILL.md](.cursor/skills/coding-style/SKILL.md) |
 
 ### Auto-invoke Skills
 
@@ -40,6 +41,7 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Creating new UI components, reusable components, or building the component library | `ui-components` |
 | Creating new features, domain entities, repositories, composables, or business logic | `feature-development` |
 | Creating validation schemas, validating domain entities, form data, or Firestore data | `zod` |
+| Writing code, refactoring, or making style decisions | `coding-style` |
 
 ---
 

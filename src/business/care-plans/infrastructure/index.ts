@@ -1,9 +1,7 @@
+import type { CarePlanRepository } from '@/business/care-plans/domain/CarePlanRepository'
+import { createCarePlanRepository as createFirestoreCarePlanRepository } from '@/business/care-plans/infrastructure/FirestoreCarePlanRepository'
 import { db } from '@/infrastructure/firebase/firebase.config'
 
-import type { CarePlanRepository } from '../domain/CarePlanRepository'
-
-import { createCarePlanRepository as createFirestoreCarePlanRepository } from './FirestoreCarePlanRepository'
-
 export function createCarePlanRepository(): CarePlanRepository {
-  return createFirestoreCarePlanRepository(db)
+	return createFirestoreCarePlanRepository(db)
 }

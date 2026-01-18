@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Residencia360 Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0B5FFF",
+                        "primary-dark": "#084AB5",
+                        "accent": "#00A99D",
+                        "bg-main": "#121212",
+                        "bg-card": "#1E1E1E",
+                        "text-main": "#FFFFFF",
+                        "text-muted": "#A0A0A0",
+                        "border-subtle": "#333333",
+                        "alert": "#EF4444",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "2xl": "1.5rem",
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-bg-main text-text-main h-full min-h-screen relative overflow-x-hidden antialiased pb-24">
+<!-- Header -->
+<header class="sticky top-0 z-50 bg-bg-main/90 backdrop-blur-md border-b border-border-subtle px-5 py-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<button class="text-text-main p-1 hover:bg-white/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight">Residencia360</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative cursor-pointer">
+<span class="material-symbols-outlined text-2xl text-text-muted hover:text-text-main transition-colors">notifications</span>
+<span class="absolute top-0 right-0 h-2.5 w-2.5 bg-alert rounded-full border-2 border-bg-main"></span>
+</div>
+<div class="h-8 w-8 rounded-full bg-gradient-to-br from-primary to-accent overflow-hidden border border-white/10" data-alt="User avatar profile picture">
+<img alt="Nurse Sarah Profile" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7VKmOMCtVGF5C8F_IE-4eIunUaUUCBUw7CF-aLBFxYBGYiEPhCV-LIHtWdMu7NqHNyjhFKIIZPFwjteSGxScjdcqt9CHO-CZXkguHhnZVvrCQvh3Lypb8F88xaBAjcyRv1kuuIzdHoHrORimIvO_t4CLNwzuJLUfPXCGjaId7SRGpo9fETwgv7zxNvIuVArSSDDRZcqRr5lO3btePvKEsI8h99e9bxKzclSGDXMrHOx2jC8-SL3EDwzMOcMRmQi46pg-Pl0FhOr0"/>
+</div>
+</div>
+</header>
+<!-- Greeting -->
+<section class="px-5 pt-6 pb-2">
+<h2 class="text-2xl font-bold text-text-main">Good Evening, Sarah</h2>
+<p class="text-text-muted text-sm mt-1">Night Shift Supervisor • 4 RNs on duty</p>
+</section>
+<!-- Quick Stats Carousel -->
+<section class="mt-6 w-full overflow-x-auto scrollbar-hide pl-5 pb-4">
+<div class="flex gap-4 w-max pr-5">
+<!-- Stat 1 -->
+<div class="bg-bg-card p-4 rounded-xl w-[160px] border border-border-subtle shadow-sm flex flex-col justify-between h-[140px] relative group">
+<div class="flex justify-between items-start">
+<div class="bg-primary/20 p-2 rounded-lg text-primary">
+<span class="material-symbols-outlined text-xl">group</span>
+</div>
+<span class="text-xs font-medium text-accent bg-accent/10 px-2 py-0.5 rounded-full">+2%</span>
+</div>
+<div>
+<p class="text-text-muted text-xs font-medium uppercase tracking-wider mb-1">Total Residents</p>
+<p class="text-3xl font-bold text-text-main">42</p>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="bg-bg-card p-4 rounded-xl w-[160px] border border-border-subtle shadow-sm flex flex-col justify-between h-[140px]">
+<div class="flex justify-between items-start">
+<div class="bg-accent/20 p-2 rounded-lg text-accent">
+<span class="material-symbols-outlined text-xl">bed</span>
+</div>
+<span class="text-xs font-medium text-text-muted bg-white/5 px-2 py-0.5 rounded-full">Limited</span>
+</div>
+<div>
+<p class="text-text-muted text-xs font-medium uppercase tracking-wider mb-1">Available Beds</p>
+<p class="text-3xl font-bold text-text-main">6</p>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="bg-bg-card p-4 rounded-xl w-[160px] border border-border-subtle shadow-sm flex flex-col justify-between h-[140px]">
+<div class="flex justify-between items-start">
+<div class="bg-purple-500/20 p-2 rounded-lg text-purple-400">
+<span class="material-symbols-outlined text-xl">ecg_heart</span>
+</div>
+</div>
+<div>
+<p class="text-text-muted text-xs font-medium uppercase tracking-wider mb-1">Health Score</p>
+<p class="text-3xl font-bold text-text-main">94%</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Critical Alerts -->
+<section class="px-5 mt-4">
+<div class="flex items-center justify-between mb-3">
+<h3 class="text-lg font-bold text-text-main">Critical Alerts</h3>
+<span class="text-xs font-bold text-alert bg-alert/10 px-2 py-1 rounded-md">3 Active</span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Alert Card 1 -->
+<div class="bg-bg-card border-l-4 border-alert rounded-r-xl p-4 shadow-lg flex items-start gap-3 relative overflow-hidden">
+<div class="bg-alert/10 p-2 rounded-full shrink-0 mt-1">
+<span class="material-symbols-outlined text-alert text-xl">medication_liquid</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-text-main">Missed Insulin</h4>
+<span class="text-xs text-text-muted">12m ago</span>
+</div>
+<p class="text-sm text-text-muted mt-1">Maria Gonzalez • Room 304</p>
+<div class="mt-3 flex gap-2">
+<button class="px-3 py-1.5 bg-alert text-white text-xs font-semibold rounded-lg hover:bg-red-600 transition-colors">Resolve</button>
+<button class="px-3 py-1.5 bg-white/5 text-text-muted text-xs font-semibold rounded-lg hover:bg-white/10 transition-colors">Details</button>
+</div>
+</div>
+</div>
+<!-- Alert Card 2 -->
+<div class="bg-bg-card border-l-4 border-orange-500 rounded-r-xl p-4 shadow-lg flex items-start gap-3 relative overflow-hidden">
+<div class="bg-orange-500/10 p-2 rounded-full shrink-0 mt-1">
+<span class="material-symbols-outlined text-orange-500 text-xl">sensors_off</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-text-main">Sensor Offline</h4>
+<span class="text-xs text-text-muted">34m ago</span>
+</div>
+<p class="text-sm text-text-muted mt-1">Main Hallway • Camera 04</p>
+<button class="mt-3 text-orange-400 text-xs font-semibold flex items-center gap-1 hover:text-orange-300">
+                        View Maintenance Log <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Occupancy & Staff Grid -->
+<section class="px-5 mt-8 mb-6">
+<div class="grid grid-cols-1 gap-4">
+<!-- Occupancy Chart Card -->
+<div class="bg-bg-card rounded-xl border border-border-subtle p-5">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-bold text-text-main">Occupancy Trends</h3>
+<select class="bg-bg-main border border-border-subtle text-xs text-text-muted rounded px-2 py-1 outline-none">
+<option>This Week</option>
+<option>Last Week</option>
+</select>
+</div>
+<div class="relative h-48 w-full">
+<!-- Custom Chart Implementation with CSS/HTML -->
+<div class="absolute inset-0 flex items-end justify-between gap-2 px-2">
+<!-- Bar 1 -->
+<div class="w-full bg-white/5 rounded-t-sm relative group h-full flex items-end">
+<div class="w-full bg-primary/30 rounded-t-sm h-[60%] transition-all duration-500 group-hover:bg-primary/50 relative"></div>
+</div>
+<!-- Bar 2 -->
+<div class="w-full bg-white/5 rounded-t-sm relative group h-full flex items-end">
+<div class="w-full bg-primary/40 rounded-t-sm h-[45%] transition-all duration-500 group-hover:bg-primary/60 relative"></div>
+</div>
+<!-- Bar 3 -->
+<div class="w-full bg-white/5 rounded-t-sm relative group h-full flex items-end">
+<div class="w-full bg-primary/50 rounded-t-sm h-[75%] transition-all duration-500 group-hover:bg-primary/70 relative"></div>
+</div>
+<!-- Bar 4 -->
+<div class="w-full bg-white/5 rounded-t-sm relative group h-full flex items-end">
+<div class="w-full bg-primary/60 rounded-t-sm h-[50%] transition-all duration-500 group-hover:bg-primary/80 relative"></div>
+</div>
+<!-- Bar 5 -->
+<div class="w-full bg-white/5 rounded-t-sm relative group h-full flex items-end">
+<div class="w-full bg-primary/80 rounded-t-sm h-[85%] transition-all duration-500 group-hover:bg-primary relative"></div>
+</div>
+<!-- Bar 6 -->
+<div class="w-full bg-white/5 rounded-t-sm relative group h-full flex items-end">
+<div class="w-full bg-primary rounded-t-sm h-[88%] transition-all duration-500 group-hover:bg-blue-400 relative">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-white text-bg-main text-[10px] font-bold px-1.5 py-0.5 rounded shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">88%</div>
+</div>
+</div>
+<!-- Bar 7 -->
+<div class="w-full bg-white/5 rounded-t-sm relative group h-full flex items-end">
+<div class="w-full bg-primary/40 rounded-t-sm h-[65%] transition-all duration-500 group-hover:bg-primary/60 relative"></div>
+</div>
+</div>
+<!-- Axis Labels -->
+<div class="flex justify-between text-[10px] text-text-muted mt-2 px-2 font-medium">
+<span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+</div>
+</div>
+</div>
+<!-- Staff Checking In -->
+<div class="bg-bg-card rounded-xl border border-border-subtle p-5">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-bold text-text-main">Upcoming Check-ins</h3>
+<a class="text-primary text-xs font-semibold hover:text-blue-400" href="#">View Schedule</a>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-gray-700 overflow-hidden shrink-0 border border-border-subtle" data-alt="Staff member portrait">
+<img alt="Dr. John" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDigsaIfEKO-ljYI3ykCjA-hLIzFWgigz3aNY_K-XIrMl5pRUQmGQzD71L6--SgLsMev0dNfC9jMvYLyAh9dmQ98huByUQMKFJZgrMuRjjnpnFmuB0TVGnnlrXb4n0QRsuob0k5pjBkYy2HGcGGKn2fWAE13jr3dWJ2Io_Nt3xa6uS3qsH0Druyn9ijkfm0uJqQnNEeFAK11ONgrpBatdEwHNhulmi0ofSGItnSv322G7AeSmDvUWbZf3UgX8xmUyeRe-97Pj2gCns"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold text-text-main truncate">Dr. John Doe</p>
+<p class="text-xs text-text-muted truncate">Geriatric Specialist</p>
+</div>
+<div class="text-right shrink-0">
+<p class="text-xs font-bold text-accent">22:00</p>
+<p class="text-[10px] text-text-muted">On time</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-gray-700 overflow-hidden shrink-0 border border-border-subtle" data-alt="Staff member portrait">
+<img alt="Nurse Emily" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF6q2Wq2-psPysmYJG26GEOpz4al1_zNrqR78L0Oyz3KM8dJIhkBx134lbxHMP-2VcxUHwljmLfD7a_XJ2TKJIhDI6_mwl8ddcJSwcBIoR5GeR5CKHZM_VA2S0urbuf0xeE7-jrCLW2aN5yVKB01uR8_Yk6kOtT-_9fXsxLEMziYJFj-m8HYc3QZnAa6JWPue6D7pgDXSi-0cbzoMfV_KPmZh5oOn9d8l4kyBGusJDnA1BFTa_eailfo-o7PiehzyW4uVhAj2g2CA"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold text-text-main truncate">Emily R.</p>
+<p class="text-xs text-text-muted truncate">Night Nurse (RN)</p>
+</div>
+<div class="text-right shrink-0">
+<p class="text-xs font-bold text-text-main">22:00</p>
+<p class="text-[10px] text-text-muted">Expected</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 w-full bg-bg-card/90 backdrop-blur-lg border-t border-border-subtle px-2 pb-5 pt-3 flex justify-around items-center z-50">
+<a class="flex flex-col items-center gap-1 p-2 text-primary" href="#">
+<span class="material-symbols-outlined text-[26px]">dashboard</span>
+<span class="text-[10px] font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-text-muted hover:text-text-main transition-colors" href="#">
+<span class="material-symbols-outlined text-[26px]">elderly</span>
+<span class="text-[10px] font-medium">Residents</span>
+</a>
+<a class="relative p-3 bg-primary rounded-full -mt-6 shadow-lg shadow-primary/30 text-white flex items-center justify-center border-4 border-bg-main" href="#">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-text-muted hover:text-text-main transition-colors" href="#">
+<span class="material-symbols-outlined text-[26px]">calendar_month</span>
+<span class="text-[10px] font-medium">Schedule</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-text-muted hover:text-text-main transition-colors" href="#">
+<span class="material-symbols-outlined text-[26px]">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</a>
+</nav>
+</body></html>

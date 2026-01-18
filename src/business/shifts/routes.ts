@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router'
 
-import ShiftsPage from './presentation/pages/ShiftsPage.vue'
+import ShiftsPage from '@/business/shifts/presentation/pages/ShiftsPage.vue'
 
 export const shiftRoutes: RouteRecordRaw[] = [
 	{
