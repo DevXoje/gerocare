@@ -24,7 +24,8 @@
     "pinia": "3.0.4",
     "vue": "3.5.26",
     "vue-router": "4.6.4",
-    "vuefire": "3.2.2"
+    "vuefire": "3.2.2",
+    "zod": "^4.3.5"
   },
   "devDependencies": {
     "@faker-js/faker": "10.2.0",
@@ -42,6 +43,7 @@
     "@vue/tsconfig": "0.8.1",
     "eslint": "9.39.2",
     "eslint-plugin-playwright": "2.5.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-vue": "10.7.0",
     "firebase-tools": "15.3.1",
     "jiti": "2.6.1",

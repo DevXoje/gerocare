@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useSignUpForm } from '@/business/auth/app/useSignUpForm'
 import { RouterLink } from 'vue-router'
+
+import { useSignUpForm } from '@/business/auth/app/useSignUpForm'
 
 const { email, password, passwordConfirmation, loading, handleSubmit, handleGoogleSignIn } = useSignUpForm()
 </script>

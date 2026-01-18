@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import Select from '@/business/common/presentation/atoms/Select.vue'
 import { useTheme } from '@/shared/composables/useTheme'
 import { ThemeMode, themeModeOptions } from '@/shared/domain/Theme'
-import Select from '@/business/common/presentation/atoms/Select.vue'
 
 const { themeMode, setTheme } = useTheme()
 

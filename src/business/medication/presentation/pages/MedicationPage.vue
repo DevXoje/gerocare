@@ -1,0 +1,158 @@
+<script setup lang="ts">
+import { computed, onMounted,ref } from 'vue'
+import { useRoute } from 'vue-router'
+
+import Button from '@/business/common/presentation/atoms/Button.vue'
+import Tabs from '@/business/common/presentation/molecules/Tabs.vue'
+
+import { useMedication } from '../../app/useMedication'
+import MedicationForm from '../components/MedicationForm.vue'
+import MedicationList from '../components/MedicationList.vue'
+import MedicationSchedule from '../components/MedicationSchedule.vue'
+
+const route = useRoute()
+const residentId = computed(() => route.params.id as string | undefined)
+
+const {
+  medications,
+  administrations,
+  isLoading,
+  error,
+  loadMedicationsByResident,
+  loadMedication,
+  loadAdministrationHistory,
+  recordAdministration,
+} = useMedication()
+
+const showForm = ref(false)
+const activeTab = ref('schedule')
+
+const tabs = computed(() => [
+  { id: 'schedule', label: 'Horario', icon: '🕐' },
+  { id: 'list', label: 'Lista', icon: '💊' },
+  { id: 'history', label: 'Historial', icon: '📋' },
+])
+
+const handleCreateMedication = async () => {
+  showForm.value = true
+}
+
+const handleFormSubmit = async () => {
+  showForm.value = false
+  if (residentId.value) {
+    await loadMedicationsByResident(residentId.value)
+    await loadAdministrationHistory(undefined, residentId.value)
+  } else {
+    await loadMedicationsByResident('')
+  }
+}
+
+const handleAdminister = async (medication: unknown) => {
+  if (!residentId.value) return
+  const med = medication as { id: string }
+  await recordAdministration(med.id, residentId.value)
+  await loadAdministrationHistory(undefined, residentId.value)
+}
+
+const handleTabChange = (tabId: string) => {
+  activeTab.value = tabId
+  if (tabId === 'history' && residentId.value) {
+    loadAdministrationHistory(undefined, residentId.value)
+  }
+}
+
+onMounted(async () => {
+  if (residentId.value) {
+    await loadMedicationsByResident(residentId.value)
+    await loadAdministrationHistory(undefined, residentId.value)
+  } else {
+    await loadMedicationsByResident('')
+  }
+})
+</script>
+
+<template>
+  <div class="medication-page">
+    <div class="medication-page__header">
+      <h1 class="medication-page__title">Medicación</h1>
+      <Button variant="primary" @click="handleCreateMedication">Nueva Medicación</Button>
+    </div>
+
+    <Tabs :tabs="tabs" :model-value="activeTab" @update:model-value="handleTabChange">
+      <template v-if="activeTab === 'schedule'">
+        <MedicationSchedule
+          :medications="medications"
+          :administrations="administrations"
+          :on-administer="handleAdminister"
+        />
+      </template>
+
+      <template v-else-if="activeTab === 'list'">
+        <MedicationList :medications="medications" :is-loading="isLoading" :error="error?.message" />
+      </template>
+
+      <template v-else-if="activeTab === 'history'">
+        <div class="medication-page__history">
+          <h3>Historial de Administración</h3>
+          <!-- History component can be added later -->
+          <p>Historial de administraciones aparecerá aquí</p>
+        </div>
+      </template>
+    </Tabs>
+
+    <MedicationForm
+      v-model="showForm"
+      :resident-id="residentId"
+      @submit="handleFormSubmit"
+      @close="showForm = false"
+    />
+  </div>
+</template>
+
+<style scoped>
+.medication-page {
+  width: 100%;
+  padding: var(--spacing-xl);
+}
+
+.medication-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-2xl);
+  gap: var(--spacing-lg);
+}
+
+.medication-page__title {
+  margin: 0;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.medication-page__history {
+  padding: var(--spacing-xl);
+}
+
+.medication-page__history h3 {
+  margin: 0 0 var(--spacing-lg) 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 768px) {
+  .medication-page {
+    padding: var(--spacing-lg);
+  }
+
+  .medication-page__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .medication-page__title {
+    font-size: var(--font-size-xl);
+  }
+}
+</style>

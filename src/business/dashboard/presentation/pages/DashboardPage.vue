@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/business/auth/store'
+import { useDashboard } from '../../app/useDashboard'
+import QuickActions from '../components/QuickActions.vue'
+import RecentActivity from '../components/RecentActivity.vue'
+import StatCards from '../components/StatCards.vue'
 
-const authStore = useAuthStore()
-const user = authStore.user
+const { stats, recentActivities, quickActions, isLoading } = useDashboard()
 </script>
 
 <template>
@@ -10,16 +12,14 @@ const user = authStore.user
     <div class="dashboard-content">
       <h1 class="dashboard-title">Dashboard</h1>
 
-      <div class="user-info-card">
-        <h2>Información del Usuario</h2>
-        <div v-if="user" class="user-details">
-          <p><strong>UID:</strong> {{ user.uid }}</p>
-          <p v-if="user.email"><strong>Email:</strong> {{ user.email }}</p>
-          <p v-if="user.displayName"><strong>Nombre:</strong> {{ user.displayName }}</p>
-          <p><strong>Email Verificado:</strong> {{ user.emailVerified ? 'Sí' : 'No' }}</p>
+      <StatCards :stats="stats" @stat-click="() => {}" />
+
+      <div class="dashboard__grid">
+        <div class="dashboard__main">
+          <RecentActivity :activities="recentActivities" />
         </div>
-        <div v-else>
-          <p>Cargando información del usuario...</p>
+        <div class="dashboard__sidebar">
+          <QuickActions :actions="quickActions" />
         </div>
       </div>
     </div>
@@ -29,69 +29,38 @@ const user = authStore.user
 <style scoped>
 .dashboard-container {
   min-height: 100vh;
-  background-color: #f5f5f5;
   width: 100%;
 }
 
 .dashboard-content {
-  padding: 1.5rem;
-  max-width: 1200px;
+  padding: var(--spacing-xl);
+  max-width: 1400px;
   margin: 0 auto;
 }
 
-@media (min-width: 768px) {
-  .dashboard-content {
-    padding: 2rem;
-  }
-}
-
 .dashboard-title {
-  margin: 0 0 2rem 0;
-  color: #333;
-  font-size: 2rem;
-  font-weight: 600;
+  margin: 0 0 var(--spacing-2xl) 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
 }
 
-@media (max-width: 767px) {
-  .dashboard-title {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+.dashboard__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-xl);
+}
+
+@media (max-width: 1024px) {
+  .dashboard__grid {
+    grid-template-columns: 1fr;
   }
 }
 
-.user-info-card {
-  background: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-@media (min-width: 768px) {
-  .user-info-card {
-    padding: 2rem;
-  }
-}
-
-.user-info-card h2 {
-  margin: 0 0 1.5rem 0;
-  color: #333;
-  font-size: 1.25rem;
-}
-
-.user-details p {
-  margin: 0.75rem 0;
-  color: #555;
-  font-size: 0.9rem;
-}
-
-@media (min-width: 768px) {
-  .user-details p {
-    font-size: 1rem;
-  }
-}
-
-.user-details strong {
-  color: #333;
-  margin-right: 0.5rem;
+.dashboard__main,
+.dashboard__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
 }
 </style>

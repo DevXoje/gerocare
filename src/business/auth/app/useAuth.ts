@@ -1,6 +1,6 @@
-import { createAuthRepository } from '@/business/auth/infrastructure/FirestoreAuth'
 import type { AuthComposable } from '@/business/auth/domain/AuthComposable'
 import type { User } from '@/business/auth/domain/User'
+import { createAuthRepository } from '@/business/auth/infrastructure/FirestoreAuth'
 
 export const useAuth = (): AuthComposable => {
   const repository = createAuthRepository()

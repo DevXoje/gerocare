@@ -1,39 +1,20 @@
 <script setup lang="ts">
-import { useNotifications } from '@/shared/composables/useNotifications'
+import { recordIcon,useNotifications } from '@/shared/composables/useNotifications'
 
 const { notifications, removeNotification } = useNotifications()
 
-const getIcon = (type: string) => {
-  switch (type) {
-    case 'success':
-      return '✓'
-    case 'error':
-      return '✕'
-    case 'warning':
-      return '⚠'
-    case 'info':
-      return 'ℹ'
-    default:
-      return ''
-  }
-}
+
 </script>
 
 <template>
   <div class="notification-container">
     <TransitionGroup name="notification" tag="div">
-      <div
-        v-for="notification in notifications"
-        :key="notification.id"
-        :class="['notification', `notification--${notification.type}`]"
-      >
-        <div class="notification__icon">{{ getIcon(notification.type) }}</div>
+      <div v-for="notification in notifications" :key="notification.id"
+        :class="['notification', `notification--${notification.type}`]">
+        <div class="notification__icon">{{ recordIcon[notification.type] }}</div>
         <div class="notification__message">{{ notification.message }}</div>
-        <button
-          class="notification__close"
-          @click="removeNotification(notification.id)"
-          aria-label="Cerrar notificación"
-        >
+        <button class="notification__close" @click="removeNotification(notification.id)"
+          aria-label="Cerrar notificación">
           ✕
         </button>
       </div>
@@ -44,12 +25,12 @@ const getIcon = (type: string) => {
 <style scoped>
 .notification-container {
   position: fixed;
-  top: 1rem;
-  right: 1rem;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
   z-index: 9999;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--spacing-md);
   max-width: 400px;
   pointer-events: none;
 }
@@ -57,14 +38,14 @@ const getIcon = (type: string) => {
 .notification {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 1.25rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  background: white;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  background: var(--vt-c-white);
   pointer-events: auto;
   min-width: 300px;
-  animation: slideIn 0.3s ease-out;
+  animation: slideIn var(--transition-slow) ease-out;
 }
 
 .notification__icon {
@@ -74,16 +55,16 @@ const getIcon = (type: string) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  font-weight: bold;
-  font-size: 14px;
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
 }
 
 .notification__message {
   flex: 1;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #333;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
 }
 
 .notification__close {
@@ -91,34 +72,34 @@ const getIcon = (type: string) => {
   background: none;
   border: none;
   cursor: pointer;
-  color: #666;
-  font-size: 18px;
-  line-height: 1;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-tight);
   padding: 0;
   width: 20px;
   height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s;
+  transition: color var(--transition-base);
 }
 
 .notification__close:hover {
-  color: #333;
+  color: var(--color-text-primary);
 }
 
 .notification--success {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--token-color-primary-600) 0%, var(--token-color-primary-800) 100%);
+  color: var(--vt-c-white);
 }
 
 .notification--success .notification__icon {
   background: rgba(255, 255, 255, 0.2);
-  color: white;
+  color: var(--vt-c-white);
 }
 
 .notification--success .notification__message {
-  color: white;
+  color: var(--vt-c-white);
 }
 
 .notification--success .notification__close {
@@ -126,21 +107,21 @@ const getIcon = (type: string) => {
 }
 
 .notification--success .notification__close:hover {
-  color: white;
+  color: var(--vt-c-white);
 }
 
 .notification--error {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--token-color-error-500) 0%, var(--token-color-error-700) 100%);
+  color: var(--vt-c-white);
 }
 
 .notification--error .notification__icon {
   background: rgba(255, 255, 255, 0.2);
-  color: white;
+  color: var(--vt-c-white);
 }
 
 .notification--error .notification__message {
-  color: white;
+  color: var(--vt-c-white);
 }
 
 .notification--error .notification__close {
@@ -148,21 +129,21 @@ const getIcon = (type: string) => {
 }
 
 .notification--error .notification__close:hover {
-  color: white;
+  color: var(--vt-c-white);
 }
 
 .notification--warning {
-  background: linear-gradient(135deg, #fad961 0%, #f76b1c 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--token-color-warning-500) 0%, var(--token-color-warning-700) 100%);
+  color: var(--vt-c-white);
 }
 
 .notification--warning .notification__icon {
   background: rgba(255, 255, 255, 0.2);
-  color: white;
+  color: var(--vt-c-white);
 }
 
 .notification--warning .notification__message {
-  color: white;
+  color: var(--vt-c-white);
 }
 
 .notification--warning .notification__close {
@@ -170,21 +151,21 @@ const getIcon = (type: string) => {
 }
 
 .notification--warning .notification__close:hover {
-  color: white;
+  color: var(--vt-c-white);
 }
 
 .notification--info {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--token-color-info-500) 0%, var(--token-color-info-700) 100%);
+  color: var(--vt-c-white);
 }
 
 .notification--info .notification__icon {
   background: rgba(255, 255, 255, 0.2);
-  color: white;
+  color: var(--vt-c-white);
 }
 
 .notification--info .notification__message {
-  color: white;
+  color: var(--vt-c-white);
 }
 
 .notification--info .notification__close {
@@ -192,7 +173,7 @@ const getIcon = (type: string) => {
 }
 
 .notification--info .notification__close:hover {
-  color: white;
+  color: var(--vt-c-white);
 }
 
 @keyframes slideIn {
@@ -200,6 +181,7 @@ const getIcon = (type: string) => {
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -207,11 +189,11 @@ const getIcon = (type: string) => {
 }
 
 .notification-enter-active {
-  transition: all 0.3s ease-out;
+  transition: all var(--transition-slow) ease-out;
 }
 
 .notification-leave-active {
-  transition: all 0.3s ease-in;
+  transition: all var(--transition-slow) ease-in;
 }
 
 .notification-enter-from {
@@ -225,7 +207,6 @@ const getIcon = (type: string) => {
 }
 
 .notification-move {
-  transition: transform 0.3s ease;
+  transition: transform var(--transition-slow) ease;
 }
 </style>
-

@@ -1,4 +1,4 @@
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted,ref } from 'vue'
 
 // Estado compartido global para el sidebar
 const isOpen = ref(false)

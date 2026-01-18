@@ -1,8 +1,10 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { useSignUpForm } from '../useSignUpForm'
-import { Ok, Err } from '@/shared/domain/Result'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+import { createEmailAlreadyInUseError, createUnknownAuthError,createWeakPasswordError } from '@/business/auth/domain/AuthErrors'
+import { Err,Ok } from '@/shared/domain/Result'
 import { createTestUser } from '@/test/helpers/auth'
-import { createEmailAlreadyInUseError, createWeakPasswordError, createUnknownAuthError } from '@/business/auth/domain/AuthErrors'
+
+import { useSignUpForm } from '../useSignUpForm'
 
 // Mock useAuth
 const mockSignUp = vi.fn()

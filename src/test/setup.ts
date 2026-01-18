@@ -1,9 +1,9 @@
-import { beforeAll, afterAll, afterEach } from 'vitest'
-import { initializeApp } from 'firebase/app'
-import { getFirestore, connectFirestoreEmulator, collection, getDocs, deleteDoc, doc } from 'firebase/firestore'
-
 // Import custom matchers
 import './matchers/customMatchers'
+
+import { initializeApp } from 'firebase/app'
+import { collection, connectFirestoreEmulator, deleteDoc, doc,getDocs, getFirestore } from 'firebase/firestore'
+import { afterAll, afterEach,beforeAll } from 'vitest'
 
 // Firebase config for tests
 const testFirebaseConfig = {

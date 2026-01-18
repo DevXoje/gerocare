@@ -1,9 +1,11 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { setActivePinia, createPinia } from 'pinia'
-import { useResidentStore } from '../store'
-import { createTestResident } from '@/test/helpers/residents'
-import { createResidentRepository } from '../infrastructure'
+import { createPinia,setActivePinia } from 'pinia'
+import { beforeEach,describe, expect, it } from 'vitest'
 import { vi } from 'vitest'
+
+import { createTestResident } from '@/test/helpers/residents'
+
+import { createResidentRepository } from '../infrastructure'
+import { useResidentStore } from '../store'
 
 vi.mock('../infrastructure', () => ({
   createResidentRepository: vi.fn(),
@@ -53,7 +55,7 @@ describe('Resident Store', () => {
       await store.fetchResidents('caregiver-1')
 
       expect(store.residents).toHaveLength(2)
-      expect(store.residents[0].id).toBe('resident-1')
+      expect(store.residents[0]?.id).toBe('resident-1')
     })
 
     it('should set loading state during fetch', async () => {
@@ -111,7 +113,7 @@ describe('Resident Store', () => {
 
       const residents = store.residentsByCaregiver('caregiver-1')
       expect(residents).toHaveLength(1)
-      expect(residents[0].id).toBe('resident-1')
+      expect(residents[0]?.id).toBe('resident-1')
     })
   })
 })

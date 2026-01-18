@@ -4,17 +4,18 @@ description: >
   Extracts generated mockup images from Google Stitch project pages.
   Use when user provides a Stitch project URL (stitch.withgoogle.com/projects/...),
   mentions extracting/downloading Stitch mockups, saving Stitch designs, or wants to
-  archive generated design assets. Requires authenticated Chrome browser profile.
-allowed-tools: Read, Write, Bash, Grep, Glob
+  archive generated design assets. Uses Cursor's built-in browser (MCP browser tools).
+allowed-tools: Read, Write, Bash, Grep, Glob, Browser
 ---
 
 # Extract Stitch Mockups
 
 ## Quick Start
 1. **Get project URL** - User provides `https://stitch.withgoogle.com/projects/{id}`
-2. **Resolve feature directory** - Determine where to save using fallback chain
-3. **Run extraction script** - Execute `scripts/extract_images.py` with Playwright
-4. **Save to exports** - Images saved to `design-intent/google-stitch/{feature}/exports/`
+2. **Navigate to URL** - Use Cursor's built-in browser (`mcp_cursor-ide-browser_browser_navigate`)
+3. **Extract image URLs** - Get snapshot and parse DOM for image URLs (`lh3.googleusercontent.com/aida/`)
+4. **Download images** - Use `urllib.request` or utility script to download images
+5. **Save to exports** - Images saved to `design-intent/google-stitch/{feature}/exports/`
 
 ---
 
@@ -37,20 +38,31 @@ Determine target feature directory using this fallback chain:
 ## Extraction Process
 
 ### Prerequisites
-- Chrome browser with active Google session
-- uv installed (https://github.com/astral-sh/uv)
-- Playwright browsers: `uv run playwright install chromium`
+- Cursor IDE with built-in browser (MCP browser tools)
+- Active Google session in Cursor's browser
 
-### Script Execution
-```bash
-# Basic usage
-uv run scripts/extract_images.py "https://stitch.withgoogle.com/projects/123"
+### Extraction Steps
 
-# With explicit feature directory
-uv run scripts/extract_images.py "https://stitch.withgoogle.com/projects/123" --feature dashboard
+1. **Navigate to Stitch URL** using `mcp_cursor-ide-browser_browser_navigate`
+2. **Wait for page load** and check if generation is complete
+3. **Take DOM snapshot** using `mcp_cursor-ide-browser_browser_snapshot`
+4. **Parse snapshot** to find `<img>` elements with `src` containing `lh3.googleusercontent.com/aida/`
+5. **Extract image URLs** from the parsed snapshot
+6. **Download images** using `urllib.request.urlretrieve()` or the utility script
+7. **Save images** to `design-intent/google-stitch/{feature}/exports/`
 
-# Or run directly (after chmod +x)
-./scripts/extract_images.py "https://stitch.withgoogle.com/projects/123"
+### Utility Script (Optional)
+
+The Python script provides utility functions for directory resolution and downloading:
+
+```python
+from extract_images import resolve_output_dir, download_images
+
+# Resolve output directory
+output_dir = resolve_output_dir(project_title="My Project", feature="dashboard")
+
+# Download images
+saved_files = download_images(image_urls=["url1", "url2"], output_dir=output_dir)
 ```
 
 ### Image Filtering
@@ -111,13 +123,14 @@ Feature directory:
 
 ## Common Issues
 
-- **Not authenticated** - Open Chrome, sign into Google, then retry
-- **Still generating** - Wait for Stitch to complete, then retry
-- **No feature directory** - Run authoring-stitch-prompts first, or specify `--feature`
+- **Not authenticated** - Sign into Google in Cursor's browser, then retry
+- **Still generating** - Wait for Stitch to complete generation, then retry
+- **No images found** - Verify project has completed generating and check snapshot for image elements
+- **No feature directory** - Run authoring-stitch-prompts first, or specify feature directory
 
 See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for detailed solutions.
 
 ## Reference Files
-- [WORKFLOW.md](WORKFLOW.md) - Detailed browser automation steps
+- [WORKFLOW.md](WORKFLOW.md) - Detailed extraction workflow using MCP browser tools
 - [EXAMPLES.md](EXAMPLES.md) - Sample extractions
-- [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - Error handling
+- [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - Error handling and common issues

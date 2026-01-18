@@ -6,62 +6,33 @@ Common issues and solutions for mockup extraction.
 
 ## Installation Issues
 
-### Playwright Not Installed
+### Browser Not Available
 
 **Error:**
 ```
-Error: Playwright not installed.
+Browser tools not available
 ```
 
 **Solution:**
-The script uses uv with inline dependencies, so playwright installs automatically. You just need to install the browser:
-```bash
-uv run playwright install chromium
-```
-
-### uv Not Installed
-
-**Error:**
-```
-uv: command not found
-```
-
-**Solution:**
-Install uv: https://github.com/astral-sh/uv
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-### Chrome Not Found
-
-**Error:**
-```
-Error: Chrome profile not found.
-Expected location: ~/Library/Application Support/Google/Chrome
-```
-
-**Solution:**
-1. Install Google Chrome if not present
-2. Launch Chrome at least once to create profile
-3. Verify path exists: `ls ~/Library/Application\ Support/Google/Chrome`
+Ensure you're using Cursor IDE with the built-in browser (MCP browser tools). The browser is automatically available in Cursor.
 
 ---
+
 
 ## Authentication Issues
 
 ### Not Signed Into Google
 
 **Symptoms:**
-- Browser opens but redirects to sign-in page
+- Browser redirects to sign-in page
 - No images captured
-- Script times out
+- Snapshot shows sign-in prompt
 
 **Solution:**
-1. Open Chrome manually
-2. Navigate to `https://stitch.withgoogle.com`
-3. Sign in with your Google account
-4. Close Chrome
-5. Re-run extraction script
+1. Navigate to `https://stitch.withgoogle.com` in Cursor's browser
+2. Sign in with your Google account
+3. The browser maintains the session automatically
+4. Re-run extraction
 
 ### Session Expired
 
@@ -70,18 +41,7 @@ Expected location: ~/Library/Application Support/Google/Chrome
 - Redirects to sign-in
 
 **Solution:**
-Same as above - refresh Google session in Chrome.
-
-### Multiple Chrome Profiles
-
-**Symptoms:**
-- Signed in on one profile but script uses another
-
-**Solution:**
-Script uses default profile. Either:
-1. Sign into Google on the default profile
-2. Copy session cookies to default profile
-3. Modify script to use specific profile path
+Refresh Google session in Cursor's browser. Navigate to Stitch and sign in again if needed.
 
 ---
 
@@ -107,11 +67,15 @@ Make sure the project has completed generating.
 
 3. **Page didn't fully load**
    - Network issues or slow connection
-   - Solution: Increase wait time in script (edit `wait_for_timeout` values)
+   - Solution: Wait longer after navigation (use `browser_wait_for` with more time)
 
 4. **URL pattern changed**
    - Google updated image hosting
-   - Solution: Check DevTools Network tab for new URL patterns
+   - Solution: Check snapshot for image elements and verify URL patterns in `src` attributes
+
+5. **Snapshot parsing issue**
+   - Image URLs not found in DOM snapshot
+   - Solution: Inspect snapshot structure and adjust parsing logic
 
 ### Still Generating
 
@@ -136,9 +100,10 @@ Please wait for generation to complete and try again.
 Image filtering not strict enough.
 
 **Solution:**
-The script filters for `lh3.googleusercontent.com/aida/` URLs which should only contain mockups. If wrong images appear:
-1. Check the actual URLs of unwanted images
-2. Add additional filtering in script's `handle_response` function
+Filter for `lh3.googleusercontent.com/aida/` URLs in the `src` attribute of `<img>` elements. If wrong images appear:
+1. Check the actual URLs of unwanted images in the snapshot
+2. Add additional filtering in the snapshot parsing logic
+3. Verify the image element's dimensions or other attributes if needed
 
 ---
 
@@ -216,8 +181,14 @@ PermissionError: [Errno 13] Permission denied: 'design-intent/google-stitch/feat
 ```
 
 **Solution:**
+Ensure the output directory is writable:
 ```bash
 chmod -R u+w design-intent/google-stitch/
+```
+
+Or create the directory structure first:
+```bash
+mkdir -p design-intent/google-stitch/{feature}/exports
 ```
 
 ### Directory Already Has Files
@@ -236,8 +207,8 @@ Script overwrites existing `mockup-*.png` files.
 ### Slow Extraction
 
 **Symptoms:**
-- Script takes >30 seconds
-- Browser appears frozen
+- Extraction takes >30 seconds
+- Page loads slowly
 
 **Possible causes:**
 1. Slow network connection
@@ -246,42 +217,32 @@ Script overwrites existing `mockup-*.png` files.
 
 **Solutions:**
 1. Check internet connection
-2. Close other browser tabs/windows
-3. Increase timeout values if needed
-
-### Browser Doesn't Close
-
-**Symptoms:**
-- Script completes but Chrome window stays open
-
-**Solution:**
-This can happen if script errors before `browser.close()`. Manually close Chrome, then fix the underlying error.
+2. Wait longer for page load using `browser_wait_for`
+3. Verify project generation is complete before extraction
 
 ---
 
 ## Debugging
 
-### Enable Verbose Output
+### Check Snapshot Content
 
-Set environment variable for JSON output:
-```bash
-OUTPUT_JSON=1 python scripts/extract_images.py "<url>"
-```
-
-### Check Network Traffic
-
-1. Open Chrome DevTools (F12)
-2. Go to Network tab
-3. Navigate to Stitch project
-4. Filter by "Img" type
-5. Verify `lh3.googleusercontent.com/aida/` images appear
+1. Take a snapshot after navigating to the Stitch URL
+2. Inspect the snapshot structure to find image elements
+3. Verify image URLs contain `lh3.googleusercontent.com/aida/`
 
 ### Manual Inspection
 
-1. Run script with browser visible (default)
-2. Watch what happens in Chrome
-3. Note any redirects or errors
-4. Check page content after load
+1. Navigate to the Stitch project URL in Cursor's browser
+2. Take a snapshot to see the page structure
+3. Check if "Generating..." text is present
+4. Verify mockup images are visible in the page
+5. Inspect image elements in the snapshot
+
+### Verify Image URLs
+
+1. Parse the snapshot to find all `<img>` elements
+2. Filter for `src` attributes containing `lh3.googleusercontent.com/aida/`
+3. Verify these URLs are valid and accessible
 
 ---
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+
 import { useResidents } from '../../app/useResidents'
 import ResidentDetail from '../components/ResidentDetail.vue'
 

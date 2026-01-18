@@ -1,6 +1,7 @@
-import { vi } from 'vitest'
 import { faker } from '@faker-js/faker'
 import type { User as FirebaseUser } from 'firebase/auth'
+import { vi } from 'vitest'
+
 import type { User } from '@/business/auth/domain/User'
 
 /**
@@ -40,32 +41,32 @@ export function createUserFactory(
 
   const builder: UserFactoryBuilder = {
     withId(uid: string) {
-      user.uid = uid
+      user = { ...user, uid }
       return builder
     },
 
     withEmail(email: string) {
-      user.email = email
+      user = { ...user, email }
       return builder
     },
 
     withDisplayName(displayName: string) {
-      user.displayName = displayName
+      user = { ...user, displayName }
       return builder
     },
 
     withPhotoURL(photoURL: string | null) {
-      user.photoURL = photoURL
+      user = { ...user, photoURL }
       return builder
     },
 
     withEmailVerified(verified: boolean) {
-      user.emailVerified = verified
+      user = { ...user, emailVerified: verified }
       return builder
     },
 
     withAnonymous(isAnonymous: boolean) {
-      user.isAnonymous = isAnonymous
+      user = { ...user, isAnonymous }
       return builder
     },
 

@@ -1,24 +1,28 @@
 import {
-  collection,
-  doc,
   addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  type Firestore,
   getDoc,
   getDocs,
-  updateDoc,
-  deleteDoc,
   query,
-  where,
   Timestamp,
-  type Firestore,
+  updateDoc,
+  where,
 } from 'firebase/firestore'
-import type { ResidentRepository } from '../domain/ResidentRepository'
+
+import { Err,Ok, type Result } from '@/shared/domain/Result'
+
 import type { Resident } from '../domain/Resident'
+import { ResidentSchema } from '../domain/Resident.schema'
 import type { ResidentError } from '../domain/ResidentErrors'
 import {
   createResidentNotFoundError,
+  createResidentValidationError,
   createUnknownResidentError,
 } from '../domain/ResidentErrors'
-import { type Result, Ok, Err } from '@/shared/domain/Result'
+import type { ResidentRepository } from '../domain/ResidentRepository'
 
 type TimestampLike = Timestamp | Date | string | { toDate?: () => Date }
 
@@ -46,20 +50,39 @@ function dateToTimestamp(date: Date): Timestamp {
 }
 
 /**
- * Convert Firestore document to Resident entity
+ * Convert Firestore document to Resident entity with Zod validation
  */
-function firestoreDocToResident(docId: string, data: Record<string, unknown>): Resident {
-  return {
-    id: docId,
-    firstName: data.firstName as string,
-    lastName: data.lastName as string,
-    dateOfBirth: timestampToDate(data.dateOfBirth as TimestampLike),
-    photoURL: data.photoURL as string | undefined,
-    medicalInfo: data.medicalInfo as Resident['medicalInfo'],
-    emergencyContacts: (data.emergencyContacts as Resident['emergencyContacts']) || [],
-    assignedCaregivers: (data.assignedCaregivers as string[]) || [],
-    createdAt: timestampToDate(data.createdAt as TimestampLike),
-    updatedAt: timestampToDate(data.updatedAt as TimestampLike),
+function firestoreDocToResident(docId: string, data: Record<string, unknown>): Result<Resident, ResidentError> {
+  try {
+    // Convert Firestore Timestamp to Date
+    const residentData = {
+      id: docId,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      dateOfBirth: timestampToDate(data.dateOfBirth as TimestampLike),
+      medicalInfo: data.medicalInfo || {
+        allergies: [],
+        chronicConditions: [],
+        medications: [],
+        dietaryRestrictions: [],
+      },
+      emergencyContacts: data.emergencyContacts || [],
+      assignedCaregivers: data.assignedCaregivers || [],
+      createdAt: timestampToDate(data.createdAt as TimestampLike),
+      updatedAt: timestampToDate(data.updatedAt as TimestampLike),
+    }
+
+    // Validate with Zod schema
+    const result = ResidentSchema.safeParse(residentData)
+
+    if (!result.success) {
+      const firstError = result.error.issues[0]
+      return Err(createResidentValidationError(`Invalid resident data from Firestore: ${firstError?.message || 'Validation failed'}`))
+    }
+
+    return Ok(result.data)
+  } catch (error) {
+    return Err(createUnknownResidentError('Failed to convert Firestore document to Resident'))
   }
 }
 
@@ -105,8 +128,11 @@ export function createResidentRepository(db: Firestore): ResidentRepository {
         return Ok(null)
       }
 
-      const resident = firestoreDocToResident(docSnap.id, docData)
-      return Ok(resident)
+      const residentResult = firestoreDocToResident(docSnap.id, docData)
+      if (!residentResult.success) {
+        return residentResult
+      }
+      return Ok(residentResult.value)
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to find resident'
       return Err(createUnknownResidentError(message))
@@ -116,7 +142,15 @@ export function createResidentRepository(db: Firestore): ResidentRepository {
   async function findAll(): Promise<Result<Resident[], ResidentError>> {
     try {
       const querySnapshot = await getDocs(collection(db, collectionName))
-      const residents = querySnapshot.docs.map((doc) => firestoreDocToResident(doc.id, doc.data()))
+      const residentResults = querySnapshot.docs.map((doc) => firestoreDocToResident(doc.id, doc.data()))
+      
+      // Check for validation errors
+      const errors = residentResults.filter((r) => !r.success)
+      if (errors.length > 0) {
+        return errors[0] as Result<Resident[], ResidentError>
+      }
+
+      const residents = residentResults.map((r) => (r.success ? r.value : null)).filter((r): r is Resident => r !== null)
       return Ok(residents)
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to find residents'
@@ -131,7 +165,15 @@ export function createResidentRepository(db: Firestore): ResidentRepository {
         where('assignedCaregivers', 'array-contains', caregiverId)
       )
       const querySnapshot = await getDocs(q)
-      const residents = querySnapshot.docs.map((doc) => firestoreDocToResident(doc.id, doc.data()))
+      const residentResults = querySnapshot.docs.map((doc) => firestoreDocToResident(doc.id, doc.data()))
+      
+      // Check for validation errors
+      const errors = residentResults.filter((r) => !r.success)
+      if (errors.length > 0) {
+        return errors[0] as Result<Resident[], ResidentError>
+      }
+
+      const residents = residentResults.map((r) => (r.success ? r.value : null)).filter((r): r is Resident => r !== null)
       return Ok(residents)
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to find residents by caregiver'
@@ -166,9 +208,13 @@ export function createResidentRepository(db: Firestore): ResidentRepository {
       if (!updatedData) {
         return Err(createResidentNotFoundError(`Resident with id ${id} not found after update`))
       }
-      const resident = firestoreDocToResident(updatedDoc.id, updatedData)
+      const residentResult = firestoreDocToResident(updatedDoc.id, updatedData)
+      
+      if (!residentResult.success) {
+        return residentResult
+      }
 
-      return Ok(resident)
+      return Ok(residentResult.value)
     } catch (error) {
       if (error && typeof error === 'object' && 'code' in error && error.code === 'not-found') {
         return Err(createResidentNotFoundError(`Resident with id ${id} not found`))

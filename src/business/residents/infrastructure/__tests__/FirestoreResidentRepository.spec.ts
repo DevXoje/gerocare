@@ -1,8 +1,10 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { testDb } from '@/test/setup'
-import { createResidentRepository } from '../FirestoreResidentRepository'
-import type { ResidentRepository } from '../../domain/ResidentRepository'
+import { beforeEach,describe, expect, it } from 'vitest'
+
 import { createTestResident } from '@/test/helpers/residents'
+import { testDb } from '@/test/setup'
+
+import type { ResidentRepository } from '../../domain/ResidentRepository'
+import { createResidentRepository } from '../FirestoreResidentRepository'
 
 describe('FirestoreResidentRepository', () => {
   let repository: ResidentRepository
@@ -169,7 +171,7 @@ describe('FirestoreResidentRepository', () => {
       expect(result.success).toBe(true)
       if (result.success) {
         expect(result.value.length).toBe(1)
-        expect(result.value[0].assignedCaregivers).toContain('caregiver-1')
+        expect(result.value[0]?.assignedCaregivers).toContain('caregiver-1')
       }
     })
   })

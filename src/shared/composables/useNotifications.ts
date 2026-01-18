@@ -1,6 +1,12 @@
 import { ref } from 'vue'
 
 export type NotificationType = 'success' | 'error' | 'warning' | 'info'
+export const recordIcon:Record<NotificationType, string> = {
+  success: '✓',
+  error: '✕',
+  warning: '⚠',
+  info: 'ℹ',
+}
 
 export interface Notification {
   id: string
@@ -24,36 +30,36 @@ export const useNotifications = () => {
       message,
       duration,
     }
-    
+
     notifications.value.push(notification)
-    
+
     if (duration > 0) {
       setTimeout(() => {
         removeNotification(id)
       }, duration)
     }
   }
-  
+
   const removeNotification = (id: string) => {
     notifications.value = notifications.value.filter(n => n.id !== id)
   }
-  
+
   const success = (message: string, duration?: number) => {
     addNotification('success', message, duration)
   }
-  
+
   const error = (message: string, duration?: number) => {
     addNotification('error', message, duration)
   }
-  
+
   const warning = (message: string, duration?: number) => {
     addNotification('warning', message, duration)
   }
-  
+
   const info = (message: string, duration?: number) => {
     addNotification('info', message, duration)
   }
-  
+
   return {
     notifications,
     addNotification,

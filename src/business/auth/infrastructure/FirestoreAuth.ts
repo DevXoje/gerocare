@@ -1,21 +1,22 @@
-import { signInWithEmailAndPassword, signOut as firebaseSignOut, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, sendEmailVerification, type UserCredential } from 'firebase/auth'
-import { auth } from '@/infrastructure/firebase/firebase.config'
-import type { AuthRepository } from '@/business/auth/domain/AuthRepository'
 import { FirebaseError } from 'firebase/app'
-import { Ok, Err, type Result } from '@/shared/domain/Result'
+import { createUserWithEmailAndPassword, GoogleAuthProvider, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut as firebaseSignOut, type UserCredential } from 'firebase/auth'
+
 import type { AuthError } from '@/business/auth/domain/AuthErrors'
 import {
-  createInvalidCredentialsError,
-  createUserNotFoundError,
-  createTooManyRequestsError,
-  createUserDisabledError,
-  createOperationNotAllowedError,
-  createInvalidEmailError,
   createEmailAlreadyInUseError,
-  createWeakPasswordError,
+  createInvalidCredentialsError,
+  createInvalidEmailError,
+  createOperationNotAllowedError,
+  createTooManyRequestsError,
   createUnknownAuthError,
+  createUserDisabledError,
+  createUserNotFoundError,
+  createWeakPasswordError,
 } from '@/business/auth/domain/AuthErrors'
+import type { AuthRepository } from '@/business/auth/domain/AuthRepository'
 import type { User } from '@/business/auth/domain/User'
+import { auth } from '@/infrastructure/firebase/firebase.config'
+import { Err, Ok, type Result } from '@/shared/domain/Result'
 
 const googleProvider = new GoogleAuthProvider()
 

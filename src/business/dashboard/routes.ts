@@ -1,5 +1,6 @@
-import DashboardPage from "@/business/dashboard/presentation/pages/DashboardPage.vue";
 import type { RouteRecordRaw } from "vue-router";
+
+import DashboardPage from "@/business/dashboard/presentation/pages/DashboardPage.vue";
 
 export const dashboardRoutes: RouteRecordRaw[] = [
   {

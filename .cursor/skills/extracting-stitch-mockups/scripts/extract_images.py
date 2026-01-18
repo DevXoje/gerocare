@@ -1,24 +1,25 @@
-#!/usr/bin/env -S uv run --script
-# /// script
-# requires-python = ">=3.9"
-# dependencies = [
-#     "playwright>=1.50.0",
-# ]
-# ///
+#!/usr/bin/env python3
 """
-Extract mockup images from Google Stitch project pages.
+Utility functions for extracting mockup images from Google Stitch project pages.
 
-Requires:
-- uv (https://github.com/astral-sh/uv)
-- Authenticated Chrome profile with Google session
-- Playwright browsers: uv run playwright install chromium
+This script provides utility functions for:
+- Resolving feature directories
+- Normalizing feature names
+- Downloading images from URLs
+- Saving images to the correct directory structure
+
+Note: The actual extraction uses Cursor's built-in browser (MCP browser tools).
+The AI assistant navigates to the Stitch URL, extracts image URLs from the DOM snapshot,
+and then uses these utilities to download and save the images.
 
 Usage:
-    uv run extract_images.py <project_url> [--feature <name>] [--output <dir>]
-
-    # Or make executable and run directly:
-    chmod +x extract_images.py
-    ./extract_images.py <project_url>
+    python extract_images.py <image_urls...> [--feature <name>] [--output <dir>]
+    
+    # Or use as a module:
+    from extract_images import resolve_output_dir, download_images
+    
+    output_dir = resolve_output_dir(project_title="My Project", feature=None)
+    download_images(image_urls=["url1", "url2"], output_dir=output_dir)
 """
 
 import argparse
@@ -29,15 +30,6 @@ import subprocess
 import sys
 import urllib.request
 from pathlib import Path
-
-
-def get_chrome_profile_path():
-    """Get default Chrome profile path for macOS."""
-    home = Path.home()
-    profile_path = home / "Library" / "Application Support" / "Google" / "Chrome"
-    if profile_path.exists():
-        return str(profile_path)
-    return None
 
 
 def get_repo_root():
@@ -102,182 +94,83 @@ def match_feature_directory(project_title, existing_features):
     return None
 
 
-def extract_mockups(url, feature=None, output_dir=None):
-    """Extract mockup images from Stitch project page."""
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError:
-        print("Error: Playwright not installed.")
-        print("Install browsers with: uv run playwright install chromium")
-        sys.exit(1)
-
-    # Validate URL
-    if "stitch.withgoogle.com/projects/" not in url:
-        print(f"Error: Invalid Stitch project URL: {url}")
-        print("Expected format: https://stitch.withgoogle.com/projects/<id>")
-        sys.exit(1)
-    print(f"✓ URL validated")
-
-    chrome_profile = get_chrome_profile_path()
-    if not chrome_profile:
-        print("Error: Chrome profile not found.")
-        print("Expected location: ~/Library/Application Support/Google/Chrome")
-        sys.exit(1)
-    print(f"✓ Chrome profile found: {chrome_profile}")
-
+def resolve_output_dir(project_title, feature=None, output_dir=None):
+    """Resolve output directory for saving images."""
     repo_root = get_repo_root()
-    print(f"✓ Repository root: {repo_root}")
-
-    collected_images = []
-    project_title = None
-
-    print("Launching Chrome browser with authenticated profile...")
-    with sync_playwright() as p:
-        # Launch Chrome with user profile for authentication
-        browser = p.chromium.launch_persistent_context(
-            user_data_dir=chrome_profile,
-            channel="chrome",
-            headless=False,
-            args=["--disable-blink-features=AutomationControlled"]
-        )
-
-        page = browser.pages[0] if browser.pages else browser.new_page()
-        print("✓ Browser launched")
-
-        # Track image responses
-        def handle_response(response):
-            try:
-                if response.request.resource_type == "image":
-                    img_url = response.url
-                    # Filter for Stitch mockup images
-                    if "lh3.googleusercontent.com/aida/" in img_url:
-                        collected_images.append({
-                            "url": img_url,
-                            "body": response.body()
-                        })
-                        print(f"  → Captured mockup image ({len(collected_images)})")
-            except Exception:
-                pass  # Ignore failed image responses
-
-        page.on("response", handle_response)
-
-        print(f"Navigating to: {url}")
-        page.goto(url, wait_until="networkidle")
-        print("✓ Page loaded (network idle)")
-
-        # Wait for content to load
-        print("Waiting for content to render (3s)...")
-        page.wait_for_timeout(3000)
-
-        # Check if still generating
-        print("Checking generation status...")
-        page_content = page.content()
-        if "Generating" in page_content and "estimated time" in page_content.lower():
-            print("Error: Project is still generating.")
-            print("Please wait for generation to complete and try again.")
-            browser.close()
-            sys.exit(1)
-        print("✓ Generation complete")
-
-        # Extract project title
-        print("Extracting project metadata...")
-        try:
-            title_element = page.query_selector('h1, [class*="title"], [class*="project-name"]')
-            if title_element:
-                project_title = title_element.inner_text().strip()
-        except Exception:
-            pass
-
-        if not project_title:
-            # Fallback: extract from URL
-            project_id = url.split("/projects/")[-1].split("/")[0].split("?")[0]
-            project_title = f"stitch-project-{project_id}"
-
-        print(f"✓ Project title: {project_title}")
-
-        # Wait a bit more for lazy-loaded images
-        print("Waiting for lazy-loaded images (2s)...")
-        page.wait_for_timeout(2000)
-
-        print("Closing browser...")
-        browser.close()
-        print("✓ Browser closed")
-
-    if not collected_images:
-        print("No mockup images found on the page.")
-        print("Make sure the project has completed generating.")
-        sys.exit(1)
-
-    # Filter images by size (>= 400px typically indicates mockups)
-    # We'll save all collected images since they're already filtered by URL pattern
-    print(f"✓ Found {len(collected_images)} mockup images")
-    print("\nResolving output directory...")
-
+    
     # Determine output directory
     if output_dir:
-        save_dir = Path(output_dir)
+        return Path(output_dir)
     elif feature:
-        save_dir = repo_root / "design-intent" / "google-stitch" / feature / "exports"
+        return repo_root / "design-intent" / "google-stitch" / feature / "exports"
     else:
         # Try to auto-detect feature directory
         existing_features = find_existing_features(repo_root)
         matched_feature = match_feature_directory(project_title, existing_features)
 
         if matched_feature:
-            print(f"Auto-detected feature directory: {matched_feature}")
-            save_dir = repo_root / "design-intent" / "google-stitch" / matched_feature / "exports"
+            return repo_root / "design-intent" / "google-stitch" / matched_feature / "exports"
         elif existing_features:
             print("\nCould not auto-detect feature directory.")
             print("Existing feature directories:")
             for i, feat in enumerate(existing_features, 1):
                 print(f"  {i}. {feat}")
-            print(f"\nPlease re-run with --feature <name> to specify target directory.")
-            print(f"Or create new feature directory with authoring-stitch-prompts skill first.")
-            sys.exit(1)
+            print("\nPlease specify --feature <name> to set target directory.")
+            return None
         else:
             # No existing features, create based on project title
             feature_name = normalize_feature_name(project_title)
-            save_dir = repo_root / "design-intent" / "google-stitch" / feature_name / "exports"
-            print(f"Creating new feature directory: {feature_name}")
+            return repo_root / "design-intent" / "google-stitch" / feature_name / "exports"
 
-    # Create output directory
-    save_dir.mkdir(parents=True, exist_ok=True)
-    print(f"✓ Output directory: {save_dir}")
 
-    # Save images
-    print("\nSaving mockup images...")
+def download_images(image_urls, output_dir):
+    """Download images from URLs and save to output directory."""
+    if not image_urls:
+        print("No image URLs provided.")
+        return []
+
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
+    print(f"\nDownloading {len(image_urls)} mockup images...")
     saved_files = []
-    for i, img_data in enumerate(collected_images, 1):
-        filename = f"mockup-{i}.png"
-        filepath = save_dir / filename
+    
+    for i, img_url in enumerate(image_urls, 1):
+        try:
+            filename = f"mockup-{i}.png"
+            filepath = output_dir / filename
+            
+            # Download image
+            urllib.request.urlretrieve(img_url, filepath)
+            saved_files.append(filename)
+            print(f"  ✓ Saved: {filename}")
+        except Exception as e:
+            print(f"  ✗ Failed to download image {i}: {e}")
+    
+    return saved_files
 
-        with open(filepath, "wb") as f:
-            f.write(img_data["body"])
 
-        saved_files.append(filename)
-        print(f"  ✓ Saved: {filename}")
-
-    # Print summary
-    print(f"\nExtracted {len(saved_files)} mockups from Stitch project")
-    print(f"\nProject: {project_title}")
-    print(f"URL: {url}")
-    print(f"\nSaved to: {save_dir.relative_to(repo_root)}")
-
-    return {
-        "project_title": project_title,
-        "url": url,
-        "output_dir": str(save_dir),
-        "files": saved_files
-    }
+def extract_project_title_from_url(url):
+    """Extract project title from Stitch URL (fallback)."""
+    try:
+        project_id = url.split("/projects/")[-1].split("/")[0].split("?")[0]
+        return f"stitch-project-{project_id}"
+    except Exception:
+        return "stitch-project"
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Extract mockup images from Google Stitch project pages."
+        description="Download and save mockup images from Google Stitch project pages."
     )
     parser.add_argument(
-        "url",
-        help="Stitch project URL (https://stitch.withgoogle.com/projects/<id>)"
+        "image_urls",
+        nargs="+",
+        help="Image URLs to download (extracted from Stitch page)"
+    )
+    parser.add_argument(
+        "--project-title",
+        help="Project title for directory resolution"
     )
     parser.add_argument(
         "--feature",
@@ -291,11 +184,38 @@ def main():
 
     args = parser.parse_args()
 
-    result = extract_mockups(
-        url=args.url,
+    # Resolve output directory
+    project_title = args.project_title or "stitch-project"
+    output_dir = resolve_output_dir(
+        project_title=project_title,
         feature=args.feature,
         output_dir=args.output
     )
+    
+    if not output_dir:
+        sys.exit(1)
+
+    print(f"✓ Output directory: {output_dir}")
+
+    # Download images
+    saved_files = download_images(
+        image_urls=args.image_urls,
+        output_dir=output_dir
+    )
+
+    if not saved_files:
+        print("No images were downloaded.")
+        sys.exit(1)
+
+    result = {
+        "project_title": project_title,
+        "output_dir": str(output_dir),
+        "files": saved_files
+    }
+
+    # Print summary
+    print(f"\nDownloaded {len(saved_files)} mockups")
+    print(f"Saved to: {output_dir.relative_to(get_repo_root())}")
 
     # Output JSON for programmatic use
     if os.environ.get("OUTPUT_JSON"):

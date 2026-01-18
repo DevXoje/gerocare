@@ -1,7 +1,11 @@
 import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useAuth } from './useAuth'
+import { useRoute,useRouter } from 'vue-router'
+
 import { useNotifications } from '@/shared/composables/useNotifications'
+
+import { LoginFormSchema } from '../domain/LoginForm.schema'
+
+import { useAuth } from './useAuth'
 
 export const useLoginForm = () => {
   const router = useRouter()
@@ -39,12 +43,19 @@ export const useLoginForm = () => {
   }
 
   const handleSubmit = async () => {
-    if (!email.value || !password.value) {
-      notifications.error('Por favor, completa todos los campos')
+    // Validate form data with Zod
+    const validation = LoginFormSchema.safeParse({
+      email: email.value,
+      password: password.value,
+    })
+
+    if (!validation.success) {
+      const firstError = validation.error.issues[0]
+      notifications.error(firstError?.message || 'Validation failed')
       return
     }
 
-    await handleAuthResult(signIn(email.value, password.value))
+    await handleAuthResult(signIn(validation.data.email, validation.data.password))
   }
 
   const handleGoogleSignIn = async () => {

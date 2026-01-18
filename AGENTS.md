@@ -18,6 +18,9 @@ Use these skills for detailed patterns on-demand:
 | `docker` | Docker setup, commands, and troubleshooting for the GeroCare development environment | [SKILL.md](.cursor/skills/docker/SKILL.md) |
 | `skill-creator` | Creates new AI agent skills following the Agent Skills spec | [SKILL.md](.cursor/skills/skill-creator/SKILL.md) |
 | `extracting-stitch-mockups` | Extract generated mockup images from Google Stitch project pages | [SKILL.md](.cursor/skills/extracting-stitch-mockups/SKILL.md) |
+| `ui-components` | Patterns and conventions for creating agnostic UI components in GeroCare | [SKILL.md](.cursor/skills/ui-components/SKILL.md) |
+| `feature-development` | Patterns and conventions for implementing complete features following Clean Architecture | [SKILL.md](.cursor/skills/feature-development/SKILL.md) |
+| `zod` | Patterns and conventions for using Zod validation schemas in GeroCare following Clean Architecture | [SKILL.md](.cursor/skills/zod/SKILL.md) |
 
 ### Auto-invoke Skills
 
@@ -34,6 +37,9 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Troubleshooting Docker issues | `docker` |
 | Setting up the development environment | `docker` |
 | Extracting mockup images from Google Stitch projects | `extracting-stitch-mockups` |
+| Creating new UI components, reusable components, or building the component library | `ui-components` |
+| Creating new features, domain entities, repositories, composables, or business logic | `feature-development` |
+| Creating validation schemas, validating domain entities, form data, or Firestore data | `zod` |
 
 ---
 

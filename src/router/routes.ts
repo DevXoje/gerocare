@@ -1,9 +1,13 @@
-import PublicLayout from '@/business/common/presentation/layouts/PublicLayout.vue'
-import PrivateLayout from '@/business/common/presentation/layouts/PrivateLayout.vue'
-import { authRoutes } from '@/business/auth/routes'
-import { dashboardRoutes } from '@/business/dashboard/routes'
-import { residentRoutes } from '@/business/residents/routes'
 import type { RouteRecordRaw } from 'vue-router'
+
+import { authRoutes } from '@/business/auth/routes'
+import { carePlansRoutes } from '@/business/care-plans/routes'
+import PrivateLayout from '@/business/common/presentation/layouts/PrivateLayout.vue'
+import PublicLayout from '@/business/common/presentation/layouts/PublicLayout.vue'
+import { dashboardRoutes } from '@/business/dashboard/routes'
+import { incidentRoutes } from '@/business/incidents/routes'
+import { medicationRoutes } from '@/business/medication/routes'
+import { residentRoutes } from '@/business/residents/routes'
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -18,6 +22,6 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: PrivateLayout,
-    children: [...dashboardRoutes, ...residentRoutes]
+    children: [...dashboardRoutes, ...residentRoutes, ...medicationRoutes, ...carePlansRoutes, ...incidentRoutes]
   }
 ]

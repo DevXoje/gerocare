@@ -1,6 +1,6 @@
 # Workflow: Extract Stitch Mockups
 
-Detailed browser automation steps for extracting mockup images from Google Stitch projects.
+Detailed steps for extracting mockup images from Google Stitch projects using Cursor's built-in browser (MCP browser tools).
 
 ---
 
@@ -8,80 +8,52 @@ Detailed browser automation steps for extracting mockup images from Google Stitc
 
 ### 1. Validate Input
 
-```python
-# Check URL format
-if "stitch.withgoogle.com/projects/" not in url:
-    error("Invalid Stitch project URL")
-    exit(1)
+Check URL format:
+```
+URL must contain: stitch.withgoogle.com/projects/
 ```
 
 **Expected URL format:** `https://stitch.withgoogle.com/projects/{project-id}`
 
-### 2. Locate Chrome Profile
+### 2. Navigate to Stitch URL
 
-**macOS default location:**
-```
-~/Library/Application Support/Google/Chrome
-```
+Use Cursor's built-in browser to navigate:
 
-The script uses Chrome's persistent context to maintain Google authentication.
-
-### 3. Launch Browser
-
-```python
-browser = playwright.chromium.launch_persistent_context(
-    user_data_dir=chrome_profile_path,
-    channel="chrome",
-    headless=False,
-    args=["--disable-blink-features=AutomationControlled"]
-)
+```typescript
+// Navigate to the Stitch project page
+mcp_cursor-ide-browser_browser_navigate({
+  url: "https://stitch.withgoogle.com/projects/123"
+})
 ```
 
-**Key settings:**
-- `headless=False` - Required for auth to work properly
-- `channel="chrome"` - Use installed Chrome (not Chromium)
-- Disable automation detection to avoid blocks
+**Note:** The browser maintains the user's Google session automatically.
 
-### 4. Set Up Image Capture
+### 3. Wait for Page Load
 
-Attach response handler before navigation:
+Wait for the page to fully load:
 
-```python
-def handle_response(response):
-    if response.request.resource_type == "image":
-        if "lh3.googleusercontent.com/aida/" in response.url:
-            collected_images.append({
-                "url": response.url,
-                "body": response.body()
-            })
-
-page.on("response", handle_response)
+```typescript
+// Wait for content to load
+mcp_cursor-ide-browser_browser_wait_for({
+  time: 3  // seconds
+})
 ```
 
-**Filtering criteria:**
-- Resource type: `image`
-- URL pattern: `lh3.googleusercontent.com/aida/`
+This ensures all lazy-loaded images are rendered.
 
-### 5. Navigate and Wait
+### 4. Check Generation Status
 
-```python
-page.goto(url, wait_until="networkidle")
-page.wait_for_timeout(3000)  # Initial load
-page.wait_for_timeout(2000)  # Lazy-loaded images
-```
+Take a snapshot to check if the project is still generating:
 
-**Wait strategy:**
-1. `networkidle` - Wait for network activity to stop
-2. Additional 3s - Ensure page rendering completes
-3. Additional 2s - Catch lazy-loaded content
+```typescript
+// Get page snapshot
+const snapshot = mcp_cursor-ide-browser_browser_snapshot({})
 
-### 6. Check Generation Status
-
-```python
-page_content = page.content()
-if "Generating" in page_content and "estimated time" in page_content.lower():
-    error("Project is still generating")
-    exit(1)
+// Check snapshot content for "Generating" text
+if (snapshot.content.includes("Generating") && 
+    snapshot.content.toLowerCase().includes("estimated time")) {
+  // Project is still generating, wait and retry
+}
 ```
 
 **Status indicators:**
@@ -89,21 +61,38 @@ if "Generating" in page_content and "estimated time" in page_content.lower():
 - "estimated time" mention
 - Spinner/loading UI elements
 
-### 7. Extract Project Title
+### 5. Extract Image URLs from Snapshot
+
+Parse the snapshot to find image elements:
+
+```typescript
+// Parse snapshot to find <img> elements
+// Filter for src containing "lh3.googleusercontent.com/aida/"
+
+const imageUrls = [];
+// Iterate through snapshot nodes to find img elements
+// Extract src attribute from matching elements
+```
+
+**Filtering criteria:**
+- Element type: `img`
+- URL pattern: `lh3.googleusercontent.com/aida/`
+
+### 6. Extract Project Title
+
+Extract from snapshot:
 
 **Priority order:**
-1. `h1` element
+1. `h1` element in snapshot
 2. Element with `title` class
 3. Element with `project-name` class
 4. Fallback: Extract from URL
 
-```python
-title_element = page.query_selector('h1, [class*="title"], [class*="project-name"]')
-if title_element:
-    project_title = title_element.inner_text().strip()
-```
+Parse the snapshot to find the title element and extract its text content.
 
-### 8. Resolve Feature Directory
+### 7. Resolve Feature Directory
+
+Use the utility script's `resolve_output_dir` function:
 
 **Fallback chain:**
 1. User-provided `--feature` argument
@@ -113,35 +102,48 @@ if title_element:
 
 **Auto-detection logic:**
 ```python
+from extract_images import resolve_output_dir, normalize_feature_name
+
 normalized = normalize_feature_name(project_title)
 # "Eco-Travel Home Screen" -> "eco-travel-home-screen"
 
-# Check for exact match
-if normalized in existing_features:
-    return normalized
-
-# Check for partial match
-for feature in existing_features:
-    if feature in normalized or normalized in feature:
-        return feature
+output_dir = resolve_output_dir(
+    project_title=project_title,
+    feature=None  # or specify explicitly
+)
 ```
 
-### 9. Save Images
+### 8. Download Images
+
+Download images using `urllib.request` or the utility script:
 
 ```python
-save_dir.mkdir(parents=True, exist_ok=True)
+import urllib.request
+from pathlib import Path
 
-for i, img_data in enumerate(collected_images, 1):
+output_dir = Path("design-intent/google-stitch/{feature}/exports")
+output_dir.mkdir(parents=True, exist_ok=True)
+
+for i, img_url in enumerate(image_urls, 1):
     filename = f"mockup-{i}.png"
-    filepath = save_dir / filename
-
-    with open(filepath, "wb") as f:
-        f.write(img_data["body"])
+    filepath = output_dir / filename
+    urllib.request.urlretrieve(img_url, filepath)
 ```
 
 **Output location:** `design-intent/google-stitch/{feature}/exports/`
 
-### 10. Generate Report
+**Alternative using utility script:**
+```python
+from extract_images import download_images
+
+saved_files = download_images(
+    image_urls=image_urls,
+    output_dir=output_dir,
+    project_title=project_title
+)
+```
+
+### 9. Generate Report
 
 Display extraction summary with:
 - Project title and URL
@@ -151,30 +153,24 @@ Display extraction summary with:
 
 ---
 
-## Network Traffic Reference
+## Image URL Reference
 
-Based on investigation of Stitch's network patterns:
-
-### Endpoints
-
-| Endpoint | Purpose |
-|----------|---------|
-| `/_/Nemo/data/batchexecute` | Primary RPC endpoint |
-| `lh3.googleusercontent.com/aida/...` | Generated mockup images |
-
-### RPC IDs (for reference)
-
-| rpcid | Function |
-|-------|----------|
-| `o30O0e` | Project initialization/load |
-| `uYEY6` | Generation status polling |
-| `ErneX` | Design metadata |
+Based on investigation of Stitch's image patterns:
 
 ### Image Sources
 
-- **Mockups:** `lh3.googleusercontent.com/aida/...` (400px+)
-- **Avatars:** `stitch-avatar.png` (excluded)
-- **UI assets:** `app-companion-430619.appspot.com` (excluded)
+- **Mockups:** `lh3.googleusercontent.com/aida/...` (400px+) - These are the target images
+- **Avatars:** `stitch-avatar.png` - Excluded from extraction
+- **UI assets:** `app-companion-430619.appspot.com` - Excluded from extraction
+
+### URL Pattern
+
+All mockup images from Stitch use this pattern:
+```
+https://lh3.googleusercontent.com/aida/{unique-id}
+```
+
+Filter for URLs containing `lh3.googleusercontent.com/aida/` in the `src` attribute of `<img>` elements.
 
 ---
 
@@ -187,7 +183,7 @@ Based on investigation of Stitch's network patterns:
 - Page shows "Sign in" prompt
 - No images captured
 
-**Solution:** Open Chrome manually, sign into Google, then retry.
+**Solution:** Sign into Google in Cursor's browser, then retry. The browser maintains the session automatically.
 
 ### Generation In Progress
 
@@ -221,8 +217,8 @@ Based on investigation of Stitch's network patterns:
 
 ## Performance Notes
 
-- **Total extraction time:** ~10-15 seconds
-- **Network wait:** 5 seconds (configurable)
+- **Total extraction time:** ~5-10 seconds
+- **Network wait:** 3 seconds (for page load)
 - **Typical image count:** 1-6 per project
 - **Image size:** ~100-500KB each
 
@@ -230,7 +226,7 @@ Based on investigation of Stitch's network patterns:
 
 ## Security Considerations
 
-- Uses existing Chrome profile (no credentials stored in script)
-- Images fetched via authenticated session
+- Uses Cursor's built-in browser with user's existing session
+- Images downloaded via authenticated session
 - No data transmitted to external services
 - All processing done locally

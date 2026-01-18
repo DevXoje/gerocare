@@ -1,11 +1,14 @@
 import { ref } from 'vue'
-import { type Result, Ok, Err } from '@/shared/domain/Result'
+
+import { Err,Ok, type Result } from '@/shared/domain/Result'
+
+import type { ResidentCreateInput } from '../domain/Resident.schema'
+import { ResidentCreateSchema } from '../domain/Resident.schema'
 
 export interface ResidentFormData {
   firstName: string
   lastName: string
   dateOfBirth?: Date
-  photoURL?: string
   medicalInfo: {
     allergies: string[]
     chronicConditions: string[]
@@ -21,17 +24,11 @@ export interface ResidentFormData {
   assignedCaregivers: string[]
 }
 
-function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
-
 export function useResidentForm() {
   const form = ref<ResidentFormData>({
     firstName: '',
     lastName: '',
     dateOfBirth: undefined,
-    photoURL: undefined,
     medicalInfo: {
       allergies: [],
       chronicConditions: [],
@@ -43,14 +40,7 @@ export function useResidentForm() {
   })
 
   const validate = (): Result<ResidentFormData, string> => {
-    if (!form.value.firstName || form.value.firstName.trim() === '') {
-      return Err('firstName is required')
-    }
-
-    if (!form.value.lastName || form.value.lastName.trim() === '') {
-      return Err('lastName is required')
-    }
-
+    // Convert form data to schema-compatible format
     if (!form.value.dateOfBirth) {
       return Err('dateOfBirth is required')
     }
@@ -60,11 +50,25 @@ export function useResidentForm() {
       return Err('dateOfBirth cannot be in the future')
     }
 
-    // Validate email format in emergency contacts
-    for (const contact of form.value.emergencyContacts) {
-      if (contact.email && !isValidEmail(contact.email)) {
-        return Err(`Invalid email format: ${contact.email}`)
-      }
+    const formData: ResidentCreateInput = {
+      firstName: form.value.firstName,
+      lastName: form.value.lastName,
+      dateOfBirth: form.value.dateOfBirth,
+      medicalInfo: {
+        allergies: form.value.medicalInfo.allergies || [],
+        chronicConditions: form.value.medicalInfo.chronicConditions || [],
+        medications: form.value.medicalInfo.medications || [],
+        dietaryRestrictions: form.value.medicalInfo.dietaryRestrictions || [],
+      },
+      emergencyContacts: form.value.emergencyContacts,
+      assignedCaregivers: form.value.assignedCaregivers || [],
+    }
+
+    const result = ResidentCreateSchema.safeParse(formData)
+
+    if (!result.success) {
+      const firstError = result.error.issues[0]
+      return Err(firstError?.message || 'Validation failed')
     }
 
     return Ok(form.value)
@@ -75,7 +79,6 @@ export function useResidentForm() {
       firstName: '',
       lastName: '',
       dateOfBirth: undefined,
-      photoURL: undefined,
       medicalInfo: {
         allergies: [],
         chronicConditions: [],

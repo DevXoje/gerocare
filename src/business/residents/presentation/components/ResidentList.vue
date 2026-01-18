@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Resident } from '../../domain/Resident'
-import ResidentCard from './ResidentCard.vue'
 import { useRouter } from 'vue-router'
+
+import type { Resident } from '../../domain/Resident'
+
+import ResidentCard from './ResidentCard.vue'
 
 interface Props {
   residents: Resident[]

@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue'
+import { computed,onMounted, ref } from 'vue'
+
+import AppButton from '@/business/common/presentation/atoms/Button.vue'
+
 import { useResidents } from '../../app/useResidents'
+import CreateResidentModal from '../components/CreateResidentModal.vue'
 import ResidentList from '../components/ResidentList.vue'
 import ResidentSearch from '../components/ResidentSearch.vue'
 
 const { residents, loadResidents, searchResidents, isLoading, error } = useResidents()
 const searchQuery = ref('')
+const isModalOpen = ref(false)
 
 const displayedResidents = computed(() => {
   if (searchQuery.value.trim()) {
@@ -28,6 +33,10 @@ const handleSearch = (query: string) => {
   }
 }
 
+const handleCreateSuccess = () => {
+  loadResidents()
+}
+
 onMounted(() => {
   loadResidents()
 })
@@ -37,14 +46,17 @@ onMounted(() => {
   <div class="residents-page">
     <div class="page-header">
       <h1 class="page-title">Residentes</h1>
-      <ResidentSearch @search="handleSearch" />
+      <div class="page-header__actions">
+        <ResidentSearch @search="handleSearch" />
+        <AppButton @click="isModalOpen = true">
+          ➕ Nuevo Residente
+        </AppButton>
+      </div>
     </div>
 
-    <ResidentList
-      :residents="displayedResidents"
-      :is-loading="isLoading"
-      :error="error?.message"
-    />
+    <ResidentList :residents="displayedResidents" :is-loading="isLoading" :error="error?.message" />
+
+    <CreateResidentModal v-model:is-open="isModalOpen" @success="handleCreateSuccess" />
   </div>
 </template>
 
@@ -67,11 +79,25 @@ onMounted(() => {
   margin-bottom: 2rem;
 }
 
+.page-header__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
 @media (min-width: 768px) {
   .page-header {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .page-header__actions {
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    gap: 1rem;
   }
 }
 
@@ -88,4 +114,3 @@ onMounted(() => {
   }
 }
 </style>
-

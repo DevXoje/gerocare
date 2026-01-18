@@ -1,5 +1,6 @@
 <script setup lang="ts" generic="T">
-import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
+import { computed, nextTick,onMounted, onUnmounted, ref, watch } from 'vue'
+
 import type { SelectOption } from '@/shared/domain/SelectOption'
 
 defineOptions({

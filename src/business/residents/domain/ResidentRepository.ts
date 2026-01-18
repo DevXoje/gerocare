@@ -1,6 +1,7 @@
+import type { Result } from '@/shared/domain/Result'
+
 import type { Resident } from './Resident'
 import type { ResidentError } from './ResidentErrors'
-import type { Result } from '@/shared/domain/Result'
 
 export interface ResidentRepository {
   /**

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+
 import type { Resident } from '../../domain/Resident'
 import { calculateAge } from '../../domain/Resident'
 
@@ -42,13 +43,7 @@ const fullName = computed(() => {
     <div v-else class="resident-content">
       <div class="resident-header">
         <div class="resident-avatar-large">
-          <img
-            v-if="resident.photoURL"
-            :src="resident.photoURL"
-            :alt="fullName"
-            class="avatar-image"
-          />
-          <div v-else class="avatar-placeholder">
+          <div class="avatar-placeholder">
             {{ resident.firstName[0] }}{{ resident.lastName[0] }}
           </div>
         </div>
@@ -72,19 +67,19 @@ const fullName = computed(() => {
         <section class="info-section">
           <h2>Información Médica</h2>
           <div class="info-grid">
-            <div v-if="resident.medicalInfo.allergies.length > 0" class="info-item">
+            <div v-if="resident.medicalInfo.allergies && resident.medicalInfo.allergies.length > 0" class="info-item">
               <span class="info-label">Alergias:</span>
               <span class="info-value">{{ resident.medicalInfo.allergies.join(', ') }}</span>
             </div>
-            <div v-if="resident.medicalInfo.chronicConditions.length > 0" class="info-item">
+            <div v-if="resident.medicalInfo.chronicConditions && resident.medicalInfo.chronicConditions.length > 0" class="info-item">
               <span class="info-label">Condiciones Crónicas:</span>
               <span class="info-value">{{ resident.medicalInfo.chronicConditions.join(', ') }}</span>
             </div>
-            <div v-if="resident.medicalInfo.medications.length > 0" class="info-item">
+            <div v-if="resident.medicalInfo.medications && resident.medicalInfo.medications.length > 0" class="info-item">
               <span class="info-label">Medicaciones:</span>
               <span class="info-value">{{ resident.medicalInfo.medications.join(', ') }}</span>
             </div>
-            <div v-if="resident.medicalInfo.dietaryRestrictions.length > 0" class="info-item">
+            <div v-if="resident.medicalInfo.dietaryRestrictions && resident.medicalInfo.dietaryRestrictions.length > 0" class="info-item">
               <span class="info-label">Restricciones Dietéticas:</span>
               <span class="info-value">{{ resident.medicalInfo.dietaryRestrictions.join(', ') }}</span>
             </div>

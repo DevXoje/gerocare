@@ -3,17 +3,16 @@
  */
 
 export {
-  createResidentFactory,
   createManyResidents,
-  ResidentFactory, // Legacy compatibility
+  createResidentFactory,
   createTestResident, // Legacy compatibility
   createTestResidents, // Legacy compatibility
+  ResidentFactory, // Legacy compatibility
   type ResidentFactoryBuilder,
 } from './ResidentFactory'
-
 export {
+  createTestUser, // Legacy compatibility
   createUserFactory,
   UserFactory, // Legacy compatibility
-  createTestUser, // Legacy compatibility
   type UserFactoryBuilder,
 } from './UserFactory'

@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 import type { Resident } from '@/business/residents/domain/Resident'
 
 /**

@@ -1,6 +1,7 @@
-import type { Result } from '@/shared/domain/Result'
-import type { AuthError } from './AuthErrors'
 import type { User } from '@/business/auth/domain/User'
+import type { Result } from '@/shared/domain/Result'
+
+import type { AuthError } from './AuthErrors'
 
 export interface AuthRepository {
   signIn(email: string, password: string): Promise<Result<User, AuthError>>

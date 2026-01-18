@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { routes } from '@/router/routes'
+
 import { authGuard } from '@/business/auth/routes/guards/authGuard'
+import { routes } from '@/router/routes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

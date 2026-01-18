@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 import { computed } from "vue"
 import { useCurrentUser } from "vuefire"
+
 import type { User } from "./domain/User"
 
 export const useAuthStore = defineStore('auth', () => {

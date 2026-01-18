@@ -1,4 +1,8 @@
-import { type Result, Ok, Err } from '@/shared/domain/Result'
+import { Err,Ok, type Result } from '@/shared/domain/Result'
+
+import { ResidentSchema } from './Resident.schema'
+import type { ResidentError } from './ResidentErrors'
+import { createResidentValidationError } from './ResidentErrors'
 
 interface MedicalInfo {
   allergies: string[]
@@ -23,7 +27,6 @@ export interface Resident {
   firstName: string
   lastName: string
   dateOfBirth: Date
-  photoURL?: string
   medicalInfo: Partial<MedicalInfo>
   emergencyContacts: EmergencyContact[]
   assignedCaregivers: string[] // User IDs
@@ -47,60 +50,16 @@ export function calculateAge(dateOfBirth: Date): number {
 }
 
 /**
- * Validate email format
+ * Validate a resident entity using Zod schema
  */
-function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
+export function validateResident(resident: unknown): Result<Resident, ResidentError> {
+  const result = ResidentSchema.safeParse(resident)
 
-/**
- * Validate a resident entity
- */
-export function validateResident(resident: Resident): Result<Resident, string> {
-  if (!resident.firstName || typeof resident.firstName !== 'string' || resident.firstName.trim() === '') {
-    return Err('firstName is required and must be a non-empty string')
+  if (!result.success) {
+    const firstError = result.error.issues[0]
+    return Err(createResidentValidationError(firstError?.message || 'Validation failed'))
   }
 
-  if (!resident.lastName || typeof resident.lastName !== 'string' || resident.lastName.trim() === '') {
-    return Err('lastName is required and must be a non-empty string')
-  }
-
-  if (!resident.dateOfBirth || !(resident.dateOfBirth instanceof Date)) {
-    return Err('dateOfBirth is required and must be a Date')
-  }
-
-  if (!resident.medicalInfo || typeof resident.medicalInfo !== 'object') {
-    return Err('medicalInfo is required and must be an object')
-  }
-
-  const requiredMedicalFields = ['allergies', 'chronicConditions', 'medications', 'dietaryRestrictions']
-  for (const field of requiredMedicalFields) {
-    if (!isMedicalInfoAttribute(field) || !Array.isArray(resident.medicalInfo[field])) {
-      return Err(`medicalInfo.${field} is required and must be an array`)
-    }
-  }
-
-  if (!Array.isArray(resident.emergencyContacts)) {
-    return Err('emergencyContacts must be an array')
-  }
-
-  // Validate email format in emergency contacts if provided
-  for (const contact of resident.emergencyContacts) {
-    if (contact.email && !isValidEmail(contact.email)) {
-      return Err(`Invalid email format in emergencyContacts: ${contact.email}`)
-    }
-  }
-
-  if (!Array.isArray(resident.assignedCaregivers)) {
-    return Err('assignedCaregivers must be an array')
-  }
-
-  // Validate that assignedCaregivers contains only strings
-  if (!resident.assignedCaregivers.every((id) => typeof id === 'string')) {
-    return Err('assignedCaregivers must be an array of strings')
-  }
-
-  return Ok(resident)
+  return Ok(result.data)
 }
 

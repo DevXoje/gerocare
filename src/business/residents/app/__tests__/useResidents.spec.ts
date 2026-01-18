@@ -1,14 +1,25 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { useResidents } from '../useResidents'
-import { createResidentRepository } from '../../infrastructure'
-import { useAuthStore } from '@/business/auth/store'
 import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+import { useAuthStore } from '@/business/auth/store'
 import { createTestResident } from '@/test/helpers/residents'
+
+import { createResidentRepository } from '../../infrastructure'
+import { useResidents } from '../useResidents'
 
 // Mock the repository
 vi.mock('../../infrastructure', () => ({
   createResidentRepository: vi.fn(),
 }))
+
+// Mock vuefire's useCurrentUser
+vi.mock('vuefire', async () => {
+  const actual = await vi.importActual('vuefire')
+  return {
+    ...actual,
+    useCurrentUser: vi.fn(() => ({ value: { uid: 'caregiver-1', email: 'test@example.com' } })),
+  }
+})
 
 describe('useResidents', () => {
   let mockRepository: any
@@ -28,9 +39,8 @@ describe('useResidents', () => {
 
   describe('loadResidents', () => {
     it('should load residents assigned to current user', async () => {
+      // useCurrentUser is already mocked at the top level
       const authStore = useAuthStore()
-      // Mock user
-      authStore.user = { uid: 'caregiver-1', email: 'test@example.com' } as any
 
       const testResidents = [
         createTestResident({ id: 'resident-1', assignedCaregivers: ['caregiver-1'] }),
@@ -52,8 +62,8 @@ describe('useResidents', () => {
     })
 
     it('should handle loading state', async () => {
+      // useCurrentUser is already mocked at the top level
       const authStore = useAuthStore()
-      authStore.user = { uid: 'caregiver-1', email: 'test@example.com' } as any
 
       mockRepository.findByCaregiver.mockImplementation(() => 
         new Promise(resolve => setTimeout(() => resolve({ success: true, value: [] }), 100))
@@ -69,8 +79,8 @@ describe('useResidents', () => {
     })
 
     it('should handle errors when loading residents', async () => {
+      // useCurrentUser is already mocked at the top level
       const authStore = useAuthStore()
-      authStore.user = { uid: 'caregiver-1', email: 'test@example.com' } as any
 
       mockRepository.findByCaregiver.mockResolvedValue({
         success: false,
@@ -134,7 +144,7 @@ describe('useResidents', () => {
 
       expect(mockRepository.search).toHaveBeenCalledWith('Juan')
       expect(searchResults.value).toHaveLength(1)
-      expect(searchResults.value[0].firstName).toBe('Juan')
+      expect(searchResults.value[0]?.firstName).toBe('Juan')
     })
 
     it('should search residents by last name', async () => {

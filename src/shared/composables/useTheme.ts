@@ -1,5 +1,6 @@
-import { ThemeMode, THEME_STORAGE_KEY, isThemeMode } from '@/shared/domain/Theme'
-import { ref, computed, watch, onMounted } from 'vue'
+import { computed, onMounted,ref, watch } from 'vue'
+
+import { isThemeMode,THEME_STORAGE_KEY, ThemeMode } from '@/shared/domain/Theme'
 
 
 // Estado global compartido

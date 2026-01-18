@@ -1,4 +1,5 @@
 import { vi } from 'vitest'
+import { ref } from 'vue'
 import { createRouter, createWebHistory, type Router, type RouteRecordRaw } from 'vue-router'
 
 /**
@@ -75,18 +76,16 @@ export function createMockRouter(): Partial<Router> {
     go: vi.fn(),
     back: vi.fn(),
     forward: vi.fn(),
-    currentRoute: {
-      value: {
-        path: '/',
-        name: undefined,
-        params: {},
-        query: {},
-        hash: '',
-        fullPath: '/',
-        matched: [],
-        meta: {},
-        redirectedFrom: undefined,
-      },
-    },
+    currentRoute: ref({
+      path: '/',
+      name: undefined,
+      params: {},
+      query: {},
+      hash: '',
+      fullPath: '/',
+      matched: [],
+      meta: {},
+      redirectedFrom: undefined,
+    }) as any,
   }
 }

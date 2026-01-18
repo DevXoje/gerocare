@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useSidebar } from '@/shared/composables/useSidebar'
 import AppSidebar from '@/business/common/presentation/organisms/Sidebar.vue'
+import { useSidebar } from '@/shared/composables/useSidebar'
 const { isMobile, toggle } = useSidebar()
 </script>
 

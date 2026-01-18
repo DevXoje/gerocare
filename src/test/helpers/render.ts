@@ -1,8 +1,10 @@
-import { mount, type VueWrapper, type MountingOptions } from '@vue/test-utils'
+import type { ComponentMountingOptions } from '@vue/test-utils'
+import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia, type Pinia } from 'pinia'
 import type { Component } from 'vue'
-import { createTestRouter, type CreateTestRouterOptions } from './router'
 import type { Router } from 'vue-router'
+
+import { createTestRouter, type CreateTestRouterOptions } from './router'
 
 /**
  * Options for rendering a component in tests
@@ -15,7 +17,7 @@ export interface RenderOptions {
   /**
    * Global options for Vue Test Utils
    */
-  global?: MountingOptions['global']
+  global?: ComponentMountingOptions<any>['global']
   /**
    * Whether to include Pinia store
    * Default: false
@@ -72,10 +74,10 @@ export interface RenderOptions {
  * })
  * ```
  */
-export function renderComponent<T = any>(
+export function renderComponent(
   component: Component,
   options: RenderOptions = {}
-): VueWrapper<T> {
+): VueWrapper {
   const {
     props = {},
     global = {},
@@ -119,5 +121,5 @@ export function renderComponent<T = any>(
       plugins,
     },
     ...mountingOptions,
-  } as MountingOptions<any>)
+  })
 }

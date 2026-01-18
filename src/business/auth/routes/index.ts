@@ -1,6 +1,7 @@
+import type { RouteRecordRaw } from "vue-router";
+
 import LoginPage from "@/business/auth/presentation/pages/LoginPage.vue";
 import SignUpPage from "@/business/auth/presentation/pages/SignUpPage.vue";
-import type { RouteRecordRaw } from "vue-router";
 
 export const authRoutes: RouteRecordRaw[] = [
   {

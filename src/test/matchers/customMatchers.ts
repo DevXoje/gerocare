@@ -1,4 +1,5 @@
 import { expect } from 'vitest'
+
 import type { Resident } from '@/business/residents/domain/Resident'
 import { calculateAge } from '@/business/residents/domain/Resident'
 

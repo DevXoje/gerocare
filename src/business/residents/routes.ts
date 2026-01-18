@@ -1,6 +1,7 @@
-import ResidentsPage from './presentation/pages/ResidentsPage.vue'
-import ResidentDetailPage from './presentation/pages/ResidentDetailPage.vue'
 import type { RouteRecordRaw } from 'vue-router'
+
+import ResidentDetailPage from './presentation/pages/ResidentDetailPage.vue'
+import ResidentsPage from './presentation/pages/ResidentsPage.vue'
 
 export const residentRoutes: RouteRecordRaw[] = [
   {

@@ -23,13 +23,7 @@ const handleClick = () => {
 <template>
   <div class="resident-card" @click="handleClick">
     <div class="resident-avatar">
-      <img
-        v-if="resident.photoURL"
-        :src="resident.photoURL"
-        :alt="fullName"
-        class="avatar-image"
-      />
-      <div v-else class="avatar-placeholder">
+      <div class="avatar-placeholder">
         {{ resident.firstName[0] }}{{ resident.lastName[0] }}
       </div>
     </div>

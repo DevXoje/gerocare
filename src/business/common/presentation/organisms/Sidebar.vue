@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+
 import { useAuth } from '@/business/auth/app/useAuth'
 import { useAuthStore } from '@/business/auth/store'
-import { useSidebar } from '@/shared/composables/useSidebar'
 import ThemeSelector from '@/business/common/theming/presentation/atoms/ThemeSelector.vue';
+import { useSidebar } from '@/shared/composables/useSidebar'
 
 defineOptions({
   name: 'AppSidebar',
@@ -52,6 +53,21 @@ const handleNavigation = (path: string) => {
           @click="handleNavigation('/residents')">
           <span class="nav-icon">👥</span>
           <span class="nav-label">Residentes</span>
+        </router-link>
+        <router-link to="/medication" class="nav-item" active-class="nav-item-active"
+          @click="handleNavigation('/medication')">
+          <span class="nav-icon">💊</span>
+          <span class="nav-label">Medicación</span>
+        </router-link>
+        <router-link to="/care-plans" class="nav-item" active-class="nav-item-active"
+          @click="handleNavigation('/care-plans')">
+          <span class="nav-icon">📋</span>
+          <span class="nav-label">Planes de Atención (PAI)</span>
+        </router-link>
+        <router-link to="/incidents" class="nav-item" active-class="nav-item-active"
+          @click="handleNavigation('/incidents')">
+          <span class="nav-icon">⚠️</span>
+          <span class="nav-label">Incidencias</span>
         </router-link>
       </nav>
 

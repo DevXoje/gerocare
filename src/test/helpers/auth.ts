@@ -1,5 +1,5 @@
-import { vi } from 'vitest'
 import type { User as FirebaseUser } from 'firebase/auth'
+import { vi } from 'vitest'
 
 /**
  * Factory function to create a test Firebase User with default values
@@ -19,6 +19,8 @@ export function createTestUser(overrides?: Partial<FirebaseUser>): FirebaseUser 
     displayName: defaultUser.displayName,
     photoURL: defaultUser.photoURL,
     emailVerified: defaultUser.emailVerified,
+    phoneNumber: overrides?.phoneNumber ?? null,
+    providerId: overrides?.providerId ?? 'firebase',
     isAnonymous: false,
     metadata: {
       creationTime: Date.now().toString(),

@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
-import { createResidentRepository } from './infrastructure'
+import { computed,ref } from 'vue'
+
+import { useAuthStore } from '@/business/auth/store'
+
 import type { Resident } from './domain/Resident'
 import type { ResidentError } from './domain/ResidentErrors'
-import { useAuthStore } from '@/business/auth/store'
+import { createResidentRepository } from './infrastructure'
 
 const repository = createResidentRepository()
 

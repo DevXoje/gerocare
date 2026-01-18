@@ -1,7 +1,11 @@
 import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useAuth } from './useAuth'
+import { useRoute,useRouter } from 'vue-router'
+
 import { useNotifications } from '@/shared/composables/useNotifications'
+
+import { SignUpFormSchema } from '../domain/SignUpForm.schema'
+
+import { useAuth } from './useAuth'
 
 export const useSignUpForm = () => {
   const router = useRouter()
@@ -14,50 +18,24 @@ export const useSignUpForm = () => {
   const passwordConfirmation = ref('')
   const loading = ref(false)
 
-  const validateEmail = (emailValue: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(emailValue)
-  }
-
-  const validatePassword = (passwordValue: string): boolean => {
-    return passwordValue.length >= 6
-  }
-
-  const validatePasswordConfirmation = (passwordValue: string, confirmationValue: string): boolean => {
-    return passwordValue === confirmationValue
-  }
-
-  const validateFields = (): { valid: boolean; error?: string } => {
-    if (!email.value || !password.value || !passwordConfirmation.value) {
-      return { valid: false, error: 'Por favor, completa todos los campos' }
-    }
-
-    if (!validateEmail(email.value)) {
-      return { valid: false, error: 'Por favor, ingresa un email válido' }
-    }
-
-    if (!validatePassword(password.value)) {
-      return { valid: false, error: 'La contraseña debe tener al menos 6 caracteres' }
-    }
-
-    if (!validatePasswordConfirmation(password.value, passwordConfirmation.value)) {
-      return { valid: false, error: 'Las contraseñas no coinciden' }
-    }
-
-    return { valid: true }
-  }
-
   const handleSubmit = async () => {
-    const validation = validateFields()
-    if (!validation.valid) {
-      notifications.error(validation.error || 'Error de validación')
+    // Validate form data with Zod
+    const validation = SignUpFormSchema.safeParse({
+      email: email.value,
+      password: password.value,
+      passwordConfirmation: passwordConfirmation.value,
+    })
+
+    if (!validation.success) {
+      const firstError = validation.error.issues[0]
+      notifications.error(firstError?.message || 'Validation failed')
       return
     }
 
     loading.value = true
 
     try {
-      const result = await signUp(email.value, password.value)
+      const result = await signUp(validation.data.email, validation.data.password)
 
       if (!result.success) {
         notifications.error(result.error.message)

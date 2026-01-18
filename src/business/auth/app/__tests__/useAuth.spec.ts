@@ -1,9 +1,11 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { useAuth } from '../useAuth'
-import type { AuthRepository } from '@/business/auth/domain/AuthRepository'
-import { Ok, Err } from '@/shared/domain/Result'
-import { createTestUser } from '@/test/helpers/auth'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { createUnknownAuthError } from '@/business/auth/domain/AuthErrors'
+import type { AuthRepository } from '@/business/auth/domain/AuthRepository'
+import { Err,Ok } from '@/shared/domain/Result'
+import { createTestUser } from '@/test/helpers/auth'
+
+import { useAuth } from '../useAuth'
 
 // Mock the repository
 vi.mock('@/business/auth/infrastructure/FirestoreAuth', () => ({

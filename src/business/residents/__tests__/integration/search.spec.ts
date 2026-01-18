@@ -1,7 +1,9 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { beforeEach,describe, expect, it } from 'vitest'
+
 import { testDb } from '@/test/setup'
-import { createResidentRepository } from '../../infrastructure/FirestoreResidentRepository'
+
 import type { ResidentRepository } from '../../domain/ResidentRepository'
+import { createResidentRepository } from '../../infrastructure/FirestoreResidentRepository'
 
 describe('Resident Integration: Search', () => {
   let repository: ResidentRepository

@@ -1,9 +1,11 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { createAuthRepository } from '../FirestoreAuth'
-import type { AuthRepository } from '@/business/auth/domain/AuthRepository'
 import { FirebaseError } from 'firebase/app'
-import type { UserCredential, Auth, AuthProvider } from 'firebase/auth'
+import type { Auth, AuthProvider,UserCredential } from 'firebase/auth'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+import type { AuthRepository } from '@/business/auth/domain/AuthRepository'
 import { createTestUser } from '@/test/helpers/auth'
+
+import { createAuthRepository } from '../FirestoreAuth'
 
 // Create mock functions that will be used in the mock
 const mockSignInWithPopupFn = vi.fn()
