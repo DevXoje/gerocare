@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { createActivityLogRepository } from '@/business/activity-logs/infrastructure'
 import { createCarePlanRepository } from '@/business/care-plans/infrastructure'
-import AppSidebar from '@/business/common/presentation/organisms/Sidebar.vue'
+import { Sidebar as AppSidebar } from '@/business/common/presentation/organisms'
 import { createIncidentRepository } from '@/business/incidents/infrastructure'
 import { createMedicationRepository } from '@/business/medication/infrastructure'
 import { createResidentRepository } from '@/business/residents/infrastructure'

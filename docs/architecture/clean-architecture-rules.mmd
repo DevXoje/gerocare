@@ -1,0 +1,27 @@
+graph LR
+    subgraph presentation[Presentation]
+        P[Components<br/>Pages<br/>Layouts]
+    end
+
+    subgraph application[Application]
+        A[Use Cases<br/>Form Handlers<br/>Helpers]
+    end
+
+    subgraph domain[Domain]
+        D[Entities<br/>Repositories<br/>Schemas]
+    end
+
+    subgraph infrastructure[Infrastructure]
+        I[Firebase<br/>Repositories<br/>External APIs]
+    end
+
+    P -->|"only imports from"| A
+    P -->|"only imports from"| D
+    A -->|"only imports from"| D
+    I -->|"implements"| D
+    I -.->|"depends on"| D
+
+    style presentation fill:#e1ffe1
+    style application fill:#fff4e1
+    style domain fill:#e1f5ff
+    style infrastructure fill:#ffe1f5

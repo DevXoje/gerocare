@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import Badge from '@/business/common/presentation/atoms/Badge.vue'
+import { Badge } from '@/business/common/presentation/atoms'
 import { useNetworkStatus } from '@/shared/offline/app/useNetworkStatus'
 
 defineOptions({
@@ -71,6 +71,7 @@ const badgeClasses = computed(() => ({
 }
 
 @keyframes pulse {
+
 	0%,
 	100% {
 		opacity: 1;

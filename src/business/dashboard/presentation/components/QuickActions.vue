@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import Button from '@/business/common/presentation/atoms/Button.vue'
-import Card from '@/business/common/presentation/atoms/Card.vue'
+import { Button, Card } from '@/business/common/presentation/atoms'
 
 defineOptions({
 	name: 'DashboardQuickActions',
@@ -37,14 +36,8 @@ const handleAction = (action: Action) => {
 		<div class="quick-actions">
 			<h3 class="quick-actions__title">Acciones Rápidas</h3>
 			<div class="quick-actions__grid">
-				<Button
-					v-for="(action, index) in actions"
-					:key="index"
-					:variant="action.variant || 'primary'"
-					:to="action.to"
-					block
-					@click="handleAction(action)"
-				>
+				<Button v-for="(action, index) in actions" :key="index" :variant="action.variant || 'primary'"
+					:to="action.to" block @click="handleAction(action)">
 					<span v-if="action.icon" class="quick-actions__icon">{{ action.icon }}</span>
 					{{ action.label }}
 				</Button>

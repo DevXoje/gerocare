@@ -39,6 +39,24 @@ export function useIncidentForm() {
 		)
 	})
 
+	const getMissingFields = (): string[] => {
+		const missing: string[] = []
+		if (!form.value.residentId) missing.push('Residente ID')
+		if (!form.value.type) missing.push('Tipo de Incidencia')
+		if (!form.value.severity) missing.push('Severidad')
+		if (!form.value.description?.trim()) missing.push('Descripción')
+		if (!form.value.incidentDate) missing.push('Fecha y Hora del Incidente')
+		return missing
+	}
+
+	const getMissingFieldsErrorMessage = (): string => {
+		const missing = getMissingFields()
+		if (missing.length === 0) return 'Por favor, complete todos los campos requeridos'
+		if (missing.length === 1) return `El campo "${missing[0]}" es requerido`
+		if (missing.length === 2) return `Los campos "${missing[0]}" y "${missing[1]}" son requeridos`
+		return `Los siguientes campos son requeridos: ${missing.join(', ')}`
+	}
+
 	const resetForm = () => {
 		form.value = {
 			residentId: '',
@@ -58,8 +76,12 @@ export function useIncidentForm() {
 	}
 
 	const submit = async (): Promise<Incident | null> => {
-		if (!isFormValid.value || !authStore.user) {
-			error.value = 'Please fill in all required fields'
+		if (!authStore.user) {
+			error.value = 'Debe iniciar sesión para registrar una incidencia'
+			return null
+		}
+		if (!isFormValid.value) {
+			error.value = getMissingFieldsErrorMessage()
 			return null
 		}
 
@@ -75,7 +97,7 @@ export function useIncidentForm() {
 				location: form.value.location,
 				incidentDate: form.value.incidentDate!,
 				reportedBy: form.value.reportedBy || authStore.user.uid,
-				status: (form.value.status || 'reported') as Incident['status'],
+				status: form.value.status || 'reported',
 				resolvedAt: form.value.resolvedAt,
 				resolvedBy: form.value.resolvedBy,
 				resolutionNotes: form.value.resolutionNotes,
@@ -120,7 +142,7 @@ export function useIncidentForm() {
 
 	const update = async (id: string): Promise<Incident | null> => {
 		if (!isFormValid.value) {
-			error.value = 'Please fill in all required fields'
+			error.value = getMissingFieldsErrorMessage()
 			return null
 		}
 

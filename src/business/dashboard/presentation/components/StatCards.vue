@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import StatCard from '@/business/common/presentation/molecules/StatCard.vue'
+import { KPICard } from '@/business/common/presentation/molecules'
 
 defineOptions({
 	name: 'DashboardStatCards',
@@ -10,9 +10,10 @@ interface Props {
 		value: string | number
 		label: string
 		icon?: string
-		variant?: 'default' | 'primary' | 'success' | 'warning' | 'error'
-		trend?: 'up' | 'down' | 'neutral'
-		trendValue?: string
+		variant?: 'default' | 'alerts' | 'primary' | 'teal' | 'blue'
+		chartType?: 'donut'
+		chartValue?: number
+		priority?: boolean
 	}>
 }
 
@@ -29,30 +30,28 @@ const handleStatClick = (index: number) => {
 
 <template>
 	<div class="stat-cards">
-		<StatCard
-			v-for="(stat, index) in stats"
-			:key="index"
-			:value="stat.value"
-			:label="stat.label"
-			:icon="stat.icon"
-			:variant="stat.variant || 'default'"
-			:trend="stat.trend"
-			:trend-value="stat.trendValue"
-			clickable
-			@click="handleStatClick(index)"
-		/>
+		<KPICard v-for="(stat, index) in stats" :key="index" :value="stat.value" :label="stat.label" :icon="stat.icon"
+			:variant="stat.variant || 'default'" :chart-type="stat.chartType" :chart-value="stat.chartValue"
+			:priority="stat.priority" clickable @click="handleStatClick(index)" />
 	</div>
 </template>
 
 <style scoped>
 .stat-cards {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-	gap: var(--spacing-lg);
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--spacing-md);
 	margin-bottom: var(--spacing-2xl);
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
+	.stat-cards {
+		grid-template-columns: repeat(4, 1fr);
+		gap: var(--spacing-lg);
+	}
+}
+
+@media (max-width: 480px) {
 	.stat-cards {
 		grid-template-columns: 1fr;
 	}

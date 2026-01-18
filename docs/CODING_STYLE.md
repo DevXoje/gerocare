@@ -526,7 +526,7 @@ const props = withDefaults(defineProps<Props>(), {
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-import AppButton from '@/business/common/presentation/atoms/Button.vue'
+import { Button as AppButton } from '@/business/common/presentation/atoms'
 import { useAuthStore } from '@/business/auth/store'
 
 defineOptions({

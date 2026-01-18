@@ -9,6 +9,11 @@ export function initTheme() {
 	const THEME_STORAGE_KEY = 'theme-mode'
 	const root = document.documentElement
 
+	// Ensure lang attribute is set on <html> for accessibility compliance
+	if (!root.getAttribute('lang') || root.getAttribute('lang') === '') {
+		root.setAttribute('lang', 'es')
+	}
+
 	function getSystemPreference(): boolean {
 		return window.matchMedia('(prefers-color-scheme: dark)').matches
 	}

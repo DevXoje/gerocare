@@ -7,11 +7,17 @@ import type { OfflineQueueRepository } from '@/shared/offline/domain/OfflineQueu
  * Repository map for sync operations
  * Maps entity names to their repository instances
  */
-export type RepositoryMap = Record<string, {
-	create?(data: unknown): Promise<{ success: boolean; value?: unknown; error?: unknown }>
-	update?(id: string, updates: unknown): Promise<{ success: boolean; value?: unknown; error?: unknown }>
-	delete?(id: string): Promise<{ success: boolean; value?: unknown; error?: unknown }>
-}>
+export type RepositoryMap = Record<
+	string,
+	{
+		create?(data: unknown): Promise<{ success: boolean; value?: unknown; error?: unknown }>
+		update?(
+			id: string,
+			updates: unknown
+		): Promise<{ success: boolean; value?: unknown; error?: unknown }>
+		delete?(id: string): Promise<{ success: boolean; value?: unknown; error?: unknown }>
+	}
+>
 
 /**
  * Composable to sync offline queue with repositories
@@ -45,7 +51,9 @@ export function useSyncQueue(queue: OfflineQueueRepository, repositories: Reposi
 				const { id } = operation.data as { id: string }
 				result = await repository.delete(id)
 			} else {
-				console.warn(`Unsupported operation type: ${operation.type} for entity: ${operation.entity}`)
+				console.warn(
+					`Unsupported operation type: ${operation.type} for entity: ${operation.entity}`
+				)
 				return false
 			}
 
@@ -107,7 +115,7 @@ export function useSyncQueue(queue: OfflineQueueRepository, repositories: Reposi
 	 */
 	watch(
 		() => navigator.onLine,
-		(isOnline) => {
+		isOnline => {
 			if (isOnline) {
 				sync()
 			}

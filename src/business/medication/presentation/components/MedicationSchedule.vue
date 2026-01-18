@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import Badge from '@/business/common/presentation/atoms/Badge.vue'
-import Button from '@/business/common/presentation/atoms/Button.vue'
-import Card from '@/business/common/presentation/atoms/Card.vue'
+import { Badge, Button, Card } from '@/business/common/presentation/atoms'
 import type { Medication, MedicationAdministration } from '@/business/medication/domain/Medication'
 import { parseFrequency } from '@/business/medication/domain/Medication'
 
@@ -74,23 +72,14 @@ const handleAdminister = (medication: Medication) => {
 		</div>
 
 		<div v-else class="medication-schedule__times">
-			<Card
-				v-for="{ time, medications } in getTodaySchedule"
-				:key="time"
-				variant="elevated"
-				padding="lg"
-				class="medication-schedule__time-slot"
-			>
+			<Card v-for="{ time, medications } in getTodaySchedule" :key="time" variant="elevated" padding="lg"
+				class="medication-schedule__time-slot">
 				<div class="time-slot">
 					<div class="time-slot__header">
 						<span class="time-slot__time">{{ time }}</span>
 					</div>
 					<div class="time-slot__medications">
-						<div
-							v-for="medication in medications"
-							:key="medication.id"
-							class="medication-schedule-item"
-						>
+						<div v-for="medication in medications" :key="medication.id" class="medication-schedule-item">
 							<div class="medication-schedule-item__info">
 								<span class="medication-schedule-item__name">{{ medication.name }}</span>
 								<span class="medication-schedule-item__dosage">{{ medication.dosage }}</span>

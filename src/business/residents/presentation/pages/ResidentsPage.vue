@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref } from 'vue'
 
-import AppButton from '@/business/common/presentation/atoms/Button.vue'
+import { Button as AppButton } from '@/business/common/presentation/atoms'
 import CreateResidentModal from '@/business/residents/presentation/components/CreateResidentModal.vue'
 import ResidentList from '@/business/residents/presentation/components/ResidentList.vue'
 import ResidentSearch from '@/business/residents/presentation/components/ResidentSearch.vue'

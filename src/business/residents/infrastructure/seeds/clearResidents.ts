@@ -14,7 +14,9 @@ export async function clearResidents(): Promise<number> {
 			const deleteResult = await repository.delete(resident.id)
 			if (deleteResult.success) {
 				deletedCount++
-				console.log(`✓ Residente eliminado: ${resident.firstName} ${resident.lastName} (${resident.id})`)
+				console.log(
+					`✓ Residente eliminado: ${resident.firstName} ${resident.lastName} (${resident.id})`
+				)
 			} else {
 				console.error(`✗ Error al eliminar residente ${resident.id}: ${deleteResult.error.message}`)
 			}

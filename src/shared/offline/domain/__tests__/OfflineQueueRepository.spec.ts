@@ -74,8 +74,8 @@ describe('OfflineQueueRepository contract', () => {
 			expect(result.success).toBe(true)
 			const operations = unwrap(result)
 			expect(operations).toHaveLength(2)
-			expect(operations.map((o) => o.id)).toContain(op1.id)
-			expect(operations.map((o) => o.id)).toContain(op2.id)
+			expect(operations.map(o => o.id)).toContain(op1.id)
+			expect(operations.map(o => o.id)).toContain(op2.id)
 		})
 	})
 
@@ -135,7 +135,7 @@ describe('OfflineQueueRepository contract', () => {
 
 			const allResult = await repository.getAll()
 			expect(allResult.success).toBe(true)
-			const updatedOp = unwrap(allResult).find((o) => o.id === operation.id)
+			const updatedOp = unwrap(allResult).find(o => o.id === operation.id)
 			expect(updatedOp?.retries).toBe(1)
 		})
 

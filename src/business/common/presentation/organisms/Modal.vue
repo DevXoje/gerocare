@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, watch } from 'vue'
 
-import IconButton from '@/business/common/presentation/atoms/IconButton.vue'
+import { IconButton } from '@/business/common/presentation/atoms'
 
 defineOptions({
 	name: 'AppModal',
@@ -74,14 +74,8 @@ onUnmounted(() => {
 				<div :class="['modal', `modal--${size}`]" @click.stop>
 					<div v-if="title || showClose" class="modal__header">
 						<h2 v-if="title" class="modal__title">{{ title }}</h2>
-						<IconButton
-							v-if="showClose"
-							icon="×"
-							variant="ghost"
-							size="sm"
-							aria-label="Cerrar"
-							@click="handleClose"
-						/>
+						<IconButton v-if="showClose" icon="×" variant="ghost" size="sm" aria-label="Cerrar"
+							@click="handleClose" />
 					</div>
 					<div class="modal__body">
 						<slot />

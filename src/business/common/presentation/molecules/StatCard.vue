@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import Card from '@/business/common/presentation/atoms/Card.vue'
+import { Card } from '@/business/common/presentation/atoms'
 
 defineOptions({
 	name: 'AppStatCard',

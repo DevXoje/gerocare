@@ -1,0 +1,28 @@
+graph TB
+    subgraph businessModules[Business Modules]
+    activity-logs[activity-logs]
+    auth[auth]
+    care-plans[care-plans]
+    dashboard[dashboard]
+    incidents[incidents]
+    medication[medication]
+    reports[reports]
+    residents[residents]
+    shifts[shifts]
+    end
+
+    subgraph sharedModule[Shared Module]
+        shared[shared]
+    end
+
+    activity-logs -.->|"uses"| shared[shared]
+    auth -.->|"uses"| shared[shared]
+    care-plans -.->|"uses"| shared[shared]
+    dashboard -.->|"uses"| shared[shared]
+    incidents -.->|"uses"| shared[shared]
+    medication -.->|"uses"| shared[shared]
+    reports -.->|"uses"| shared[shared]
+    residents -.->|"uses"| shared[shared]
+    shifts -.->|"uses"| shared[shared]
+
+    style sharedModule fill:#f0f0f0

@@ -1,0 +1,101 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "Patient",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "name.family",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Observation",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "subject.reference",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "effectiveDateTime",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Observation",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "subject.reference",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "category.coding.code",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "MedicationRequest",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "subject.reference",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Condition",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "subject.reference",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "AllergyIntolerance",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "patient.reference",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Encounter",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "subject.reference",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Encounter",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "subject.reference",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "period.start",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

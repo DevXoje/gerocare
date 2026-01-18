@@ -2,13 +2,8 @@
 import { computed, watch } from 'vue'
 
 import { useCarePlanForm } from '@/business/care-plans/app/useCarePlanForm'
-import Button from '@/business/common/presentation/atoms/Button.vue'
-import DatePicker from '@/business/common/presentation/atoms/DatePicker.vue'
-import FormField from '@/business/common/presentation/atoms/FormField.vue'
-import Input from '@/business/common/presentation/atoms/Input.vue'
-import Select from '@/business/common/presentation/atoms/Select.vue'
-import Textarea from '@/business/common/presentation/atoms/Textarea.vue'
-import Modal from '@/business/common/presentation/organisms/Modal.vue'
+import { Button, DatePicker, FormField, Input, Select, Textarea } from '@/business/common/presentation/atoms'
+import { Modal } from '@/business/common/presentation/organisms'
 
 interface Props {
 	modelValue: boolean
@@ -122,70 +117,37 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-	<Modal
-		:model-value="modelValue"
-		title="Nuevo Plan de Atención Individual (PAI)"
-		size="md"
-		@update:model-value="handleClose"
-		@close="handleClose"
-	>
+	<Modal :model-value="modelValue" title="Nuevo Plan de Atención Individual (PAI)" size="md"
+		@update:model-value="handleClose" @close="handleClose">
 		<form class="care-plan-form" @submit.prevent="handleSubmit">
 			<FormField v-if="!residentId" label="Residente ID" required>
-				<Input
-					:model-value="form.residentId || ''"
-					@update:model-value="v => (form.residentId = v)"
-					type="text"
-					required
-					placeholder="ID del residente"
-					:error="error || undefined"
-				/>
+				<Input :model-value="form.residentId || ''" @update:model-value="v => (form.residentId = v)" type="text"
+					required placeholder="ID del residente" :error="error || undefined" />
 			</FormField>
 
 			<FormField label="Título" required>
-				<Input
-					:model-value="form.title || ''"
-					@update:model-value="v => (form.title = v)"
-					type="text"
-					required
-					placeholder="Ej: Higiene diaria"
-				/>
+				<Input :model-value="form.title || ''" @update:model-value="v => (form.title = v)" type="text" required
+					placeholder="Ej: Higiene diaria" />
 			</FormField>
 
 			<FormField label="Descripción" required>
-				<Textarea
-					:model-value="form.description || ''"
-					@update:model-value="v => (form.description = v)"
-					:rows="3"
-					required
-					placeholder="Descripción detallada del plan de atención"
-				/>
+				<Textarea :model-value="form.description || ''" @update:model-value="v => (form.description = v)"
+					:rows="3" required placeholder="Descripción detallada del plan de atención" />
 			</FormField>
 
 			<FormField label="Categoría" required>
-				<Select
-					:model-value="form.category || 'hygiene'"
-					@update:model-value="v => (form.category = String(v))"
-					:options="categories"
-					required
-				/>
+				<Select :model-value="form.category || 'hygiene'" @update:model-value="v => (form.category = String(v))"
+					:options="categories" required />
 			</FormField>
 
 			<FormField label="Frecuencia" required>
-				<Select
-					:model-value="form.frequency || 'daily'"
-					@update:model-value="v => (form.frequency = String(v))"
-					:options="frequencies"
-					required
-				/>
+				<Select :model-value="form.frequency || 'daily'" @update:model-value="v => (form.frequency = String(v))"
+					:options="frequencies" required />
 			</FormField>
 
 			<FormField label="Prioridad" required>
-				<Select
-					:model-value="form.priority || 'medium'"
-					@update:model-value="v => (form.priority = v)"
-					:options="priorities"
-					required
-				/>
+				<Select :model-value="form.priority || 'medium'" @update:model-value="v => (form.priority = v)"
+					:options="priorities" required />
 			</FormField>
 
 			<FormField label="Fecha de Inicio" required>
@@ -199,12 +161,7 @@ const handleSubmit = async () => {
 
 		<template #footer>
 			<Button variant="secondary" @click="handleClose">Cancelar</Button>
-			<Button
-				variant="primary"
-				:disabled="!isFormValid || isLoading"
-				:loading="isLoading"
-				@click="handleSubmit"
-			>
+			<Button variant="primary" :disabled="!isFormValid || isLoading" :loading="isLoading" @click="handleSubmit">
 				Guardar
 			</Button>
 		</template>

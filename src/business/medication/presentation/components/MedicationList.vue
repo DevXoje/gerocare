@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import Badge from '@/business/common/presentation/atoms/Badge.vue'
-import Card from '@/business/common/presentation/atoms/Card.vue'
-import EmptyState from '@/business/common/presentation/atoms/EmptyState.vue'
-import Skeleton from '@/business/common/presentation/atoms/Skeleton.vue'
+import { Badge, Card, EmptyState, Skeleton } from '@/business/common/presentation/atoms'
 import type { Medication } from '@/business/medication/domain/Medication'
 import { isMedicationActive } from '@/business/medication/domain/Medication'
 
@@ -36,25 +33,14 @@ const handleClick = (medication: Medication) => {
 			<Skeleton v-for="i in 3" :key="i" variant="rectangular" height="120px" />
 		</div>
 
-		<EmptyState
-			v-else-if="!error && medications.length === 0"
-			title="No hay medicaciones"
-			description="No se encontraron medicaciones para este residente."
-			icon="💊"
-		/>
+		<EmptyState v-else-if="!error && medications.length === 0" title="No hay medicaciones"
+			description="No se encontraron medicaciones para este residente." icon="💊" />
 
 		<div v-else-if="error" class="medication-list__error">{{ error }}</div>
 
 		<div v-else class="medication-list__items">
-			<Card
-				v-for="medication in medications"
-				:key="medication.id"
-				variant="elevated"
-				padding="lg"
-				:clickable="clickable"
-				class="medication-list__item"
-				@click="handleClick(medication)"
-			>
+			<Card v-for="medication in medications" :key="medication.id" variant="elevated" padding="lg"
+				:clickable="clickable" class="medication-list__item" @click="handleClick(medication)">
 				<div class="medication-item">
 					<div class="medication-item__header">
 						<h3 class="medication-item__name">{{ medication.name }}</h3>

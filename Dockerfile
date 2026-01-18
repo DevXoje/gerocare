@@ -27,9 +27,10 @@ COPY . .
 
 # Exponer puertos
 # 5173: Vite dev server
+# 6006: Storybook
 # 8080: Firestore emulator
 # 9099: Auth emulator
 # 4000: Firebase UI
-EXPOSE 5173 8080 9099 4000
+EXPOSE 5173 6006 8080 9099 4000
 
 # Nota: No hay CMD por defecto - cada servicio define su comando en docker-compose.yml

@@ -124,8 +124,8 @@ describe('LocalStorageOfflineQueue', () => {
 			expect(result.success).toBe(true)
 			const operations = unwrap(result)
 			expect(operations).toHaveLength(2)
-			expect(operations.map((o) => o.id)).toContain(op1.id)
-			expect(operations.map((o) => o.id)).toContain(op2.id)
+			expect(operations.map(o => o.id)).toContain(op1.id)
+			expect(operations.map(o => o.id)).toContain(op2.id)
 		})
 
 		it('should deserialize Date objects correctly', async () => {
@@ -234,7 +234,7 @@ describe('LocalStorageOfflineQueue', () => {
 
 			const allResult = await queue.getAll()
 			expect(allResult.success).toBe(true)
-			const updated = unwrap(allResult).find((o) => o.id === operation.id)
+			const updated = unwrap(allResult).find(o => o.id === operation.id)
 			expect(updated?.retries).toBe(1)
 		})
 
@@ -248,7 +248,7 @@ describe('LocalStorageOfflineQueue', () => {
 
 			const allResult = await queue.getAll()
 			expect(allResult.success).toBe(true)
-			const updated = unwrap(allResult).find((o) => o.id === operation.id)
+			const updated = unwrap(allResult).find(o => o.id === operation.id)
 			expect(updated?.retries).toBe(2)
 		})
 

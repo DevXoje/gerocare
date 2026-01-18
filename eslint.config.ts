@@ -94,6 +94,14 @@ export default defineConfigWithVueTs(
 	},
 
 	{
+		// Permitir imports relativos en barrel files (index.ts)
+		files: ['**/index.ts'],
+		rules: {
+			'no-restricted-imports': 'off',
+		},
+	},
+
+	{
 		// Permitir imports relativos en tests, archivos de configuración y stories
 		files: [
 			'src/**/__tests__/**/*.{ts,vue}',

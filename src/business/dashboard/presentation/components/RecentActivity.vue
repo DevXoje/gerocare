@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import Card from '@/business/common/presentation/atoms/Card.vue'
+import { Card } from '@/business/common/presentation/atoms'
 
 defineOptions({
 	name: 'DashboardRecentActivity',
@@ -48,11 +48,7 @@ const displayedActivities = computed(() => {
 		<div class="recent-activity">
 			<h3 class="recent-activity__title">Actividad Reciente</h3>
 			<div v-if="displayedActivities.length > 0" class="recent-activity__list">
-				<div
-					v-for="activity in displayedActivities"
-					:key="activity.id"
-					class="recent-activity__item"
-				>
+				<div v-for="activity in displayedActivities" :key="activity.id" class="recent-activity__item">
 					<span v-if="activity.icon" class="recent-activity__icon">{{ activity.icon }}</span>
 					<div class="recent-activity__content">
 						<p class="recent-activity__description">{{ activity.description }}</p>

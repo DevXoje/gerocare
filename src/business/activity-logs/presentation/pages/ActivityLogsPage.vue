@@ -7,9 +7,8 @@ import { useActivityLogForm } from '@/business/activity-logs/app/useActivityLogF
 import ActivityLogForm from '@/business/activity-logs/presentation/components/ActivityLogForm.vue'
 import ActivityLogList from '@/business/activity-logs/presentation/components/ActivityLogList.vue'
 import { useActivityLogStore } from '@/business/activity-logs/store'
-import Button from '@/business/common/presentation/atoms/Button.vue'
-import Card from '@/business/common/presentation/atoms/Card.vue'
-import Tabs from '@/business/common/presentation/molecules/Tabs.vue'
+import { Button, Card } from '@/business/common/presentation/atoms'
+import { Tabs } from '@/business/common/presentation/molecules'
 
 const route = useRoute()
 const residentId = computed(() => (route.params.residentId as string) || undefined)
@@ -73,21 +72,13 @@ const handleTabChange = (tabId: string) => {
 			<Tabs :model-value="activeTab" :tabs="tabs" @change="handleTabChange" />
 
 			<div class="activity-logs-page__list">
-				<ActivityLogList
-					:activity-logs="displayedLogs"
-					:is-loading="isLoading"
-					:error="error?.message || null"
-					clickable
-				/>
+				<ActivityLogList :activity-logs="displayedLogs" :is-loading="isLoading" :error="error?.message || null"
+					clickable />
 			</div>
 		</Card>
 
-		<ActivityLogForm
-			v-model="showForm"
-			:resident-id="residentId"
-			@submit="handleFormSubmit"
-			@close="showForm = false"
-		/>
+		<ActivityLogForm v-model="showForm" :resident-id="residentId" @submit="handleFormSubmit"
+			@close="showForm = false" />
 	</div>
 </template>
 

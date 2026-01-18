@@ -16,7 +16,9 @@ export async function clearMedications(): Promise<number> {
 				deletedCount++
 				console.log(`✓ Medicación eliminada: ${medication.name} (${medication.id})`)
 			} else {
-				console.error(`✗ Error al eliminar medicación ${medication.id}: ${deleteResult.error.message}`)
+				console.error(
+					`✗ Error al eliminar medicación ${medication.id}: ${deleteResult.error.message}`
+				)
 			}
 		}
 	} else {

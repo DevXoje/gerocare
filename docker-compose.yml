@@ -45,6 +45,29 @@ services:
     stdin_open: true
     tty: true
 
+  storybook:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gerocare-storybook
+    command: npx storybook dev -p 6006 --host 0.0.0.0
+    volumes:
+      # Montar el código para hot-reload
+      - .:/app
+      # Montar node_modules como volumen para mejor rendimiento
+      - /app/node_modules
+    ports:
+      - "127.0.0.1:6006:6006" # Storybook (solo localhost)
+    environment:
+      - NODE_ENV=development
+      - DOCKER_CONTAINER=true
+      - CI=true
+      - CHROMATIC_SKIP_BROWSER_DOWNLOAD=true
+    networks:
+      - gerocare-network
+    stdin_open: true
+    tty: true
+
 networks:
   gerocare-network:
     driver: bridge

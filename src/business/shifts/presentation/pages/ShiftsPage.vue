@@ -3,9 +3,8 @@ import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
-import Button from '@/business/common/presentation/atoms/Button.vue'
-import Card from '@/business/common/presentation/atoms/Card.vue'
-import Tabs from '@/business/common/presentation/molecules/Tabs.vue'
+import { Button, Card } from '@/business/common/presentation/atoms'
+import { Tabs } from '@/business/common/presentation/molecules'
 import { useShiftForm } from '@/business/shifts/app/useShiftForm'
 import ShiftForm from '@/business/shifts/presentation/components/ShiftForm.vue'
 import ShiftList from '@/business/shifts/presentation/components/ShiftList.vue'
@@ -73,21 +72,13 @@ const handleTabChange = (tabId: string) => {
 			<Tabs :model-value="activeTab" :tabs="tabs" @change="handleTabChange" />
 
 			<div class="shifts-page__list">
-				<ShiftList
-					:shifts="displayedShifts"
-					:is-loading="isLoading"
-					:error="error?.message || null"
-					clickable
-				/>
+				<ShiftList :shifts="displayedShifts" :is-loading="isLoading" :error="error?.message || null"
+					clickable />
 			</div>
 		</Card>
 
-		<ShiftForm
-			v-model="showForm"
-			:caregiver-id="caregiverId"
-			@submit="handleFormSubmit"
-			@close="showForm = false"
-		/>
+		<ShiftForm v-model="showForm" :caregiver-id="caregiverId" @submit="handleFormSubmit"
+			@close="showForm = false" />
 	</div>
 </template>
 

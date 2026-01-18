@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import type { CarePlan } from '@/business/care-plans/domain/CarePlan'
 import { getCategoryDisplayName } from '@/business/care-plans/domain/CarePlan'
-import Badge from '@/business/common/presentation/atoms/Badge.vue'
-import Card from '@/business/common/presentation/atoms/Card.vue'
-import EmptyState from '@/business/common/presentation/atoms/EmptyState.vue'
-import Skeleton from '@/business/common/presentation/atoms/Skeleton.vue'
+import { Badge, Card, EmptyState, Skeleton } from '@/business/common/presentation/atoms'
 
 interface Props {
 	carePlans: CarePlan[]
@@ -60,25 +57,14 @@ const handleClick = (carePlan: CarePlan) => {
 			<Skeleton v-for="i in 3" :key="i" variant="rectangular" height="150px" />
 		</div>
 
-		<EmptyState
-			v-else-if="!error && carePlans.length === 0"
-			title="No hay planes de atención"
-			description="No se encontraron planes de atención individual (PAI) para este residente."
-			icon="📋"
-		/>
+		<EmptyState v-else-if="!error && carePlans.length === 0" title="No hay planes de atención"
+			description="No se encontraron planes de atención individual (PAI) para este residente." icon="📋" />
 
 		<div v-else-if="error" class="care-plan-list__error">{{ error }}</div>
 
 		<div v-else class="care-plan-list__items">
-			<Card
-				v-for="carePlan in carePlans"
-				:key="carePlan.id"
-				variant="elevated"
-				padding="lg"
-				:clickable="clickable"
-				class="care-plan-list__item"
-				@click="handleClick(carePlan)"
-			>
+			<Card v-for="carePlan in carePlans" :key="carePlan.id" variant="elevated" padding="lg"
+				:clickable="clickable" class="care-plan-list__item" @click="handleClick(carePlan)">
 				<div class="care-plan-item">
 					<div class="care-plan-item__header">
 						<h3 class="care-plan-item__title">{{ carePlan.title }}</h3>

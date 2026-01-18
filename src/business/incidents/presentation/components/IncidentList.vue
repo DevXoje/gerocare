@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import Badge from '@/business/common/presentation/atoms/Badge.vue'
-import Card from '@/business/common/presentation/atoms/Card.vue'
-import EmptyState from '@/business/common/presentation/atoms/EmptyState.vue'
-import Skeleton from '@/business/common/presentation/atoms/Skeleton.vue'
+import { Badge, Card, EmptyState, Skeleton } from '@/business/common/presentation/atoms'
 import type { Incident } from '@/business/incidents/domain/Incident'
 import {
 	getSeverityDisplayName,
@@ -64,25 +61,14 @@ const handleClick = (incident: Incident) => {
 			<Skeleton v-for="i in 3" :key="i" variant="rectangular" height="150px" />
 		</div>
 
-		<EmptyState
-			v-else-if="!error && incidents.length === 0"
-			title="No hay incidencias"
-			description="No se encontraron incidencias registradas."
-			icon="⚠️"
-		/>
+		<EmptyState v-else-if="!error && incidents.length === 0" title="No hay incidencias"
+			description="No se encontraron incidencias registradas." icon="⚠️" />
 
 		<div v-else-if="error" class="incident-list__error">{{ error }}</div>
 
 		<div v-else class="incident-list__items">
-			<Card
-				v-for="incident in incidents"
-				:key="incident.id"
-				variant="elevated"
-				padding="lg"
-				:clickable="clickable"
-				class="incident-list__item"
-				@click="handleClick(incident)"
-			>
+			<Card v-for="incident in incidents" :key="incident.id" variant="elevated" padding="lg"
+				:clickable="clickable" class="incident-list__item" @click="handleClick(incident)">
 				<div class="incident-item">
 					<div class="incident-item__header">
 						<h3 class="incident-item__title">{{ getTypeDisplayName(incident.type) }}</h3>
@@ -101,9 +87,7 @@ const handleClick = (incident: Incident) => {
 							{{ incident.incidentDate.toLocaleDateString() }} -
 							{{ incident.incidentDate.toLocaleTimeString() }}
 						</span>
-						<span v-if="incident.location" class="incident-item__location"
-							>📍 {{ incident.location }}</span
-						>
+						<span v-if="incident.location" class="incident-item__location">📍 {{ incident.location }}</span>
 					</div>
 
 					<p class="incident-item__description">{{ incident.description }}</p>

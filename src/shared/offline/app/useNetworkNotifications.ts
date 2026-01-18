@@ -12,7 +12,9 @@ export function useNetworkNotifications() {
 	const { warning, success } = useNotifications()
 
 	function handleNetworkOffline() {
-		warning('Estás trabajando sin conexión. Los cambios se sincronizarán automáticamente cuando se recupere la conexión.')
+		warning(
+			'Estás trabajando sin conexión. Los cambios se sincronizarán automáticamente cuando se recupere la conexión.'
+		)
 	}
 
 	function handleNetworkOnline() {

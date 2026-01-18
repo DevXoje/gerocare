@@ -19,6 +19,8 @@ Use these skills for detailed patterns on-demand:
 | `skill-creator` | Creates new AI agent skills following the Agent Skills spec | [SKILL.md](.cursor/skills/skill-creator/SKILL.md) |
 | `extracting-stitch-mockups` | Extract generated mockup images from Google Stitch project pages | [SKILL.md](.cursor/skills/extracting-stitch-mockups/SKILL.md) |
 | `ui-components` | Patterns and conventions for creating agnostic UI components in GeroCare | [SKILL.md](.cursor/skills/ui-components/SKILL.md) |
+| `ui-design-system` | UI design system toolkit for creating design tokens, visual consistency, and developer handoff documentation | [SKILL.md](.cursor/skills/ui-design-system/SKILL.md) |
+| `ux-researcher-designer` | UX research and design toolkit for persona generation, journey mapping, usability testing, and research synthesis | [SKILL.md](.cursor/skills/ux-researcher-designer/SKILL.md) |
 | `feature-development` | Patterns and conventions for implementing complete features following Clean Architecture | [SKILL.md](.cursor/skills/feature-development/SKILL.md) |
 | `zod` | Patterns and conventions for using Zod validation schemas in GeroCare following Clean Architecture | [SKILL.md](.cursor/skills/zod/SKILL.md) |
 | `coding-style` | Coding style guide and conventions for GeroCare | [SKILL.md](.cursor/skills/coding-style/SKILL.md) |
@@ -39,6 +41,8 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Setting up the development environment | `docker` |
 | Extracting mockup images from Google Stitch projects | `extracting-stitch-mockups` |
 | Creating new UI components, reusable components, or building the component library | `ui-components` |
+| Creating or updating design tokens, generating color palettes, documenting design system | `ui-design-system` |
+| Conducting user research, creating personas, journey mapping, usability testing | `ux-researcher-designer` |
 | Creating new features, domain entities, repositories, composables, or business logic | `feature-development` |
 | Creating validation schemas, validating domain entities, form data, or Firestore data | `zod` |
 | Writing code, refactoring, or making style decisions | `coding-style` |
@@ -108,7 +112,23 @@ npm run type-check               # Type check with vue-tsc
 
 # Firebase
 npm run emulators                 # Start Firebase emulators (Auth, Firestore)
+npm run seed                      # Create test users and sample data
+npm run seed:clear                # Clear all seed data (users, residents, etc.)
 ```
+
+### Authentication & Login
+
+**When testing or interacting with the application, use the following credentials:**
+
+If you need to log in to the application:
+1. **Test user credentials** (example credentials for development):
+   - **Email**: `test@gerocare.test`
+   - **Password**: `test123456`
+2. **If login fails**, it means no users exist in the database. You should:
+   - **Option 1**: Register a new user using the "Regístrate" link on the login page
+   - **Option 2**: Run `npm run seed` to automatically create test users (creates users like `caregiver1@gerocare.test`, `caregiver2@gerocare.test`, etc.)
+
+**Important**: If the login doesn't work, the user must register first or run the seed script to create test users.
 
 ### Commit Guidelines
 

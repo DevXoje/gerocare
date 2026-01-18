@@ -56,10 +56,12 @@ export class LocalStorageOfflineQueue implements OfflineQueueRepository {
 				return Ok([])
 			}
 
-			const parsed = JSON.parse(stored) as Array<Omit<OfflineOperation, 'timestamp'> & { timestamp: string }>
+			const parsed = JSON.parse(stored) as Array<
+				Omit<OfflineOperation, 'timestamp'> & { timestamp: string }
+			>
 
 			// Convert timestamp strings back to Date objects
-			const operations: OfflineOperation[] = parsed.map((op) => ({
+			const operations: OfflineOperation[] = parsed.map(op => ({
 				...op,
 				timestamp: new Date(op.timestamp),
 			}))
@@ -80,7 +82,7 @@ export class LocalStorageOfflineQueue implements OfflineQueueRepository {
 				return allResult
 			}
 
-			const operations = allResult.value.filter((op) => op.id !== id)
+			const operations = allResult.value.filter(op => op.id !== id)
 			this.saveToStorage(operations)
 
 			return Ok(undefined)
@@ -107,7 +109,7 @@ export class LocalStorageOfflineQueue implements OfflineQueueRepository {
 			}
 
 			const operations = allResult.value
-			const operation = operations.find((op) => op.id === id)
+			const operation = operations.find(op => op.id === id)
 
 			if (!operation) {
 				return Err(createAppError('NOT_FOUND', `Operation with id ${id} not found`))

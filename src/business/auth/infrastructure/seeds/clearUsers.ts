@@ -14,9 +14,7 @@ export async function clearUsers(): Promise<number> {
 	// Nota: Firebase Auth client SDK no permite listar usuarios
 	// Para desarrollo, la mejor práctica es reiniciar los emuladores
 	// o usar Firebase Admin SDK en un script separado
-	console.log(
-		'⚠️  Para limpiar usuarios de Firebase Auth:'
-	)
+	console.log('⚠️  Para limpiar usuarios de Firebase Auth:')
 	console.log('   1. Reinicia los emuladores (Ctrl+C y vuelve a iniciarlos)')
 	console.log('   2. O usa Firebase Admin SDK en un script separado')
 	console.log('   3. O elimina manualmente desde Firebase UI (http://localhost:4000)')

@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import Badge from '@/business/common/presentation/atoms/Badge.vue'
-import Card from '@/business/common/presentation/atoms/Card.vue'
-import EmptyState from '@/business/common/presentation/atoms/EmptyState.vue'
-import Skeleton from '@/business/common/presentation/atoms/Skeleton.vue'
+import { Badge, Card, EmptyState, Skeleton } from '@/business/common/presentation/atoms'
 import type { Shift } from '@/business/shifts/domain/Shift'
 import { getStatusDisplayName, getTypeDisplayName } from '@/business/shifts/domain/Shift'
 
@@ -48,25 +45,14 @@ const handleClick = (shift: Shift) => {
 			<Skeleton v-for="i in 3" :key="i" variant="rectangular" height="120px" />
 		</div>
 
-		<EmptyState
-			v-else-if="!error && shifts.length === 0"
-			title="No hay turnos"
-			description="No se encontraron turnos programados."
-			icon="📅"
-		/>
+		<EmptyState v-else-if="!error && shifts.length === 0" title="No hay turnos"
+			description="No se encontraron turnos programados." icon="📅" />
 
 		<div v-else-if="error" class="shift-list__error">{{ error }}</div>
 
 		<div v-else class="shift-list__items">
-			<Card
-				v-for="shift in shifts"
-				:key="shift.id"
-				variant="elevated"
-				padding="lg"
-				:clickable="clickable"
-				class="shift-list__item"
-				@click="handleClick(shift)"
-			>
+			<Card v-for="shift in shifts" :key="shift.id" variant="elevated" padding="lg" :clickable="clickable"
+				class="shift-list__item" @click="handleClick(shift)">
 				<div class="shift-item">
 					<div class="shift-item__header">
 						<h3 class="shift-item__title">{{ getTypeDisplayName(shift.type) }}</h3>

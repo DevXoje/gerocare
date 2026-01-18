@@ -35,6 +35,24 @@ export function useMedicationForm() {
 		)
 	})
 
+	const getMissingFields = (): string[] => {
+		const missing: string[] = []
+		if (!form.value.residentId) missing.push('Residente ID')
+		if (!form.value.name?.trim()) missing.push('Nombre del Medicamento')
+		if (!form.value.dosage?.trim()) missing.push('Dosis')
+		if (!form.value.frequency?.trim()) missing.push('Frecuencia')
+		if (!form.value.startDate) missing.push('Fecha de Inicio')
+		return missing
+	}
+
+	const getMissingFieldsErrorMessage = (): string => {
+		const missing = getMissingFields()
+		if (missing.length === 0) return 'Por favor, complete todos los campos requeridos'
+		if (missing.length === 1) return `El campo "${missing[0]}" es requerido`
+		if (missing.length === 2) return `Los campos "${missing[0]}" y "${missing[1]}" son requeridos`
+		return `Los siguientes campos son requeridos: ${missing.join(', ')}`
+	}
+
 	const resetForm = () => {
 		form.value = {
 			residentId: '',
@@ -50,8 +68,12 @@ export function useMedicationForm() {
 	}
 
 	const submit = async (): Promise<Medication | null> => {
-		if (!isFormValid.value || !authStore.user) {
-			error.value = 'Please fill in all required fields'
+		if (!authStore.user) {
+			error.value = 'Debe iniciar sesión para crear una medicación'
+			return null
+		}
+		if (!isFormValid.value) {
+			error.value = getMissingFieldsErrorMessage()
 			return null
 		}
 
@@ -108,7 +130,7 @@ export function useMedicationForm() {
 
 	const update = async (id: string): Promise<Medication | null> => {
 		if (!isFormValid.value) {
-			error.value = 'Please fill in all required fields'
+			error.value = getMissingFieldsErrorMessage()
 			return null
 		}
 

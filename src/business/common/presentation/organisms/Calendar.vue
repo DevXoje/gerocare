@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-import Button from '@/business/common/presentation/atoms/Button.vue'
-import IconButton from '@/business/common/presentation/atoms/IconButton.vue'
+import { Button, IconButton } from '@/business/common/presentation/atoms'
 
 defineOptions({
 	name: 'AppCalendar',
@@ -166,29 +165,19 @@ const goToToday = () => {
 			<div v-for="day in weekDays" :key="day" class="calendar__weekday">{{ day }}</div>
 		</div>
 		<div class="calendar__grid">
-			<div
-				v-for="(date, index) in calendarDays"
-				:key="index"
-				:class="{
-					calendar__day: true,
-					'calendar__day--empty': !date,
-					'calendar__day--today': date && isToday(date),
-					'calendar__day--selected': date && isDateSelected(date),
-					'calendar__day--disabled': date && isDateDisabled(date),
-					'calendar__day--has-events': date && getEventsForDate(date).length > 0,
-				}"
-				@click="date ? handleDateClick(date) : undefined"
-			>
+			<div v-for="(date, index) in calendarDays" :key="index" :class="{
+				calendar__day: true,
+				'calendar__day--empty': !date,
+				'calendar__day--today': date && isToday(date),
+				'calendar__day--selected': date && isDateSelected(date),
+				'calendar__day--disabled': date && isDateDisabled(date),
+				'calendar__day--has-events': date && getEventsForDate(date).length > 0,
+			}" @click="date ? handleDateClick(date) : undefined">
 				<span v-if="date" class="calendar__day-number">{{ date.getDate() }}</span>
 				<div v-if="date && getEventsForDate(date).length > 0" class="calendar__events">
-					<div
-						v-for="event in getEventsForDate(date)"
-						:key="event.id"
-						class="calendar__event"
+					<div v-for="event in getEventsForDate(date)" :key="event.id" class="calendar__event"
 						:style="{ backgroundColor: event.color || 'var(--token-color-primary-500)' }"
-						:title="event.title"
-						@click.stop="e => handleEventClick(event, e)"
-					></div>
+						:title="event.title" @click.stop="e => handleEventClick(event, e)"></div>
 				</div>
 			</div>
 		</div>

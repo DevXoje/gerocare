@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 
-import Card from '@/business/common/presentation/atoms/Card.vue'
-import StatCard from '@/business/common/presentation/molecules/StatCard.vue'
-import Table from '@/business/common/presentation/organisms/Table.vue'
+import { Card } from '@/business/common/presentation/atoms'
+import { StatCard } from '@/business/common/presentation/molecules'
+import { Table } from '@/business/common/presentation/organisms'
 import { useReports } from '@/business/reports/app/useReports'
 
 const { summaryCards, stats, incidentStats, isLoading, loadReports } = useReports()
@@ -66,14 +66,8 @@ const incidentSeverityRows = computed(() => {
 		<div v-else class="reports-page__content">
 			<!-- Summary Cards -->
 			<div class="reports-page__summary">
-				<StatCard
-					v-for="(card, index) in summaryCards"
-					:key="index"
-					:value="card.value"
-					:label="card.label"
-					:icon="card.icon"
-					:variant="card.variant"
-				/>
+				<StatCard v-for="(card, index) in summaryCards" :key="index" :value="card.value" :label="card.label"
+					:icon="card.icon" :variant="card.variant" />
 			</div>
 
 			<!-- Detailed Stats -->

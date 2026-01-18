@@ -3,9 +3,8 @@ import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
-import Button from '@/business/common/presentation/atoms/Button.vue'
-import Card from '@/business/common/presentation/atoms/Card.vue'
-import Tabs from '@/business/common/presentation/molecules/Tabs.vue'
+import { Button, Card } from '@/business/common/presentation/atoms'
+import { Tabs } from '@/business/common/presentation/molecules'
 import { useIncidentForm } from '@/business/incidents/app/useIncidentForm'
 import IncidentForm from '@/business/incidents/presentation/components/IncidentForm.vue'
 import IncidentList from '@/business/incidents/presentation/components/IncidentList.vue'
@@ -73,21 +72,13 @@ const handleTabChange = (tabId: string) => {
 			<Tabs :model-value="activeTab" :tabs="tabs" @change="handleTabChange" />
 
 			<div class="incidents-page__list">
-				<IncidentList
-					:incidents="displayedIncidents"
-					:is-loading="isLoading"
-					:error="error?.message || null"
-					clickable
-				/>
+				<IncidentList :incidents="displayedIncidents" :is-loading="isLoading" :error="error?.message || null"
+					clickable />
 			</div>
 		</Card>
 
-		<IncidentForm
-			v-model="showForm"
-			:resident-id="residentId"
-			@submit="handleFormSubmit"
-			@close="showForm = false"
-		/>
+		<IncidentForm v-model="showForm" :resident-id="residentId" @submit="handleFormSubmit"
+			@close="showForm = false" />
 	</div>
 </template>
 

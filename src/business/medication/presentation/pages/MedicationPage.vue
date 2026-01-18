@@ -3,8 +3,8 @@ import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
-import Button from '@/business/common/presentation/atoms/Button.vue'
-import Tabs from '@/business/common/presentation/molecules/Tabs.vue'
+import { Button } from '@/business/common/presentation/atoms'
+import { Tabs } from '@/business/common/presentation/molecules'
 import MedicationForm from '@/business/medication/presentation/components/MedicationForm.vue'
 import MedicationList from '@/business/medication/presentation/components/MedicationList.vue'
 import MedicationSchedule from '@/business/medication/presentation/components/MedicationSchedule.vue'
@@ -71,19 +71,12 @@ onMounted(async () => {
 
 		<Tabs :tabs="tabs" :model-value="activeTab" @update:model-value="handleTabChange">
 			<template v-if="activeTab === 'schedule'">
-				<MedicationSchedule
-					:medications="medications"
-					:administrations="administrations"
-					:on-administer="handleAdminister"
-				/>
+				<MedicationSchedule :medications="medications" :administrations="administrations"
+					:on-administer="handleAdminister" />
 			</template>
 
 			<template v-else-if="activeTab === 'list'">
-				<MedicationList
-					:medications="medications"
-					:is-loading="isLoading"
-					:error="error?.message"
-				/>
+				<MedicationList :medications="medications" :is-loading="isLoading" :error="error?.message" />
 			</template>
 
 			<template v-else-if="activeTab === 'history'">
@@ -95,12 +88,8 @@ onMounted(async () => {
 			</template>
 		</Tabs>
 
-		<MedicationForm
-			v-model="showForm"
-			:resident-id="residentId"
-			@submit="handleFormSubmit"
-			@close="showForm = false"
-		/>
+		<MedicationForm v-model="showForm" :resident-id="residentId" @submit="handleFormSubmit"
+			@close="showForm = false" />
 	</div>
 </template>
 

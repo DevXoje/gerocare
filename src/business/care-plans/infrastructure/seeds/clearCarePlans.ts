@@ -16,7 +16,9 @@ export async function clearCarePlans(): Promise<number> {
 				deletedCount++
 				console.log(`✓ Plan de cuidado eliminado: ${carePlan.title} (${carePlan.id})`)
 			} else {
-				console.error(`✗ Error al eliminar plan de cuidado ${carePlan.id}: ${deleteResult.error.message}`)
+				console.error(
+					`✗ Error al eliminar plan de cuidado ${carePlan.id}: ${deleteResult.error.message}`
+				)
 			}
 		}
 	} else {

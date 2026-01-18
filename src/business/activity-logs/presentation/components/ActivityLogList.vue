@@ -4,10 +4,7 @@ import {
 	getActivityTypeDisplayName,
 	getStatusDisplayName,
 } from '@/business/activity-logs/domain/ActivityLog'
-import Badge from '@/business/common/presentation/atoms/Badge.vue'
-import Card from '@/business/common/presentation/atoms/Card.vue'
-import EmptyState from '@/business/common/presentation/atoms/EmptyState.vue'
-import Skeleton from '@/business/common/presentation/atoms/Skeleton.vue'
+import { Badge, Card, EmptyState, Skeleton } from '@/business/common/presentation/atoms'
 
 interface Props {
 	activityLogs: ActivityLog[]
@@ -56,25 +53,14 @@ const handleClick = (activityLog: ActivityLog) => {
 			<Skeleton v-for="i in 3" :key="i" variant="rectangular" height="150px" />
 		</div>
 
-		<EmptyState
-			v-else-if="!error && activityLogs.length === 0"
-			title="No hay actividades registradas"
-			description="No se encontraron actividades registradas."
-			icon="📝"
-		/>
+		<EmptyState v-else-if="!error && activityLogs.length === 0" title="No hay actividades registradas"
+			description="No se encontraron actividades registradas." icon="📝" />
 
 		<div v-else-if="error" class="activity-log-list__error">{{ error }}</div>
 
 		<div v-else class="activity-log-list__items">
-			<Card
-				v-for="activityLog in activityLogs"
-				:key="activityLog.id"
-				variant="elevated"
-				padding="lg"
-				:clickable="clickable"
-				class="activity-log-list__item"
-				@click="handleClick(activityLog)"
-			>
+			<Card v-for="activityLog in activityLogs" :key="activityLog.id" variant="elevated" padding="lg"
+				:clickable="clickable" class="activity-log-list__item" @click="handleClick(activityLog)">
 				<div class="activity-log-item">
 					<div class="activity-log-item__header">
 						<h3 class="activity-log-item__title">{{ activityLog.title }}</h3>
@@ -104,10 +90,7 @@ const handleClick = (activityLog: ActivityLog) => {
 						<strong>Notas:</strong> {{ activityLog.notes }}
 					</div>
 
-					<div
-						v-if="activityLog.photos && activityLog.photos.length > 0"
-						class="activity-log-item__photos"
-					>
+					<div v-if="activityLog.photos && activityLog.photos.length > 0" class="activity-log-item__photos">
 						<strong>Fotos:</strong> {{ activityLog.photos.length }} foto(s)
 					</div>
 				</div>

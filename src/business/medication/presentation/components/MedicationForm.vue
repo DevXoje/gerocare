@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 
-import Button from '@/business/common/presentation/atoms/Button.vue'
-import DatePicker from '@/business/common/presentation/atoms/DatePicker.vue'
-import FormField from '@/business/common/presentation/atoms/FormField.vue'
-import Input from '@/business/common/presentation/atoms/Input.vue'
-import Textarea from '@/business/common/presentation/atoms/Textarea.vue'
-import Modal from '@/business/common/presentation/organisms/Modal.vue'
+import { Button, DatePicker, FormField, Input, Textarea } from '@/business/common/presentation/atoms'
+import { ResidentSelector, TimeScheduleSelector } from '@/business/common/presentation/molecules'
+import { Modal } from '@/business/common/presentation/organisms'
 import { useMedicationForm } from '@/business/medication/app/useMedicationForm'
 
 interface Props {
@@ -61,10 +58,10 @@ watch(
 )
 
 // Convert Date to string for DatePicker
-const startDateString = computed<string>({
+const startDateString = computed({
 	get: (): string => {
 		const startDate = form.value.startDate
-		if (!startDate) return new Date().toISOString().split('T')[0]
+		if (!startDate) return new Date().toISOString().split('T')[0]!
 		if (typeof startDate === 'string') {
 			return startDate
 		}
@@ -108,63 +105,36 @@ const handleSubmit = async () => {
 	const result = await submit()
 	if (result) {
 		emit('submit')
-		handleClose()
+		// Delay para permitir que el usuario vea la notificación de éxito antes de cerrar
+		setTimeout(() => {
+			handleClose()
+		}, 1500)
 	}
 }
 </script>
 
 <template>
-	<Modal
-		:model-value="modelValue"
-		title="Nueva Medicación"
-		size="md"
-		@update:model-value="handleClose"
-		@close="handleClose"
-	>
+	<Modal :model-value="modelValue" title="Nueva Medicación" size="md" @update:model-value="handleClose"
+		@close="handleClose">
 		<form class="medication-form" @submit.prevent="handleSubmit">
-			<FormField v-if="!residentId" label="Residente ID" required>
-				<Input
-					:model-value="form.residentId || ''"
-					@update:model-value="v => (form.residentId = v)"
-					type="text"
-					required
-					placeholder="ID del residente"
-					:error="error || undefined"
-				/>
+			<FormField v-if="!residentId" label="Residente" required>
+				<ResidentSelector :model-value="form.residentId || ''" @update:model-value="v => (form.residentId = v)"
+					placeholder="Buscar residente..." required :error="error || undefined" />
 			</FormField>
 
 			<FormField label="Nombre del Medicamento" required>
-				<Input
-					:model-value="form.name || ''"
-					@update:model-value="v => (form.name = v)"
-					type="text"
-					required
-					placeholder="Ej: Paracetamol"
-				/>
+				<Input :model-value="form.name || ''" @update:model-value="v => (form.name = String(v))" type="text" required
+					placeholder="Ej: Paracetamol" />
 			</FormField>
 
 			<FormField label="Dosis" required>
-				<Input
-					:model-value="form.dosage || ''"
-					@update:model-value="v => (form.dosage = v)"
-					type="text"
-					required
-					placeholder="Ej: 500mg"
-				/>
+				<Input :model-value="form.dosage || ''" @update:model-value="v => (form.dosage = String(v))" type="text"
+					required placeholder="Ej: 500mg" />
 			</FormField>
 
-			<FormField
-				label="Frecuencia"
-				required
-				hint="Ej: 8:00, 14:00, 20:00 o 'diario', 'dos veces al día'"
-			>
-				<Input
-					:model-value="form.frequency || ''"
-					@update:model-value="v => (form.frequency = v)"
-					type="text"
-					required
-					placeholder="Ej: 8:00, 14:00, 20:00"
-				/>
+			<FormField label="Frecuencia" required hint="Selecciona horarios o usa un preset común">
+				<TimeScheduleSelector :model-value="form.frequency || ''" @update:model-value="v => (form.frequency = v)"
+					placeholder="Seleccionar horarios..." required />
 			</FormField>
 
 			<FormField label="Fecha de Inicio" required>
@@ -176,23 +146,14 @@ const handleSubmit = async () => {
 			</FormField>
 
 			<FormField label="Instrucciones" hint="Opcional">
-				<Textarea
-					:model-value="form.instructions || ''"
-					@update:model-value="v => (form.instructions = v)"
-					:rows="3"
-					placeholder="Instrucciones adicionales para la administración"
-				/>
+				<Textarea :model-value="form.instructions || ''" @update:model-value="v => (form.instructions = v)" :rows="3"
+					placeholder="Instrucciones adicionales para la administración" />
 			</FormField>
 		</form>
 
 		<template #footer>
 			<Button variant="secondary" @click="handleClose">Cancelar</Button>
-			<Button
-				variant="primary"
-				:disabled="!isFormValid || isLoading"
-				:loading="isLoading"
-				@click="handleSubmit"
-			>
+			<Button variant="primary" :disabled="!isFormValid || isLoading" :loading="isLoading" @click="handleSubmit">
 				Guardar
 			</Button>
 		</template>

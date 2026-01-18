@@ -3,13 +3,8 @@ import { computed, watch } from 'vue'
 
 import { useActivityLogForm } from '@/business/activity-logs/app/useActivityLogForm'
 import type { ActivityLog } from '@/business/activity-logs/domain/ActivityLog'
-import Button from '@/business/common/presentation/atoms/Button.vue'
-import DatePicker from '@/business/common/presentation/atoms/DatePicker.vue'
-import FormField from '@/business/common/presentation/atoms/FormField.vue'
-import Input from '@/business/common/presentation/atoms/Input.vue'
-import Select from '@/business/common/presentation/atoms/Select.vue'
-import Textarea from '@/business/common/presentation/atoms/Textarea.vue'
-import Modal from '@/business/common/presentation/organisms/Modal.vue'
+import { Button, DatePicker, FormField, Input, Select, Textarea } from '@/business/common/presentation/atoms'
+import { Modal } from '@/business/common/presentation/organisms'
 
 interface Props {
 	modelValue: boolean
@@ -109,52 +104,28 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-	<Modal
-		:model-value="modelValue"
-		:title="activityLogId ? 'Editar Actividad' : 'Registrar Actividad'"
-		size="md"
-		@update:model-value="handleClose"
-		@close="handleClose"
-	>
+	<Modal :model-value="modelValue" :title="activityLogId ? 'Editar Actividad' : 'Registrar Actividad'" size="md"
+		@update:model-value="handleClose" @close="handleClose">
 		<form class="activity-log-form" @submit.prevent="handleSubmit">
 			<FormField v-if="!residentId" label="Residente ID" required>
-				<Input
-					:model-value="form.residentId || ''"
-					@update:model-value="v => (form.residentId = String(v))"
-					type="text"
-					required
-					placeholder="ID del residente"
-					:error="error || undefined"
-				/>
+				<Input :model-value="form.residentId || ''" @update:model-value="v => (form.residentId = String(v))"
+					type="text" required placeholder="ID del residente" :error="error || undefined" />
 			</FormField>
 
 			<FormField label="Tipo de Actividad" required>
-				<Select
-					:model-value="form.activityType || 'other'"
+				<Select :model-value="form.activityType || 'other'"
 					@update:model-value="v => (form.activityType = v as ActivityLog['activityType'])"
-					:options="activityTypes"
-					required
-				/>
+					:options="activityTypes" required />
 			</FormField>
 
 			<FormField label="Título" required>
-				<Input
-					:model-value="form.title || ''"
-					@update:model-value="v => (form.title = String(v))"
-					type="text"
-					required
-					placeholder="Título de la actividad"
-				/>
+				<Input :model-value="form.title || ''" @update:model-value="v => (form.title = String(v))" type="text"
+					required placeholder="Título de la actividad" />
 			</FormField>
 
 			<FormField label="Descripción" required>
-				<Textarea
-					:model-value="form.description || ''"
-					@update:model-value="v => (form.description = v)"
-					:rows="3"
-					required
-					placeholder="Descripción detallada de la actividad realizada"
-				/>
+				<Textarea :model-value="form.description || ''" @update:model-value="v => (form.description = v)"
+					:rows="3" required placeholder="Descripción detallada de la actividad realizada" />
 			</FormField>
 
 			<FormField label="Fecha y Hora" required>
@@ -162,45 +133,27 @@ const handleSubmit = async () => {
 			</FormField>
 
 			<FormField label="Duración (minutos)" hint="Opcional">
-				<Input
-					:model-value="form.duration?.toString() || ''"
-					@update:model-value="
-						v => (form.duration = typeof v === 'number' ? v : v ? Number(v) : undefined)
-					"
-					type="number"
-					min="1"
-					placeholder="Ej: 30"
-				/>
+				<Input :model-value="form.duration?.toString() || ''" @update:model-value="
+					v => (form.duration = typeof v === 'number' ? v : v ? Number(v) : undefined)
+				" type="number" min="1" placeholder="Ej: 30" />
 			</FormField>
 
 			<FormField label="Estado" required>
-				<Select
-					:model-value="form.status || 'completed'"
-					@update:model-value="v => (form.status = v as ActivityLog['status'])"
-					:options="statuses"
-					required
-				/>
+				<Select :model-value="form.status || 'completed'"
+					@update:model-value="v => (form.status = v as ActivityLog['status'])" :options="statuses"
+					required />
 			</FormField>
 
 			<FormField label="Notas" hint="Opcional">
-				<Textarea
-					:model-value="form.notes || ''"
-					@update:model-value="v => (form.notes = v || undefined)"
-					:rows="2"
-					placeholder="Notas adicionales u observaciones"
-				/>
+				<Textarea :model-value="form.notes || ''" @update:model-value="v => (form.notes = v || undefined)"
+					:rows="2" placeholder="Notas adicionales u observaciones" />
 			</FormField>
 
 			<div v-if="error" class="activity-log-form__error">{{ error }}</div>
 
 			<div class="activity-log-form__actions">
 				<Button variant="secondary" type="button" @click="handleClose">Cancelar</Button>
-				<Button
-					variant="primary"
-					type="submit"
-					:disabled="!isFormValid || isLoading"
-					:loading="isLoading"
-				>
+				<Button variant="primary" type="submit" :disabled="!isFormValid || isLoading" :loading="isLoading">
 					{{ activityLogId ? 'Actualizar' : 'Registrar' }}
 				</Button>
 			</div>

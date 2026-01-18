@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 
-import Button from '@/business/common/presentation/atoms/Button.vue'
-import DatePicker from '@/business/common/presentation/atoms/DatePicker.vue'
-import FormField from '@/business/common/presentation/atoms/FormField.vue'
-import Input from '@/business/common/presentation/atoms/Input.vue'
-import Select from '@/business/common/presentation/atoms/Select.vue'
-import Textarea from '@/business/common/presentation/atoms/Textarea.vue'
-import Modal from '@/business/common/presentation/organisms/Modal.vue'
+import { Button, DatePicker, FormField, Input, Select, Textarea } from '@/business/common/presentation/atoms'
+import { Modal } from '@/business/common/presentation/organisms'
 import { useShiftForm } from '@/business/shifts/app/useShiftForm'
 
 interface Props {
@@ -87,32 +82,17 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-	<Modal
-		:model-value="modelValue"
-		title="Programar Turno"
-		size="md"
-		@update:model-value="handleClose"
-		@close="handleClose"
-	>
+	<Modal :model-value="modelValue" title="Programar Turno" size="md" @update:model-value="handleClose"
+		@close="handleClose">
 		<form class="shift-form" @submit.prevent="handleSubmit">
 			<FormField v-if="!caregiverId" label="ID del Cuidador" required>
-				<Input
-					:model-value="form.caregiverId || ''"
-					@update:model-value="v => (form.caregiverId = v)"
-					type="text"
-					required
-					placeholder="ID del cuidador"
-					:error="error || undefined"
-				/>
+				<Input :model-value="form.caregiverId || ''" @update:model-value="v => (form.caregiverId = v)"
+					type="text" required placeholder="ID del cuidador" :error="error || undefined" />
 			</FormField>
 
 			<FormField label="Tipo de Turno" required>
-				<Select
-					:model-value="form.type || 'morning'"
-					@update:model-value="v => (form.type = String(v))"
-					:options="types"
-					required
-				/>
+				<Select :model-value="form.type || 'morning'" @update:model-value="v => (form.type = String(v))"
+					:options="types" required />
 			</FormField>
 
 			<FormField label="Fecha" required>
@@ -120,44 +100,24 @@ const handleSubmit = async () => {
 			</FormField>
 
 			<FormField label="Hora de Inicio" required hint="Formato: HH:MM (ej: 08:00)">
-				<Input
-					:model-value="form.startTime || '08:00'"
-					@update:model-value="v => (form.startTime = v)"
-					type="time"
-					required
-					placeholder="08:00"
-				/>
+				<Input :model-value="form.startTime || '08:00'" @update:model-value="v => (form.startTime = v)"
+					type="time" required placeholder="08:00" />
 			</FormField>
 
 			<FormField label="Hora de Fin" required hint="Formato: HH:MM (ej: 16:00)">
-				<Input
-					:model-value="form.endTime || '16:00'"
-					@update:model-value="v => (form.endTime = v)"
-					type="time"
-					:min="form.startTime || '08:00'"
-					required
-					placeholder="16:00"
-				/>
+				<Input :model-value="form.endTime || '16:00'" @update:model-value="v => (form.endTime = v)" type="time"
+					:min="form.startTime || '08:00'" required placeholder="16:00" />
 			</FormField>
 
 			<FormField label="Notas" hint="Opcional">
-				<Textarea
-					:model-value="form.notes || ''"
-					@update:model-value="v => (form.notes = v || undefined)"
-					:rows="3"
-					placeholder="Notas adicionales sobre el turno"
-				/>
+				<Textarea :model-value="form.notes || ''" @update:model-value="v => (form.notes = v || undefined)"
+					:rows="3" placeholder="Notas adicionales sobre el turno" />
 			</FormField>
 		</form>
 
 		<template #footer>
 			<Button variant="secondary" @click="handleClose">Cancelar</Button>
-			<Button
-				variant="primary"
-				:disabled="!isFormValid || isLoading"
-				:loading="isLoading"
-				@click="handleSubmit"
-			>
+			<Button variant="primary" :disabled="!isFormValid || isLoading" :loading="isLoading" @click="handleSubmit">
 				Programar
 			</Button>
 		</template>

@@ -28,7 +28,14 @@ const handleAction = () => {
 
 <template>
 	<div class="empty-state">
-		<div v-if="icon" class="empty-state__icon">{{ icon }}</div>
+		<div v-if="icon" class="empty-state__icon">
+			<span
+				v-if="icon.startsWith('material:')"
+				class="material-symbols-outlined empty-state__icon-material"
+				>{{ icon.replace('material:', '') }}</span
+			>
+			<span v-else>{{ icon }}</span>
+		</div>
 		<h3 v-if="title" class="empty-state__title">{{ title }}</h3>
 		<p v-if="description" class="empty-state__description">{{ description }}</p>
 		<slot name="action">
@@ -53,6 +60,17 @@ const handleAction = () => {
 	font-size: 4rem;
 	margin-bottom: var(--spacing-lg);
 	opacity: 0.5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.empty-state__icon-material {
+	font-family: 'Material Symbols Outlined', sans-serif;
+	font-variation-settings:
+		'FILL' 0,
+		'wght' 400;
+	font-size: 4rem;
 }
 
 .empty-state__title {

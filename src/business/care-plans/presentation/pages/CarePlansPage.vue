@@ -7,9 +7,8 @@ import { useCarePlanForm } from '@/business/care-plans/app/useCarePlanForm'
 import CarePlanForm from '@/business/care-plans/presentation/components/CarePlanForm.vue'
 import CarePlanList from '@/business/care-plans/presentation/components/CarePlanList.vue'
 import { useCarePlanStore } from '@/business/care-plans/store'
-import Button from '@/business/common/presentation/atoms/Button.vue'
-import Card from '@/business/common/presentation/atoms/Card.vue'
-import Tabs from '@/business/common/presentation/molecules/Tabs.vue'
+import { Button, Card } from '@/business/common/presentation/atoms'
+import { Tabs } from '@/business/common/presentation/molecules'
 
 const route = useRoute()
 const residentId = computed(() => (route.params.residentId as string) || undefined)
@@ -73,21 +72,13 @@ const handleTabChange = (tabId: string) => {
 			<Tabs :model-value="activeTab" :tabs="tabs" @change="handleTabChange" />
 
 			<div class="care-plans-page__list">
-				<CarePlanList
-					:care-plans="displayedCarePlans"
-					:is-loading="isLoading"
-					:error="error?.message || null"
-					clickable
-				/>
+				<CarePlanList :care-plans="displayedCarePlans" :is-loading="isLoading" :error="error?.message || null"
+					clickable />
 			</div>
 		</Card>
 
-		<CarePlanForm
-			v-model="showForm"
-			:resident-id="residentId"
-			@submit="handleFormSubmit"
-			@close="showForm = false"
-		/>
+		<CarePlanForm v-model="showForm" :resident-id="residentId" @submit="handleFormSubmit"
+			@close="showForm = false" />
 	</div>
 </template>
 

@@ -13,10 +13,14 @@ const config: StorybookConfig = {
   ],
   "framework": "@storybook/vue3-vite",
   async viteFinal(config) {
-    // Filtrar vite-plugin-vue-devtools que causa conflicto con vite-plugin-inspect
+    // Filtrar plugins que causan conflictos en Storybook
     if (config.plugins) {
       config.plugins = config.plugins.filter(
-        (plugin) => plugin && plugin.name !== 'vite-plugin-vue-devtools'
+        (plugin) => {
+          const name = plugin && typeof plugin === 'object' && 'name' in plugin ? plugin.name : null;
+          // Filtrar vite-plugin-vue-devtools y vite-plugin-inspect que no funcionan bien en Storybook
+          return name !== 'vite-plugin-vue-devtools' && name !== 'vite-plugin-inspect';
+        }
       );
     }
     return config;

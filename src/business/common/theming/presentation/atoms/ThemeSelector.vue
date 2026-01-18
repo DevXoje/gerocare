@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Select from '@/business/common/presentation/atoms/Select.vue'
+import { Select } from '@/business/common/presentation/atoms'
 import { useTheme } from '@/shared/composables/useTheme'
 import { ThemeMode, themeModeOptions } from '@/shared/domain/Theme'
 
@@ -12,11 +12,7 @@ const handleUpdate = (value: ThemeMode) => {
 
 <template>
 	<div class="theme-selector">
-		<Select
-			:model-value="themeMode"
-			:options="themeModeOptions"
-			@update:model-value="handleUpdate"
-		/>
+		<Select :model-value="themeMode" :options="themeModeOptions" @update:model-value="handleUpdate" />
 	</div>
 </template>
 

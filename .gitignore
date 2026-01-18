@@ -43,3 +43,14 @@ firestore_export-*
 *storybook.log
 storybook-static
 .eslintcache
+
+# act (GitHub Actions local)
+.github/act/.secrets
+.actrc
+
+# Lighthouse reports
+lighthouse-reports/
+
+# Code analysis reports
+reports/code-analysis/
+.dependency-cruiser.cache/

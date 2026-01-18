@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import AppButton from '@/business/common/presentation/atoms/Button.vue'
-import AppDatePicker from '@/business/common/presentation/atoms/DatePicker.vue'
-import AppFormField from '@/business/common/presentation/atoms/FormField.vue'
-import AppInput from '@/business/common/presentation/atoms/Input.vue'
+import { Button as AppButton, DatePicker as AppDatePicker, FormField as AppFormField, Input as AppInput } from '@/business/common/presentation/atoms'
 import { useResidentForm } from '@/business/residents/app/useResidentForm'
 import { useResidentStore } from '@/business/residents/store'
 import { useNotifications } from '@/shared/composables/useNotifications'
@@ -92,13 +89,8 @@ const handleDateChange = (value: string) => {
 			</AppFormField>
 
 			<AppFormField label="Fecha de Nacimiento" required :error="errors.dateOfBirth">
-				<AppDatePicker
-					:model-value="dateValue"
-					placeholder="Seleccione la fecha de nacimiento"
-					required
-					:max="new Date().toISOString().split('T')[0]"
-					@update:model-value="handleDateChange"
-				/>
+				<AppDatePicker :model-value="dateValue" placeholder="Seleccione la fecha de nacimiento" required
+					:max="new Date().toISOString().split('T')[0]" @update:model-value="handleDateChange" />
 			</AppFormField>
 
 			<div v-if="errors.general" class="resident-form__error">
@@ -173,7 +165,7 @@ const handleDateChange = (value: string) => {
 		flex-direction: column-reverse;
 	}
 
-	.resident-form__actions > * {
+	.resident-form__actions>* {
 		width: 100%;
 	}
 }

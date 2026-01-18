@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import IconButton from '@/business/common/presentation/atoms/IconButton.vue'
+import { IconButton } from '@/business/common/presentation/atoms'
 
 defineOptions({
 	name: 'AppPagination',
@@ -99,38 +99,20 @@ const goToNext = () => {
 	<div class="pagination">
 		<div v-if="showInfo && infoText" class="pagination__info">{{ infoText }}</div>
 		<div class="pagination__controls">
-			<IconButton
-				icon="←"
-				variant="outline"
-				size="sm"
-				:disabled="currentPage === 1"
-				aria-label="Página anterior"
-				@click="goToPrevious"
-			/>
+			<IconButton icon="←" variant="outline" size="sm" :disabled="currentPage === 1" aria-label="Página anterior"
+				@click="goToPrevious" />
 			<div class="pagination__pages">
-				<button
-					v-for="(page, index) in pages"
-					:key="index"
-					type="button"
-					:class="{
-						pagination__page: true,
-						'pagination__page--active': page === currentPage,
-						'pagination__page--ellipsis': page === '...',
-					}"
-					:disabled="page === '...' || page === currentPage"
-					@click="typeof page === 'number' ? goToPage(page) : undefined"
-				>
+				<button v-for="(page, index) in pages" :key="index" type="button" :class="{
+					pagination__page: true,
+					'pagination__page--active': page === currentPage,
+					'pagination__page--ellipsis': page === '...',
+				}" :disabled="page === '...' || page === currentPage"
+					@click="typeof page === 'number' ? goToPage(page) : undefined">
 					{{ page }}
 				</button>
 			</div>
-			<IconButton
-				icon="→"
-				variant="outline"
-				size="sm"
-				:disabled="currentPage === totalPages"
-				aria-label="Página siguiente"
-				@click="goToNext"
-			/>
+			<IconButton icon="→" variant="outline" size="sm" :disabled="currentPage === totalPages"
+				aria-label="Página siguiente" @click="goToNext" />
 		</div>
 	</div>
 </template>

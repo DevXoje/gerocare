@@ -84,4 +84,8 @@ const handleClick = () => {
 	box-shadow: var(--shadow-lg);
 	transform: translateY(-2px);
 }
+
+.card--clickable:active {
+	transform: translateY(0) scale(0.98);
+}
 </style>

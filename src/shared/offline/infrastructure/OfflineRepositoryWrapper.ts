@@ -13,16 +13,16 @@ import type { OfflineQueueRepository } from '@/shared/offline/domain/OfflineQueu
  * @param queue - The offline queue repository
  * @returns Wrapped repository with offline support
  */
-export function withOfflineSupport<TRepository extends Record<string, (...args: unknown[]) => Promise<unknown>>>(
-	repository: TRepository,
-	entityName: string,
-	queue: OfflineQueueRepository
-): TRepository {
+export function withOfflineSupport<
+	TRepository extends Record<string, (...args: unknown[]) => Promise<unknown>>,
+>(repository: TRepository, entityName: string, queue: OfflineQueueRepository): TRepository {
 	const wrapped = { ...repository } as TRepository
 
 	// Wrap create method
 	if (typeof (wrapped as Record<string, unknown>).create === 'function') {
-		const originalCreate = (repository as Record<string, (...args: unknown[]) => Promise<unknown>>).create.bind(repository) as (...args: unknown[]) => Promise<Result<unknown, unknown>>
+		const originalCreate = (
+			repository as Record<string, (...args: unknown[]) => Promise<unknown>>
+		).create.bind(repository) as (...args: unknown[]) => Promise<Result<unknown, unknown>>
 
 		;(wrapped as Record<string, unknown>).create = async (...args: unknown[]) => {
 			if (!navigator.onLine) {
@@ -45,7 +45,9 @@ export function withOfflineSupport<TRepository extends Record<string, (...args: 
 
 	// Wrap update method
 	if (typeof (wrapped as Record<string, unknown>).update === 'function') {
-		const originalUpdate = (repository as Record<string, (...args: unknown[]) => Promise<unknown>>).update.bind(repository) as (...args: unknown[]) => Promise<Result<unknown, unknown>>
+		const originalUpdate = (
+			repository as Record<string, (...args: unknown[]) => Promise<unknown>>
+		).update.bind(repository) as (...args: unknown[]) => Promise<Result<unknown, unknown>>
 
 		;(wrapped as Record<string, unknown>).update = async (...args: unknown[]) => {
 			if (!navigator.onLine) {
@@ -72,7 +74,9 @@ export function withOfflineSupport<TRepository extends Record<string, (...args: 
 
 	// Wrap delete method
 	if (typeof (wrapped as Record<string, unknown>).delete === 'function') {
-		const originalDelete = (repository as Record<string, (...args: unknown[]) => Promise<unknown>>).delete.bind(repository) as (...args: unknown[]) => Promise<Result<unknown, unknown>>
+		const originalDelete = (
+			repository as Record<string, (...args: unknown[]) => Promise<unknown>>
+		).delete.bind(repository) as (...args: unknown[]) => Promise<Result<unknown, unknown>>
 
 		;(wrapped as Record<string, unknown>).delete = async (...args: unknown[]) => {
 			if (!navigator.onLine) {

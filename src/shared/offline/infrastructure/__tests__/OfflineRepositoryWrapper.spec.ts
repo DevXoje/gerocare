@@ -8,10 +8,17 @@ import { withOfflineSupport } from '@/shared/offline/infrastructure/OfflineRepos
 
 // Mock repository for testing
 type TestRepository = Record<string, (...args: unknown[]) => Promise<unknown>> & {
-	create(data: { name: string }): Promise<Result<{ id: string; name: string }, { code: string; message: string }>>
-	update(id: string, data: Partial<{ name: string }>): Promise<Result<{ id: string; name: string }, { code: string; message: string }>>
+	create(data: {
+		name: string
+	}): Promise<Result<{ id: string; name: string }, { code: string; message: string }>>
+	update(
+		id: string,
+		data: Partial<{ name: string }>
+	): Promise<Result<{ id: string; name: string }, { code: string; message: string }>>
 	delete(id: string): Promise<Result<void, { code: string; message: string }>>
-	findById(id: string): Promise<Result<{ id: string; name: string } | null, { code: string; message: string }>>
+	findById(
+		id: string
+	): Promise<Result<{ id: string; name: string } | null, { code: string; message: string }>>
 }
 
 describe('withOfflineSupport', () => {
@@ -77,7 +84,10 @@ describe('withOfflineSupport', () => {
 
 			const wrapped = withOfflineSupport(mockRepository, 'test-entity', mockQueue)
 
-			const result = (await wrapped.create(testData)) as Result<{ id: string; name: string }, { code: string; message: string }>
+			const result = (await wrapped.create(testData)) as Result<
+				{ id: string; name: string },
+				{ code: string; message: string }
+			>
 
 			expect(mockRepository.create).toHaveBeenCalledWith(testData)
 			expect(result.success).toBe(true)
@@ -96,7 +106,10 @@ describe('withOfflineSupport', () => {
 
 			const wrapped = withOfflineSupport(mockRepository, 'test-entity', mockQueue)
 
-			const result = (await wrapped.update('123', { name: 'Updated' })) as Result<{ id: string; name: string }, { code: string; message: string }>
+			const result = (await wrapped.update('123', { name: 'Updated' })) as Result<
+				{ id: string; name: string },
+				{ code: string; message: string }
+			>
 
 			expect(mockRepository.update).toHaveBeenCalledWith('123', { name: 'Updated' })
 			expect(result.success).toBe(true)
@@ -114,7 +127,10 @@ describe('withOfflineSupport', () => {
 
 			const wrapped = withOfflineSupport(mockRepository, 'test-entity', mockQueue)
 
-			const result = (await wrapped.delete('123')) as Result<void, { code: string; message: string }>
+			const result = (await wrapped.delete('123')) as Result<
+				void,
+				{ code: string; message: string }
+			>
 
 			expect(mockRepository.delete).toHaveBeenCalledWith('123')
 			expect(result.success).toBe(true)
@@ -145,7 +161,10 @@ describe('withOfflineSupport', () => {
 
 			const wrapped = withOfflineSupport(mockRepository, 'test-entity', mockQueue)
 
-			const result = (await wrapped.create(testData)) as Result<{ id: string; name: string }, { code: string; message: string }>
+			const result = (await wrapped.create(testData)) as Result<
+				{ id: string; name: string },
+				{ code: string; message: string }
+			>
 
 			// Should not call the original repository
 			expect(mockRepository.create).not.toHaveBeenCalled()
@@ -187,7 +206,7 @@ describe('withOfflineSupport', () => {
 			// Should add operation to queue
 			const queueResult = await mockQueue.getAll()
 			expect(queueResult.success).toBe(true)
-			const updateOp = unwrap(queueResult).find((op) => op.type === 'update')
+			const updateOp = unwrap(queueResult).find(op => op.type === 'update')
 			expect(updateOp).toBeDefined()
 			expect(updateOp?.entity).toBe('test-entity')
 		})
@@ -201,7 +220,10 @@ describe('withOfflineSupport', () => {
 
 			const wrapped = withOfflineSupport(mockRepository, 'test-entity', mockQueue)
 
-			const result = (await wrapped.delete('123')) as Result<void, { code: string; message: string }>
+			const result = (await wrapped.delete('123')) as Result<
+				void,
+				{ code: string; message: string }
+			>
 
 			expect(mockRepository.delete).not.toHaveBeenCalled()
 
@@ -211,7 +233,7 @@ describe('withOfflineSupport', () => {
 			// Should add operation to queue
 			const queueResult = await mockQueue.getAll()
 			expect(queueResult.success).toBe(true)
-			const deleteOp = unwrap(queueResult).find((op) => op.type === 'delete')
+			const deleteOp = unwrap(queueResult).find(op => op.type === 'delete')
 			expect(deleteOp).toBeDefined()
 		})
 	})

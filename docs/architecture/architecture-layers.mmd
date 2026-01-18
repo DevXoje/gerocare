@@ -1,0 +1,44 @@
+graph TB
+    subgraph domain[Domain Layer]
+        DomainEntities[Business Entities]
+        DomainRepos[Repository Interfaces]
+        DomainErrors[Error Types]
+        DomainSchemas[Validation Schemas]
+    end
+
+    subgraph app[Application Layer]
+        UseCases[Use Cases / Composables]
+        FormHandlers[Form Handlers]
+        AppHelpers[Application Helpers]
+    end
+
+    subgraph infrastructure[Infrastructure Layer]
+        FirebaseRepos[Firebase Repositories]
+        ExternalServices[External Services]
+    end
+
+    subgraph presentation[Presentation Layer]
+        Components[Vue Components]
+        Pages[Page Components]
+        Layouts[Layouts]
+    end
+
+    subgraph shared[Shared]
+        SharedDomain[Shared Domain]
+        SharedComposables[Shared Composables]
+        SharedUtils[Shared Utilities]
+    end
+
+    presentation -->|"uses"| app
+    presentation -->|"uses"| shared
+    app -->|"depends on"| domain
+    app -->|"uses"| shared
+    infrastructure -->|"implements"| domain
+    infrastructure -->|"uses"| shared
+    domain -->|"uses"| shared
+
+    style domain fill:#e1f5ff
+    style app fill:#fff4e1
+    style infrastructure fill:#ffe1f5
+    style presentation fill:#e1ffe1
+    style shared fill:#f0f0f0

@@ -4,9 +4,8 @@ import { computed, ref, watch } from 'vue'
 
 import CarePlanList from '@/business/care-plans/presentation/components/CarePlanList.vue'
 import { useCarePlanStore } from '@/business/care-plans/store'
-import Card from '@/business/common/presentation/atoms/Card.vue'
-import Skeleton from '@/business/common/presentation/atoms/Skeleton.vue'
-import Tabs from '@/business/common/presentation/molecules/Tabs.vue'
+import { Card, Skeleton } from '@/business/common/presentation/atoms'
+import { Tabs } from '@/business/common/presentation/molecules'
 import IncidentList from '@/business/incidents/presentation/components/IncidentList.vue'
 import { useIncidentStore } from '@/business/incidents/store'
 import MedicationList from '@/business/medication/presentation/components/MedicationList.vue'
@@ -121,46 +120,34 @@ const handleTabChange = (tabId: string) => {
 							<section class="info-section">
 								<h2>Información Médica</h2>
 								<div class="info-grid">
-									<div
-										v-if="
-											resident.medicalInfo.allergies && resident.medicalInfo.allergies.length > 0
-										"
-										class="info-item"
-									>
+									<div v-if="
+										resident.medicalInfo.allergies && resident.medicalInfo.allergies.length > 0
+									" class="info-item">
 										<span class="info-label">Alergias:</span>
 										<span class="info-value">{{ resident.medicalInfo.allergies.join(', ') }}</span>
 									</div>
-									<div
-										v-if="
-											resident.medicalInfo.chronicConditions &&
-											resident.medicalInfo.chronicConditions.length > 0
-										"
-										class="info-item"
-									>
+									<div v-if="
+										resident.medicalInfo.chronicConditions &&
+										resident.medicalInfo.chronicConditions.length > 0
+									" class="info-item">
 										<span class="info-label">Condiciones Crónicas:</span>
 										<span class="info-value">{{
 											resident.medicalInfo.chronicConditions.join(', ')
 										}}</span>
 									</div>
-									<div
-										v-if="
-											resident.medicalInfo.medications &&
-											resident.medicalInfo.medications.length > 0
-										"
-										class="info-item"
-									>
+									<div v-if="
+										resident.medicalInfo.medications &&
+										resident.medicalInfo.medications.length > 0
+									" class="info-item">
 										<span class="info-label">Medicaciones:</span>
 										<span class="info-value">{{
 											resident.medicalInfo.medications.join(', ')
 										}}</span>
 									</div>
-									<div
-										v-if="
-											resident.medicalInfo.dietaryRestrictions &&
-											resident.medicalInfo.dietaryRestrictions.length > 0
-										"
-										class="info-item"
-									>
+									<div v-if="
+										resident.medicalInfo.dietaryRestrictions &&
+										resident.medicalInfo.dietaryRestrictions.length > 0
+									" class="info-item">
 										<span class="info-label">Restricciones Dietéticas:</span>
 										<span class="info-value">{{
 											resident.medicalInfo.dietaryRestrictions.join(', ')
@@ -172,11 +159,8 @@ const handleTabChange = (tabId: string) => {
 							<section v-if="resident.emergencyContacts.length > 0" class="info-section">
 								<h2>Contactos de Emergencia</h2>
 								<div class="contacts-list">
-									<div
-										v-for="(contact, index) in resident.emergencyContacts"
-										:key="index"
-										class="contact-item"
-									>
+									<div v-for="(contact, index) in resident.emergencyContacts" :key="index"
+										class="contact-item">
 										<div class="contact-name">{{ contact.name }}</div>
 										<div class="contact-relationship">{{ contact.relationship }}</div>
 										<div class="contact-phone">{{ contact.phone }}</div>
@@ -189,32 +173,19 @@ const handleTabChange = (tabId: string) => {
 
 					<!-- Medication Tab -->
 					<div v-if="activeTab === 'medication'" class="tab-panel">
-						<MedicationList
-							:medications="medications"
-							:is-loading="isLoadingMedications"
-							:error="null"
-							clickable
-						/>
+						<MedicationList :medications="medications" :is-loading="isLoadingMedications" :error="null"
+							clickable />
 					</div>
 
 					<!-- Care Plans Tab -->
 					<div v-if="activeTab === 'care-plans'" class="tab-panel">
-						<CarePlanList
-							:care-plans="carePlans"
-							:is-loading="isLoadingCarePlans"
-							:error="null"
-							clickable
-						/>
+						<CarePlanList :care-plans="carePlans" :is-loading="isLoadingCarePlans" :error="null"
+							clickable />
 					</div>
 
 					<!-- Incidents Tab -->
 					<div v-if="activeTab === 'incidents'" class="tab-panel">
-						<IncidentList
-							:incidents="incidents"
-							:is-loading="isLoadingIncidents"
-							:error="null"
-							clickable
-						/>
+						<IncidentList :incidents="incidents" :is-loading="isLoadingIncidents" :error="null" clickable />
 					</div>
 				</div>
 			</Card>
