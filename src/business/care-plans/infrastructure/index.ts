@@ -1,6 +1,6 @@
 import type { CarePlanRepository } from '@/business/care-plans/domain/CarePlanRepository'
 import { createCarePlanRepository as createFirestoreCarePlanRepository } from '@/business/care-plans/infrastructure/FirestoreCarePlanRepository'
-import { db } from '@/infrastructure/firebase/firebase.config'
+import { db } from '@/shared/infrastructure/firebase/firebase.config'
 import { createOfflineQueueRepository } from '@/shared/offline/infrastructure/index'
 import { withOfflineSupport } from '@/shared/offline/infrastructure/OfflineRepositoryWrapper'
 

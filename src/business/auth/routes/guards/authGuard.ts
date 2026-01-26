@@ -1,7 +1,7 @@
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 
 import { useAuthStore } from '@/business/auth/store'
-import { auth } from '@/infrastructure/firebase/firebase.config'
+import { auth } from '@/shared/infrastructure/firebase/firebase.config'
 
 export const authGuard = async (
 	to: RouteLocationNormalized,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CarePlan } from '@/business/care-plans/domain/CarePlan'
 import { getCategoryDisplayName } from '@/business/care-plans/domain/CarePlan'
-import { Badge, Card, EmptyState, Skeleton } from '@/business/common/presentation/atoms'
+import { Badge, Card, EmptyState, Skeleton } from '@design-system/atoms'
 
 interface Props {
 	carePlans: CarePlan[]

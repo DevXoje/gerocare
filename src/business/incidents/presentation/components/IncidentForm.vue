@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 
-import { Button, DatePicker, FormField, Input, Select, Textarea } from '@/business/common/presentation/atoms'
-import { ResidentSelector } from '@/business/common/presentation/molecules'
-import { Modal } from '@/business/common/presentation/organisms'
+import { Button, DatePicker, FormField, Input, Select, Textarea } from '@design-system/atoms'
+import { ResidentSelector } from '@design-system/molecules'
+import { Modal } from '@design-system/organisms'
 import { useIncidentForm } from '@/business/incidents/app/useIncidentForm'
 import type { Incident } from '@/business/incidents/domain/Incident'
 

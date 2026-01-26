@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { Card } from '@/business/common/presentation/atoms'
+import { Card } from '@design-system/atoms'
 
 defineOptions({
 	name: 'DashboardRecentActivity',

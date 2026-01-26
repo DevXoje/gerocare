@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import { Button as AppButton, DatePicker as AppDatePicker, FormField as AppFormField, Input as AppInput } from '@/business/common/presentation/atoms'
+import { Button as AppButton, DatePicker as AppDatePicker, FormField as AppFormField, Input as AppInput } from '@design-system/atoms'
 import { useResidentForm } from '@/business/residents/app/useResidentForm'
 import { useResidentStore } from '@/business/residents/store'
 import { useNotifications } from '@/shared/composables/useNotifications'

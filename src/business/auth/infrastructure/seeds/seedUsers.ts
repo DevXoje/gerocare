@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 
-import { auth } from '@/infrastructure/firebase/firebase.config'
+import { auth } from '@/shared/infrastructure/firebase/firebase.config'
 
 export interface SeedUser {
 	email: string

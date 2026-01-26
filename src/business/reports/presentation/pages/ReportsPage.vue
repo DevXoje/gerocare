@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 
-import { Card } from '@/business/common/presentation/atoms'
-import { StatCard } from '@/business/common/presentation/molecules'
-import { Table } from '@/business/common/presentation/organisms'
+import { Card } from '@design-system/atoms'
+import { StatCard } from '@design-system/molecules'
+import { Table } from '@design-system/organisms'
 import { useReports } from '@/business/reports/app/useReports'
 
 const { summaryCards, stats, incidentStats, isLoading, loadReports } = useReports()

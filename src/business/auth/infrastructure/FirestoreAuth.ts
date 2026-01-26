@@ -23,7 +23,7 @@ import {
 } from '@/business/auth/domain/AuthErrors'
 import type { AuthRepository } from '@/business/auth/domain/AuthRepository'
 import type { User } from '@/business/auth/domain/User'
-import { auth } from '@/infrastructure/firebase/firebase.config'
+import { auth } from '@/shared/infrastructure/firebase/firebase.config'
 import { Err, Ok, type Result } from '@/shared/domain/Result'
 import { logError } from '@/shared/error/errorLogger'
 

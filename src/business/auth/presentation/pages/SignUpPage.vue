@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 
+import { PasswordInput } from '@design-system/molecules'
 import { useSignUpForm } from '@/business/auth/app/useSignUpForm'
 
 const { email, password, passwordConfirmation, loading, handleSubmit, handleGoogleSignIn } =
@@ -30,30 +31,23 @@ const { email, password, passwordConfirmation, loading, handleSubmit, handleGoog
 
 				<div class="form__group">
 					<label for="password" class="form__label">Contraseña</label>
-					<input
+					<PasswordInput
 						id="password"
 						v-model="password"
-						type="password"
-						placeholder="••••••••"
-						class="input"
-						:class="{ 'input--disabled': loading }"
-						:required="true"
 						:disabled="loading"
+						:required="true"
 						autocomplete="new-password"
 					/>
 				</div>
 
 				<div class="form__group">
 					<label for="password-confirmation" class="form__label">Confirmar Contraseña</label>
-					<input
+					<PasswordInput
 						id="password-confirmation"
 						v-model="passwordConfirmation"
-						type="password"
-						placeholder="••••••••"
-						class="input"
-						:class="{ 'input--disabled': loading }"
-						:required="true"
 						:disabled="loading"
+						:required="true"
+						:show-strength-feedback="false"
 						autocomplete="new-password"
 					/>
 				</div>

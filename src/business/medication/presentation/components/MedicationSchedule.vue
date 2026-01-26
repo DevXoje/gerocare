@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { Badge, Button, Card } from '@/business/common/presentation/atoms'
+import { Badge, Button, Card } from '@design-system/atoms'
 import type { Medication, MedicationAdministration } from '@/business/medication/domain/Medication'
 import { parseFrequency } from '@/business/medication/domain/Medication'
 

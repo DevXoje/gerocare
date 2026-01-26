@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Badge, Card, EmptyState, Skeleton } from '@/business/common/presentation/atoms'
+import { Badge, Card, EmptyState, Skeleton } from '@design-system/atoms'
 import type { Incident } from '@/business/incidents/domain/Incident'
 import {
 	getSeverityDisplayName,

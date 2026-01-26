@@ -308,9 +308,10 @@ const defaultStatus = 'active'
 2. **Node.js builtins** (`import fs from 'node:fs'`)
 3. **Packages externos** (`import { ref } from 'vue'`)
 4. **Aliases internos** (`import { useAuthStore } from '@/business/auth/store'`)
-5. **Parent imports** (`import { something } from '../domain'`)
-6. **Current directory** (`import { helper } from './utils'`)
-7. **Styles** (`import './styles.css'`)
+5. **Design system** (`import { Button } from '@design-system/atoms'`)
+6. **Parent imports** (`import { something } from '../domain'`)
+7. **Current directory** (`import { helper } from './utils'`)
+8. **Styles** (`import './styles.css'`)
 
 ### Agrupar Imports
 
@@ -323,8 +324,9 @@ import { computed, ref } from 'vue'
 import { useAuthStore } from '@/business/auth/store'
 import type { Resident } from '@/business/residents/domain/Resident'
 import { createResidentRepository } from '@/business/residents/infrastructure'
+import { Button, Card } from '@design-system/atoms'
 
-// Vue core primero, luego aliases @/, luego tipos
+// Vue core primero, luego aliases @/, luego @design-system, luego tipos
 ```
 
 ### Imports de Tipos
@@ -339,6 +341,28 @@ import type { ResidentError } from '@/business/residents/domain/ResidentErrors'
 
 // Tipos en línea separada después de imports de valores
 ```
+
+### Imports del Design System
+
+Usar el alias semántico `@design-system/*` para componentes UI compartidos:
+
+```typescript
+// ✅ Correcto - Usar alias @design-system
+import { Button, Card } from '@design-system/atoms'
+import { Tabs, StatCard } from '@design-system/molecules'
+import { Modal, Sidebar } from '@design-system/organisms'
+import PrivateLayout from '@design-system/layouts/PrivateLayout.vue'
+import ThemeSelector from '@design-system/themes/ThemeSelector.vue'
+
+// ❌ Incorrecto - No usar rutas directas
+import { Button } from '@/ui/atoms'
+import { Tabs } from '@/business/common/presentation/molecules'
+```
+
+**Ventajas del alias `@design-system/*`:**
+- Más semántico y claro
+- Facilita futuras reubicaciones (solo cambiar el alias en config)
+- Separa conceptualmente el design system del resto del código
 
 ---
 

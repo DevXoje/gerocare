@@ -2,8 +2,8 @@
 import { computed, watch } from 'vue'
 
 import { useCarePlanForm } from '@/business/care-plans/app/useCarePlanForm'
-import { Button, DatePicker, FormField, Input, Select, Textarea } from '@/business/common/presentation/atoms'
-import { Modal } from '@/business/common/presentation/organisms'
+import { Button, DatePicker, FormField, Input, Select, Textarea } from '@design-system/atoms'
+import { Modal } from '@design-system/organisms'
 
 interface Props {
 	modelValue: boolean

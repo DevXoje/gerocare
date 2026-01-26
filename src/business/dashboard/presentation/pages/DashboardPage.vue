@@ -2,9 +2,9 @@
 import { computed } from 'vue'
 
 import { useAuthStore } from '@/business/auth/store'
-import { EmptyState, Input, Skeleton } from '@/business/common/presentation/atoms'
-import { IncidentCard, StaffListItem } from '@/business/common/presentation/molecules'
-import { BottomNavigation, MobileHeader } from '@/business/common/presentation/organisms'
+import { EmptyState, Input, Skeleton } from '@design-system/atoms'
+import { IncidentCard, StaffListItem } from '@design-system/molecules'
+import { BottomNavigation, MobileHeader } from '@design-system/organisms'
 import { useDashboard } from '@/business/dashboard/app/useDashboard'
 import QuickActions from '@/business/dashboard/presentation/components/QuickActions.vue'
 import RecentActivity from '@/business/dashboard/presentation/components/RecentActivity.vue'

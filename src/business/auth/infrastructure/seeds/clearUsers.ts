@@ -1,6 +1,6 @@
 import { deleteUser } from 'firebase/auth'
 
-import { auth } from '@/infrastructure/firebase/firebase.config'
+import { auth } from '@/shared/infrastructure/firebase/firebase.config'
 
 /**
  * Limpia todos los usuarios de Firebase Auth

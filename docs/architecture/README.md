@@ -120,7 +120,7 @@ Ver diagramas Mermaid en: [`architecture-layers.mmd`](./architecture-layers.mmd)
 **Reglas**:
 - ✅ Puede importar de `app` del mismo módulo
 - ✅ Puede importar de `domain` del mismo módulo
-- ✅ Puede importar de `shared` y `common/presentation`
+- ✅ Puede importar de `shared` y `@design-system/*` (componentes UI compartidos)
 - ❌ **NO** puede importar de `infrastructure`
 - ⚠️ **Evitar** importar de `presentation` de otros módulos
 
@@ -140,7 +140,7 @@ Presentation → Application → Domain ← Infrastructure
    - `app/` (composables)
    - `domain/` (tipos y esquemas)
    - `shared/` (utilidades compartidas)
-   - `common/presentation/` (componentes compartidos)
+   - `@design-system/*` (componentes UI compartidos, alias que apunta a `src/ui/`)
 
 2. **Application** solo puede importar de:
    - `domain/` (entidades y repositorios)

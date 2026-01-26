@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Button, Card } from '@/business/common/presentation/atoms'
+import { Button, Card } from '@design-system/atoms'
 
 defineOptions({
 	name: 'DashboardQuickActions',

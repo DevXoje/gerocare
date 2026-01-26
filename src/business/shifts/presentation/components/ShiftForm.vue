@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 
-import { Button, DatePicker, FormField, Input, Select, Textarea } from '@/business/common/presentation/atoms'
-import { Modal } from '@/business/common/presentation/organisms'
+import { Button, DatePicker, FormField, Input, Select, Textarea } from '@design-system/atoms'
+import { Modal } from '@design-system/organisms'
 import { useShiftForm } from '@/business/shifts/app/useShiftForm'
 
 interface Props {

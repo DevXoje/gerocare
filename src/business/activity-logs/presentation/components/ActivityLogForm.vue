@@ -3,8 +3,8 @@ import { computed, watch } from 'vue'
 
 import { useActivityLogForm } from '@/business/activity-logs/app/useActivityLogForm'
 import type { ActivityLog } from '@/business/activity-logs/domain/ActivityLog'
-import { Button, DatePicker, FormField, Input, Select, Textarea } from '@/business/common/presentation/atoms'
-import { Modal } from '@/business/common/presentation/organisms'
+import { Button, DatePicker, FormField, Input, Select, Textarea } from '@design-system/atoms'
+import { Modal } from '@design-system/organisms'
 
 interface Props {
 	modelValue: boolean

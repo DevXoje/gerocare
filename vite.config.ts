@@ -17,6 +17,7 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@': fileURLToPath(new URL('./src', import.meta.url)),
+			'@design-system': fileURLToPath(new URL('./src/ui', import.meta.url)),
 		},
 	},
 	server: {

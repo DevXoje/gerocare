@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { Badge } from '@/business/common/presentation/atoms'
+import { Badge } from '@design-system/atoms'
 import { useNetworkStatus } from '@/shared/offline/app/useNetworkStatus'
 
 defineOptions({

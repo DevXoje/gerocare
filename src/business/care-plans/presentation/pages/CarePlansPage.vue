@@ -7,8 +7,8 @@ import { useCarePlanForm } from '@/business/care-plans/app/useCarePlanForm'
 import CarePlanForm from '@/business/care-plans/presentation/components/CarePlanForm.vue'
 import CarePlanList from '@/business/care-plans/presentation/components/CarePlanList.vue'
 import { useCarePlanStore } from '@/business/care-plans/store'
-import { Button, Card } from '@/business/common/presentation/atoms'
-import { Tabs } from '@/business/common/presentation/molecules'
+import { Button, Card } from '@design-system/atoms'
+import { Tabs } from '@design-system/molecules'
 
 const route = useRoute()
 const residentId = computed(() => (route.params.residentId as string) || undefined)

@@ -28,7 +28,7 @@ vi.mock('firebase/auth', async () => {
 })
 
 // Mock Firebase config
-vi.mock('@/infrastructure/firebase/firebase.config', () => ({
+vi.mock('@/shared/infrastructure/firebase/firebase.config', () => ({
 	auth: {} as Auth,
 }))
 

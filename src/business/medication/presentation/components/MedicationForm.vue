@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 
-import { Button, DatePicker, FormField, Input, Textarea } from '@/business/common/presentation/atoms'
-import { ResidentSelector, TimeScheduleSelector } from '@/business/common/presentation/molecules'
-import { Modal } from '@/business/common/presentation/organisms'
+import { Button, DatePicker, FormField, Input, Textarea } from '@design-system/atoms'
+import { ResidentSelector, TimeScheduleSelector } from '@design-system/molecules'
+import { Modal } from '@design-system/organisms'
 import { useMedicationForm } from '@/business/medication/app/useMedicationForm'
 
 interface Props {

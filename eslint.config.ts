@@ -61,6 +61,8 @@ export default defineConfigWithVueTs(
 						['^@?\\w'],
 						// Internal packages (aliases starting with @/)
 						['^@/'],
+						// Design system alias (@design-system)
+						['^@design-system'],
 						// Parent imports (../). Put `..` last to discourage relative imports
 						['^\\.\\.(?!/?$)', '^\\.\\./?$'],
 						// Other relative imports (./)

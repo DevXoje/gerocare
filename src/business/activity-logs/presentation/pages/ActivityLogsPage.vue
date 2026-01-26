@@ -7,8 +7,8 @@ import { useActivityLogForm } from '@/business/activity-logs/app/useActivityLogF
 import ActivityLogForm from '@/business/activity-logs/presentation/components/ActivityLogForm.vue'
 import ActivityLogList from '@/business/activity-logs/presentation/components/ActivityLogList.vue'
 import { useActivityLogStore } from '@/business/activity-logs/store'
-import { Button, Card } from '@/business/common/presentation/atoms'
-import { Tabs } from '@/business/common/presentation/molecules'
+import { Button, Card } from '@design-system/atoms'
+import { Tabs } from '@design-system/molecules'
 
 const route = useRoute()
 const residentId = computed(() => (route.params.residentId as string) || undefined)

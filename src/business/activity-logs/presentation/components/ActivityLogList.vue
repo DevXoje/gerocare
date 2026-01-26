@@ -4,7 +4,7 @@ import {
 	getActivityTypeDisplayName,
 	getStatusDisplayName,
 } from '@/business/activity-logs/domain/ActivityLog'
-import { Badge, Card, EmptyState, Skeleton } from '@/business/common/presentation/atoms'
+import { Badge, Card, EmptyState, Skeleton } from '@design-system/atoms'
 
 interface Props {
 	activityLogs: ActivityLog[]

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { KPICard } from '@/business/common/presentation/molecules'
+import { KPICard } from '@design-system/molecules'
 
 defineOptions({
 	name: 'DashboardStatCards',
