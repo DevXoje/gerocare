@@ -7,6 +7,8 @@ license: Apache-2.0
 metadata:
   author: gero-cloud
   version: "1.0"
+  scope: [root]
+auto_invoke: "Creating tests, test helpers, or working with testing infrastructure"
 ---
 
 ## When to Use
@@ -19,7 +21,24 @@ Use this skill when:
 - Working with testing libraries (@testing-library/vue, @faker-js/faker)
 - Preparing tests for Storybook integration
 
+**Don't use this skill when:**
+- Writing business logic (use `feature-development` instead)
+- Creating UI components (use `ui-components` instead)
+- Writing code that will be tested (use `coding-style` for style, `feature-development` for structure)
+
 ---
+
+## Relationship with Other Skills
+
+This skill works with:
+- **`feature-development`**: Tests are created for features following Clean Architecture
+- **`ui-components`**: Component tests use same patterns for UI components
+- **`coding-style`**: Test code follows same style conventions
+
+**Testing Workflow:**
+1. `feature-development` → Create feature structure
+2. `testing` → Write tests for the feature
+3. `coding-style` → Ensure test code follows style conventions
 
 ## Testing Stack
 

@@ -2,9 +2,15 @@
 name: extracting-stitch-mockups
 description: >
   Extracts generated mockup images from Google Stitch project pages.
-  Use when user provides a Stitch project URL (stitch.withgoogle.com/projects/...),
+  Trigger: When user provides a Stitch project URL (stitch.withgoogle.com/projects/...),
   mentions extracting/downloading Stitch mockups, saving Stitch designs, or wants to
   archive generated design assets. Uses Cursor's built-in browser (MCP browser tools).
+license: Apache-2.0
+metadata:
+  author: gero-cloud
+  version: "1.0"
+  scope: [root]
+auto_invoke: "Extracting or downloading Stitch mockups, saving Stitch designs"
 allowed-tools: Read, Write, Bash, Grep, Glob, Browser
 ---
 
@@ -130,7 +136,26 @@ Feature directory:
 
 See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for detailed solutions.
 
-## Reference Files
-- [WORKFLOW.md](WORKFLOW.md) - Detailed extraction workflow using MCP browser tools
-- [EXAMPLES.md](EXAMPLES.md) - Sample extractions
-- [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - Error handling and common issues
+---
+
+## When to Use
+
+Use this skill when:
+- User provides a Google Stitch project URL
+- User wants to extract/download mockup images from Stitch
+- User wants to save or archive Stitch design assets
+- User mentions extracting Stitch mockups or designs
+
+**Don't use this skill when:**
+- Creating new designs (use `frontend-ui-ux` or `ux-researcher-designer` instead)
+- Working with design tokens (use `ui-design-system` instead)
+- Implementing UI components (use `ui-components` instead)
+
+---
+
+## Resources
+
+- **Workflow Guide**: [WORKFLOW.md](WORKFLOW.md) - Detailed extraction workflow using MCP browser tools
+- **Examples**: [EXAMPLES.md](EXAMPLES.md) - Sample extractions and usage examples
+- **Troubleshooting**: [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - Error handling and common issues
+- **Extraction Script**: `scripts/extract_images.py` - Python utility for image extraction

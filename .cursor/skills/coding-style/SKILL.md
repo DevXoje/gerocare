@@ -29,6 +29,18 @@ Use this skill when:
 
 ---
 
+## Relationship with Other Skills
+
+This skill works closely with:
+- **`feature-development`**: Use when implementing features following Clean Architecture patterns
+- **`ui-components`**: Use when writing code for UI components
+- **`testing`**: Use when writing test code (follows same style conventions)
+
+**Workflow:**
+1. `feature-development` → Defines architecture and structure
+2. `coding-style` → Ensures code follows style conventions
+3. `testing` → Tests follow same style patterns
+
 ## Configuration Reference
 
 ### Prettier

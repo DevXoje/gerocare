@@ -1,6 +1,14 @@
 ---
 name: docker
-description: Help with Docker setup, commands, and troubleshooting for the GeroCare development environment.
+description: >
+  Help with Docker setup, commands, and troubleshooting for the GeroCare development environment.
+  Trigger: When working with Docker configuration or troubleshooting Docker issues.
+license: Apache-2.0
+metadata:
+  author: gero-cloud
+  version: "1.0"
+  scope: [root]
+auto_invoke: "Working with Docker configuration or troubleshooting Docker issues"
 ---
 
 # Docker Development Environment
@@ -222,3 +230,33 @@ Once running, access:
 - **Firebase UI**: http://localhost:4000
 - **Firestore**: http://localhost:8080
 - **Auth**: http://localhost:9099
+
+---
+
+## Commands
+
+```bash
+# Start environment
+docker-compose up --build
+
+# Stop environment
+docker-compose down
+
+# View logs
+docker-compose logs -f
+
+# Run commands in container
+docker-compose exec app npm run lint
+docker-compose exec app npm run test:unit
+
+# Rebuild without cache
+docker-compose build --no-cache
+```
+
+---
+
+## Resources
+
+- **Docker Documentation**: [`docs/DOCKER.md`](../../docs/DOCKER.md) - Complete Docker setup guide
+- **docker-compose.yml**: Root-level Docker Compose configuration
+- **Dockerfile**: Root-level Dockerfile for building containers

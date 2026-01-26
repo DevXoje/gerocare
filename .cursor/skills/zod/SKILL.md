@@ -27,6 +27,18 @@ Use this skill when:
 
 ---
 
+## Relationship with Other Skills
+
+This skill is used within the context of:
+- **`feature-development`**: Zod schemas are defined in the domain layer as part of feature development
+- **`coding-style`**: Follows same code style conventions when writing schemas
+
+**Integration:**
+- Zod schemas belong in `src/business/{feature}/domain/` (domain layer)
+- Used in application layer for form validation
+- Used in infrastructure layer for Firestore data validation
+- See `feature-development` skill for Clean Architecture context
+
 ## Clean Architecture: Where Zod Schemas Belong
 
 **Critical Rule**: Zod schemas belong in the **Domain Layer** (`src/business/{feature}/domain/`).

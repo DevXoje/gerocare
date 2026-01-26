@@ -25,6 +25,7 @@ Use this skill when:
 **Don't use this skill when:**
 - Implementing UI components (use `ui-components` instead)
 - Creating design tokens (use `ui-design-system` instead)
+- Creating visual designs or aesthetic implementations (use `frontend-ui-ux` instead)
 - Writing code or technical implementation
 
 ---

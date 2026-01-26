@@ -21,9 +21,20 @@ Use these skills for detailed patterns on-demand:
 | `ui-components` | Patterns and conventions for creating agnostic UI components in GeroCare | [SKILL.md](.cursor/skills/ui-components/SKILL.md) |
 | `ui-design-system` | UI design system toolkit for creating design tokens, visual consistency, and developer handoff documentation | [SKILL.md](.cursor/skills/ui-design-system/SKILL.md) |
 | `ux-researcher-designer` | UX research and design toolkit for persona generation, journey mapping, usability testing, and research synthesis | [SKILL.md](.cursor/skills/ux-researcher-designer/SKILL.md) |
+| `frontend-ui-ux` | Designer-turned-developer who crafts stunning UI/UX even without design mockups | [SKILL.md](.cursor/skills/frontend-ui-ux/SKILL.md) |
 | `feature-development` | Patterns and conventions for implementing complete features following Clean Architecture | [SKILL.md](.cursor/skills/feature-development/SKILL.md) |
 | `zod` | Patterns and conventions for using Zod validation schemas in GeroCare following Clean Architecture | [SKILL.md](.cursor/skills/zod/SKILL.md) |
 | `coding-style` | Coding style guide and conventions for GeroCare | [SKILL.md](.cursor/skills/coding-style/SKILL.md) |
+
+### Skill Relationships
+
+Skills are designed to work together. Common workflows:
+
+- **Feature Development**: `feature-development` → `coding-style` → `zod` → `testing`
+- **UI/UX Design**: `ux-researcher-designer` → `frontend-ui-ux` → `ui-design-system` → `ui-components`
+- **Component Development**: `ui-design-system` → `ui-components` → `coding-style` → `testing`
+
+For detailed guidance on when to use each skill, see [SKILLS_GUIDE.md](.cursor/skills/SKILLS_GUIDE.md) and [SKILLS_DECISION_TREE.md](.cursor/skills/SKILLS_DECISION_TREE.md).
 
 ### Auto-invoke Skills
 
@@ -43,6 +54,7 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Creating new UI components, reusable components, or building the component library | `ui-components` |
 | Creating or updating design tokens, generating color palettes, documenting design system | `ui-design-system` |
 | Conducting user research, creating personas, journey mapping, usability testing | `ux-researcher-designer` |
+| Creating UI/UX designs, visual interfaces, or implementing aesthetic design decisions | `frontend-ui-ux` |
 | Creating new features, domain entities, repositories, composables, or business logic | `feature-development` |
 | Creating validation schemas, validating domain entities, form data, or Firestore data | `zod` |
 | Writing code, refactoring, or making style decisions | `coding-style` |
