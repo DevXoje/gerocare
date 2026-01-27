@@ -15,3 +15,12 @@ export const authRoutes: RouteRecordRaw[] = [
 		component: SignUpPage,
 	},
 ]
+
+export const emailVerificationRoutes: RouteRecordRaw[] = [
+	{
+		path: '/email-verification-required',
+		name: 'email-verification-required',
+		component: () => import('@/business/auth/presentation/pages/EmailVerificationRequiredPage.vue'),
+		meta: { requiresAuth: true },
+	},
+]

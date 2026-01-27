@@ -9,6 +9,7 @@ export const incidentRoutes: RouteRecordRaw[] = [
 		component: IncidentsPage,
 		meta: {
 			requiresAuth: true,
+			requiresEmailVerification: true,
 			title: 'Registro de Incidencias',
 		},
 	},
@@ -18,6 +19,7 @@ export const incidentRoutes: RouteRecordRaw[] = [
 		component: IncidentsPage,
 		meta: {
 			requiresAuth: true,
+			requiresEmailVerification: true,
 			title: 'Registro de Incidencias',
 		},
 	},

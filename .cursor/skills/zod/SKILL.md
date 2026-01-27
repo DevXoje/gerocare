@@ -373,3 +373,5 @@ dateOfBirth: z.date().refine(
 - **Domain Layer**: `src/business/{feature}/domain/`
 - **Result Type**: `src/shared/domain/Result.ts`
 - **Feature Development Skill**: See `feature-development` skill for Clean Architecture patterns
+- **Clean Architecture Rule**: See `.cursor/rules/clean-architecture.md` for layer rules
+- **Clean Architecture Skill**: See `clean-architecture` skill for validation patterns

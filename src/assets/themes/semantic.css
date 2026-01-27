@@ -27,8 +27,9 @@
   --color-border-success: var(--token-color-success-500);
 
   /* === Interactive Elements - Buttons === */
-  --color-button-primary-bg: linear-gradient(135deg, var(--token-color-primary-500) 0%, var(--token-color-primary-700) 100%);
-  --color-button-primary-hover: linear-gradient(135deg, var(--token-color-primary-600) 0%, var(--token-color-primary-800) 100%);
+  /* Gradient from logo: sky blue to peach */
+  --color-button-primary-bg: linear-gradient(135deg, var(--token-color-primary-500) 0%, var(--token-color-secondary-400) 100%);
+  --color-button-primary-hover: linear-gradient(135deg, var(--token-color-primary-600) 0%, var(--token-color-secondary-500) 100%);
   --color-button-primary-text: var(--vt-c-white);
 
   --color-button-primary-solid-bg: var(--token-color-primary-600);
@@ -111,7 +112,8 @@
     --color-bg-secondary: var(--vt-c-black-soft);
     --color-bg-tertiary: var(--vt-c-black-mute);
     --color-bg-hover: var(--token-color-neutral-800);
-    --color-bg-active: rgba(102, 126, 234, 0.2);
+    --color-bg-active: rgba(135, 206, 235, 0.2);
+    /* Sky blue with transparency for dark mode active state */
 
     --color-text-primary: var(--vt-c-text-dark-1);
     --color-text-secondary: var(--vt-c-text-dark-2);
@@ -136,8 +138,9 @@ html.dark :root,
   --color-bg-primary: var(--vt-c-black);
   --color-bg-secondary: var(--vt-c-black-soft);
   --color-bg-tertiary: var(--vt-c-black-mute);
-  --color-bg-hover: var(--token-color-neutral-800);
-  --color-bg-active: rgba(102, 126, 234, 0.2);
+    --color-bg-hover: var(--token-color-neutral-800);
+    --color-bg-active: rgba(135, 206, 235, 0.2);
+    /* Sky blue with transparency for dark mode active state */
 
   --color-text-primary: var(--vt-c-text-dark-1);
   --color-text-secondary: var(--vt-c-text-dark-2);

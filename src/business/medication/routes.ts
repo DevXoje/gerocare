@@ -7,12 +7,12 @@ export const medicationRoutes: RouteRecordRaw[] = [
 		path: '/medications',
 		name: 'medications',
 		component: MedicationPage,
-		meta: { requiresAuth: true },
+		meta: { requiresAuth: true, requiresEmailVerification: true },
 	},
 	{
 		path: '/residents/:id/medications',
 		name: 'resident-medications',
 		component: MedicationPage,
-		meta: { requiresAuth: true },
+		meta: { requiresAuth: true, requiresEmailVerification: true },
 	},
 ]

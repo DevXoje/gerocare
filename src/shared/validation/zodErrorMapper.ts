@@ -1,14 +1,19 @@
 import { type ZodError } from 'zod'
 
+import type { I18nTranslationFunction } from '@/shared/i18n'
 import { type AppError, createAppError } from '@/shared/domain/AppError'
 
 /**
  * Map a Zod validation error to an AppError
  * Extracts the first error message and includes all issues in details
  */
-export function mapZodErrorToAppError(zodError: ZodError): AppError {
+export function mapZodErrorToAppError(
+	zodError: ZodError,
+	t?: I18nTranslationFunction
+): AppError {
 	const firstIssue = zodError.issues[0]
-	const message = firstIssue?.message || 'Error de validación'
+	const defaultMessage = t ? t('validation.error') : 'Error de validación'
+	const message = firstIssue?.message || defaultMessage
 
 	// Format all issues for details
 	const formattedIssues = zodError.issues.map(issue => ({
@@ -28,9 +33,12 @@ export function mapZodErrorToAppError(zodError: ZodError): AppError {
  * Get a user-friendly validation error message from Zod error
  * Returns a single message that can be shown to the user
  */
-export function getZodErrorMessage(zodError: ZodError): string {
+export function getZodErrorMessage(
+	zodError: ZodError,
+	t?: I18nTranslationFunction
+): string {
 	if (zodError.issues.length === 0) {
-		return 'Error de validación'
+		return t ? t('validation.error') : 'Error de validación'
 	}
 
 	if (zodError.issues.length === 1) {
@@ -42,5 +50,16 @@ export function getZodErrorMessage(zodError: ZodError): string {
 	// Multiple errors: return a summary
 	const errorCount = zodError.issues.length
 	const firstError = zodError.issues[0]
-	return `${firstError.message} (y ${errorCount - 1} error${errorCount - 1 > 1 ? 'es' : ''} más)`
+	const remainingCount = errorCount - 1
+
+	if (t) {
+		const plural = remainingCount > 1 ? 'es' : ''
+		const multipleErrorsText = t('validation.multipleErrors', {
+			count: remainingCount,
+			plural,
+		})
+		return `${firstError.message} (${multipleErrorsText})`
+	}
+
+	return `${firstError.message} (y ${remainingCount} error${remainingCount > 1 ? 'es' : ''} más)`
 }

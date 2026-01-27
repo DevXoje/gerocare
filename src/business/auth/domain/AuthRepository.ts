@@ -7,5 +7,6 @@ export interface AuthRepository {
 	signInWithGoogle(): Promise<Result<User, AuthError>>
 	signUp(email: string, password: string): Promise<Result<User, AuthError>>
 	sendVerificationEmail(user: User): Promise<Result<void, AuthError>>
+	reloadUser(): Promise<Result<User, AuthError>>
 	signOut(): Promise<Result<void, AuthError>>
 }

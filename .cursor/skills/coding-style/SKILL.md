@@ -447,11 +447,12 @@ async function loadResidents() {
 
 ## Resources
 
+- **Vue Patterns Rule**: [`.cursor/rules/vue-patterns.md`](../../rules/vue-patterns.md) - Always-active Vue patterns
 - **Full Style Guide**: `docs/CODING_STYLE.md`
 - **Prettier Config**: `.prettierrc.json`
 - **ESLint Config**: `eslint.config.ts`
 - **EditorConfig**: `.editorconfig`
 - **Result Type**: `src/shared/domain/Result.ts`
 - **Example Store**: `src/business/care-plans/store.ts`
-- **Example Composable**: `src/business/residents/app/useResidents.ts`
+- **Example Composable**: `src/business/reports/app/useReports.ts`
 - **Example Component**: `src/business/residents/presentation/components/ResidentForm.vue`

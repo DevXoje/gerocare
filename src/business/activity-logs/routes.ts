@@ -9,6 +9,7 @@ export const activityLogsRoutes: RouteRecordRaw[] = [
 		component: ActivityLogsPage,
 		meta: {
 			requiresAuth: true,
+			requiresEmailVerification: true,
 			title: 'Registro de Actividades',
 		},
 	},
@@ -18,6 +19,7 @@ export const activityLogsRoutes: RouteRecordRaw[] = [
 		component: ActivityLogsPage,
 		meta: {
 			requiresAuth: true,
+			requiresEmailVerification: true,
 			title: 'Registro de Actividades',
 		},
 	},

@@ -18,6 +18,7 @@ import App from '@/app/App.vue'
 import { app as firebaseApp } from '@/shared/infrastructure/firebase/firebase.config'
 import router from '@/app/router'
 import { setupGlobalErrorHandling } from '@/shared/error/errorHandler'
+import i18n from '@/shared/i18n'
 // Import auth to ensure emulator connection is initialized
 //import './infrastructure/firebase/firebase.config'
 
@@ -27,6 +28,7 @@ const app = createApp(App)
 setupGlobalErrorHandling(app)
 
 app.use(createPinia())
+app.use(i18n)
 app.use(VueFire, {
 	firebaseApp,
 	modules: [VueFireAuth()],

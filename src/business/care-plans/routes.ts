@@ -9,6 +9,7 @@ export const carePlansRoutes: RouteRecordRaw[] = [
 		component: CarePlansPage,
 		meta: {
 			requiresAuth: true,
+			requiresEmailVerification: true,
 			title: 'Planes de Atención Individual (PAI)',
 		},
 	},
@@ -18,6 +19,7 @@ export const carePlansRoutes: RouteRecordRaw[] = [
 		component: CarePlansPage,
 		meta: {
 			requiresAuth: true,
+			requiresEmailVerification: true,
 			title: 'Planes de Atención Individual (PAI)',
 		},
 	},

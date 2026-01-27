@@ -26,8 +26,12 @@ export const useAuthStore = defineStore('auth', () => {
 	// Getter para verificar si el usuario está autenticado
 	const isAuthenticated = computed(() => user.value !== null)
 
+	// Getter para verificar si el email está verificado
+	const isEmailVerified = computed(() => user.value?.emailVerified ?? false)
+
 	return {
 		user,
 		isAuthenticated,
+		isEmailVerified,
 	}
 })

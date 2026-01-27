@@ -1,11 +1,15 @@
 <script setup lang="ts">
+import LanguageSelector from '@design-system/themes/LanguageSelector.vue'
 import ThemeSelector from '@design-system/themes/ThemeSelector.vue'
 </script>
 
 <template>
 	<div class="public-layout">
 		<header class="public-header">
-			<ThemeSelector />
+			<div class="header-controls">
+				<LanguageSelector />
+				<ThemeSelector />
+			</div>
 		</header>
 		<main class="public-content">
 			<RouterView />
@@ -30,9 +34,18 @@ import ThemeSelector from '@design-system/themes/ThemeSelector.vue'
 	justify-content: flex-end;
 }
 
-.public-header :deep(.theme-selector) {
+.header-controls {
+	display: flex;
+	gap: var(--spacing-md);
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.header-controls :deep(.theme-selector),
+.header-controls :deep(.language-selector) {
 	width: auto;
 	margin-bottom: 0;
+	flex-shrink: 0;
 }
 
 .public-content {

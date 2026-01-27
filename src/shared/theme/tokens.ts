@@ -15,15 +15,19 @@
 export const tokens = {
 	colors: {
 		primary: {
-			50: '#eef2ff',
-			500: '#667eea',
-			600: '#5568d3',
-			700: '#764ba2',
+			50: '#e6f5fa',
+			500: '#87ceeb',
+			600: '#6ba8c1',
+			700: '#4f8297',
+		},
+		secondary: {
+			400: '#ffd4b3',
+			500: '#ffb366',
 		},
 		neutral: {
-			50: '#f9fafb',
-			200: '#e5e7eb',
-			500: '#6b7280',
+			50: '#f5f3f8',
+			200: '#d7cfe1',
+			500: '#e8e0f0',
 		},
 		semantic: {
 			bg: {

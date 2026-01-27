@@ -45,16 +45,16 @@ const clearSearch = () => {
 .search-input {
 	width: 100%;
 	padding: 0.75rem 2.5rem 0.75rem 1rem;
-	border: 1px solid #d1d5db;
-	border-radius: 6px;
-	font-size: 0.875rem;
-	transition: border-color 0.2s;
+	border: 1px solid var(--color-border-default);
+	border-radius: var(--radius-md);
+	font-size: var(--font-size-sm);
+	transition: border-color var(--transition-base);
 }
 
 .search-input:focus {
 	outline: none;
-	border-color: #2563eb;
-	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+	border-color: var(--color-border-focus);
+	box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.1);
 }
 
 .clear-button {
@@ -64,15 +64,15 @@ const clearSearch = () => {
 	transform: translateY(-50%);
 	background: none;
 	border: none;
-	color: #6b7280;
+	color: var(--color-text-tertiary);
 	cursor: pointer;
 	padding: 0.25rem;
 	font-size: 1.25rem;
 	line-height: 1;
-	transition: color 0.2s;
+	transition: color var(--transition-base);
 }
 
 .clear-button:hover {
-	color: #111827;
+	color: var(--color-text-primary);
 }
 </style>

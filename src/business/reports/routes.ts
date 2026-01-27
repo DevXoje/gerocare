@@ -9,6 +9,7 @@ export const reportsRoutes: RouteRecordRaw[] = [
 		component: ReportsPage,
 		meta: {
 			requiresAuth: true,
+			requiresEmailVerification: true,
 			title: 'Reportes y Estadísticas',
 		},
 	},

@@ -44,15 +44,15 @@ onMounted(async () => {
 	margin-bottom: 1.5rem;
 	padding: 0.5rem 1rem;
 	background: none;
-	border: 1px solid #d1d5db;
-	border-radius: 6px;
-	color: #111827;
+	border: 1px solid var(--color-border-default);
+	border-radius: var(--radius-md);
+	color: var(--color-text-primary);
 	cursor: pointer;
-	font-size: 0.875rem;
-	transition: background-color 0.2s;
+	font-size: var(--font-size-sm);
+	transition: background-color var(--transition-base);
 }
 
 .back-button:hover {
-	background-color: #f3f4f6;
+	background-color: var(--color-bg-hover);
 }
 </style>

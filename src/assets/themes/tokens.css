@@ -3,29 +3,41 @@
  */
 
 :root {
-  /* === Primary Colors === */
-  --token-color-primary-50: #eef2ff;
-  --token-color-primary-100: #e0e7ff;
-  --token-color-primary-200: #c7d2fe;
-  --token-color-primary-300: #a5b4fc;
-  --token-color-primary-400: #818cf8;
-  --token-color-primary-500: #667eea;
-  --token-color-primary-600: #5568d3;
-  --token-color-primary-700: #764ba2;
-  --token-color-primary-800: #5b3d7a;
-  --token-color-primary-900: #4c3473;
+  /* === Primary Colors (Sky Blue from Logo) === */
+  --token-color-primary-50: #e6f5fa;
+  --token-color-primary-100: #ccebf5;
+  --token-color-primary-200: #99d7eb;
+  --token-color-primary-300: #66c3e1;
+  --token-color-primary-400: #4db8d9;
+  --token-color-primary-500: #87ceeb;
+  --token-color-primary-600: #6ba8c1;
+  --token-color-primary-700: #4f8297;
+  --token-color-primary-800: #335c6d;
+  --token-color-primary-900: #1a3643;
 
-  /* === Neutral/Gray Scale === */
-  --token-color-neutral-50: #f9fafb;
-  --token-color-neutral-100: #f3f4f6;
-  --token-color-neutral-200: #e5e7eb;
-  --token-color-neutral-300: #d1d5db;
-  --token-color-neutral-400: #9ca3af;
-  --token-color-neutral-500: #6b7280;
-  --token-color-neutral-600: #4b5563;
-  --token-color-neutral-700: #374151;
-  --token-color-neutral-800: #1f2937;
-  --token-color-neutral-900: #111827;
+  /* === Secondary/Accent Colors (Peach from Logo) === */
+  --token-color-secondary-50: #fff5ed;
+  --token-color-secondary-100: #ffebdb;
+  --token-color-secondary-200: #ffd7b7;
+  --token-color-secondary-300: #ffc393;
+  --token-color-secondary-400: #ffd4b3;
+  --token-color-secondary-500: #ffb366;
+  --token-color-secondary-600: #cc8f52;
+  --token-color-secondary-700: #996b3d;
+  --token-color-secondary-800: #664729;
+  --token-color-secondary-900: #332414;
+
+  /* === Neutral/Gray Scale (Lavender Gray from Logo) === */
+  --token-color-neutral-50: #f5f3f8;
+  --token-color-neutral-100: #ebe7f0;
+  --token-color-neutral-200: #d7cfe1;
+  --token-color-neutral-300: #c3b7d2;
+  --token-color-neutral-400: #af9fc3;
+  --token-color-neutral-500: #e8e0f0;
+  --token-color-neutral-600: #9b8fa3;
+  --token-color-neutral-700: #756b7a;
+  --token-color-neutral-800: #4f4752;
+  --token-color-neutral-900: #282429;
 
   /* === Success Colors === */
   --token-color-success-50: #f0fdf4;

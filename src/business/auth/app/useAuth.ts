@@ -1,9 +1,11 @@
 import type { AuthComposable } from '@/business/auth/domain/AuthComposable'
 import type { User } from '@/business/auth/domain/User'
 import { createAuthRepository } from '@/business/auth/infrastructure/FirestoreAuth'
+import { useI18n } from '@/shared/i18n'
 
 export const useAuth = (): AuthComposable => {
-	const repository = createAuthRepository()
+	const { t } = useI18n()
+	const repository = createAuthRepository(t)
 
 	async function signIn(email: string, password: string) {
 		const result = await repository.signIn(email, password)
@@ -28,6 +30,12 @@ export const useAuth = (): AuthComposable => {
 		return result
 	}
 
+	async function reloadUser() {
+		const result = await repository.reloadUser()
+		// VueFire automatically updates the user state in the store via useCurrentUser() on success
+		return result
+	}
+
 	async function signOut() {
 		const result = await repository.signOut()
 		// VueFire automatically updates the user state in the store via useCurrentUser() on success
@@ -39,6 +47,7 @@ export const useAuth = (): AuthComposable => {
 		signInWithGoogle,
 		signUp,
 		sendVerificationEmail,
+		reloadUser,
 		signOut,
 	}
 }

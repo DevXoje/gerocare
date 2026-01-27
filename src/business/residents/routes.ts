@@ -8,12 +8,12 @@ export const residentRoutes: RouteRecordRaw[] = [
 		path: '/residents',
 		name: 'residents',
 		component: ResidentsPage,
-		meta: { requiresAuth: true },
+		meta: { requiresAuth: true, requiresEmailVerification: true },
 	},
 	{
 		path: '/residents/:id',
 		name: 'resident-detail',
 		component: ResidentDetailPage,
-		meta: { requiresAuth: true },
+		meta: { requiresAuth: true, requiresEmailVerification: true },
 	},
 ]

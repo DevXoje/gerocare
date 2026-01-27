@@ -101,7 +101,7 @@ onMounted(() => {
 	margin: 0;
 	font-size: 2rem;
 	font-weight: 600;
-	color: #111827;
+	color: var(--color-text-primary);
 }
 
 @media (max-width: 767px) {

@@ -1,3 +1,4 @@
+import type { I18nTranslationFunction } from '@/shared/i18n'
 import type { AppError } from '@/shared/domain/AppError'
 import { createAppError } from '@/shared/domain/AppError'
 
@@ -18,63 +19,107 @@ export type AuthErrorType =
 
 // Factory functions
 export const createInvalidCredentialsError = (
-	message: string = 'Credenciales inválidas'
-): AuthError => ({
-	...createAppError('AUTH_ERROR', message, { authErrorType: 'INVALID_CREDENTIALS' }),
-	authErrorType: 'INVALID_CREDENTIALS',
-})
+	t?: I18nTranslationFunction,
+	message?: string
+): AuthError => {
+	const defaultMsg = t ? t('auth.errors.invalidCredentials') : 'Credenciales inválidas'
+	return {
+		...createAppError('AUTH_ERROR', message || defaultMsg, { authErrorType: 'INVALID_CREDENTIALS' }),
+		authErrorType: 'INVALID_CREDENTIALS',
+	}
+}
 
-export const createUserNotFoundError = (message: string = 'Usuario no encontrado'): AuthError => ({
-	...createAppError('AUTH_ERROR', message, { authErrorType: 'USER_NOT_FOUND' }),
-	authErrorType: 'USER_NOT_FOUND',
-})
+export const createUserNotFoundError = (
+	t?: I18nTranslationFunction,
+	message?: string
+): AuthError => {
+	const defaultMsg = t ? t('auth.errors.userNotFound') : 'Usuario no encontrado'
+	return {
+		...createAppError('AUTH_ERROR', message || defaultMsg, { authErrorType: 'USER_NOT_FOUND' }),
+		authErrorType: 'USER_NOT_FOUND',
+	}
+}
 
 export const createTooManyRequestsError = (
-	message: string = 'Demasiadas solicitudes'
-): AuthError => ({
-	...createAppError('AUTH_ERROR', message, { authErrorType: 'TOO_MANY_REQUESTS' }),
-	authErrorType: 'TOO_MANY_REQUESTS',
-})
+	t?: I18nTranslationFunction,
+	message?: string
+): AuthError => {
+	const defaultMsg = t ? t('auth.errors.tooManyRequests') : 'Demasiadas solicitudes'
+	return {
+		...createAppError('AUTH_ERROR', message || defaultMsg, { authErrorType: 'TOO_MANY_REQUESTS' }),
+		authErrorType: 'TOO_MANY_REQUESTS',
+	}
+}
 
 export const createUserDisabledError = (
-	message: string = 'El usuario está deshabilitado'
-): AuthError => ({
-	...createAppError('AUTH_ERROR', message, { authErrorType: 'USER_DISABLED' }),
-	authErrorType: 'USER_DISABLED',
-})
+	t?: I18nTranslationFunction,
+	message?: string
+): AuthError => {
+	const defaultMsg = t ? t('auth.errors.userDisabled') : 'El usuario está deshabilitado'
+	return {
+		...createAppError('AUTH_ERROR', message || defaultMsg, { authErrorType: 'USER_DISABLED' }),
+		authErrorType: 'USER_DISABLED',
+	}
+}
 
 export const createOperationNotAllowedError = (
-	message: string = 'Operación no permitida'
-): AuthError => ({
-	...createAppError('AUTH_ERROR', message, { authErrorType: 'OPERATION_NOT_ALLOWED' }),
-	authErrorType: 'OPERATION_NOT_ALLOWED',
-})
+	t?: I18nTranslationFunction,
+	message?: string
+): AuthError => {
+	const defaultMsg = t ? t('auth.errors.operationNotAllowed') : 'Operación no permitida'
+	return {
+		...createAppError('AUTH_ERROR', message || defaultMsg, {
+			authErrorType: 'OPERATION_NOT_ALLOWED',
+		}),
+		authErrorType: 'OPERATION_NOT_ALLOWED',
+	}
+}
 
-export const createInvalidEmailError = (message: string = 'El email no es válido'): AuthError => ({
-	...createAppError('AUTH_ERROR', message, { authErrorType: 'INVALID_EMAIL' }),
-	authErrorType: 'INVALID_EMAIL',
-})
+export const createInvalidEmailError = (
+	t?: I18nTranslationFunction,
+	message?: string
+): AuthError => {
+	const defaultMsg = t ? t('auth.errors.invalidEmail') : 'El email no es válido'
+	return {
+		...createAppError('AUTH_ERROR', message || defaultMsg, { authErrorType: 'INVALID_EMAIL' }),
+		authErrorType: 'INVALID_EMAIL',
+	}
+}
 
 export const createEmailAlreadyInUseError = (
-	message: string = 'El email ya está en uso'
-): AuthError => ({
-	...createAppError('AUTH_ERROR', message, { authErrorType: 'EMAIL_ALREADY_IN_USE' }),
-	authErrorType: 'EMAIL_ALREADY_IN_USE',
-})
+	t?: I18nTranslationFunction,
+	message?: string
+): AuthError => {
+	const defaultMsg = t ? t('auth.errors.emailAlreadyInUse') : 'El email ya está en uso'
+	return {
+		...createAppError('AUTH_ERROR', message || defaultMsg, {
+			authErrorType: 'EMAIL_ALREADY_IN_USE',
+		}),
+		authErrorType: 'EMAIL_ALREADY_IN_USE',
+	}
+}
 
 export const createWeakPasswordError = (
-	message: string = 'La contraseña es demasiado débil'
-): AuthError => ({
-	...createAppError('AUTH_ERROR', message, { authErrorType: 'WEAK_PASSWORD' }),
-	authErrorType: 'WEAK_PASSWORD',
-})
+	t?: I18nTranslationFunction,
+	message?: string
+): AuthError => {
+	const defaultMsg = t ? t('auth.errors.weakPassword') : 'La contraseña es demasiado débil'
+	return {
+		...createAppError('AUTH_ERROR', message || defaultMsg, { authErrorType: 'WEAK_PASSWORD' }),
+		authErrorType: 'WEAK_PASSWORD',
+	}
+}
 
 export const createUnknownAuthError = (
-	message: string = 'Error desconocido al iniciar sesión'
-): AuthError => ({
-	...createAppError('AUTH_ERROR', message, { authErrorType: 'UNKNOWN' }),
-	authErrorType: 'UNKNOWN',
-})
+	t?: I18nTranslationFunction,
+	message?: string
+): AuthError => {
+	const defaultMsg = t ? t('auth.errors.unknown') : 'Error desconocido al iniciar sesión'
+	return {
+		...createAppError('AUTH_ERROR', message || defaultMsg, { authErrorType: 'UNKNOWN' }),
+		authErrorType: 'UNKNOWN',
+	}
+}
 
 // Type guards (for type narrowing)
 export const isInvalidCredentialsError = (error: AuthError): boolean => {

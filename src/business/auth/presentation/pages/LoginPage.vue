@@ -9,16 +9,16 @@ const { email, password, loading, handleSubmit, handleGoogleSignIn } = useLoginF
 <template>
 	<div class="login">
 		<div class="login__card">
-			<h1 class="login__title">Iniciar Sesión</h1>
+			<h1 class="login__title">{{ $t('auth.login.title') }}</h1>
 
 			<form class="form login__form" @submit.prevent="handleSubmit">
 				<div class="form__group">
-					<label for="email" class="form__label">Email</label>
+					<label for="email" class="form__label">{{ $t('auth.login.email') }}</label>
 					<input
 						id="email"
 						v-model="email"
 						type="email"
-						placeholder="tu@email.com"
+						:placeholder="$t('auth.login.emailPlaceholder')"
 						class="input"
 						:class="{ 'input--disabled': loading }"
 						:required="true"
@@ -28,12 +28,12 @@ const { email, password, loading, handleSubmit, handleGoogleSignIn } = useLoginF
 				</div>
 
 				<div class="form__group">
-					<label for="password" class="form__label">Contraseña</label>
+					<label for="password" class="form__label">{{ $t('auth.login.password') }}</label>
 					<input
 						id="password"
 						v-model="password"
 						type="password"
-						placeholder="••••••••"
+						:placeholder="$t('auth.login.passwordPlaceholder')"
 						class="input"
 						:class="{ 'input--disabled': loading }"
 						:required="true"
@@ -48,13 +48,13 @@ const { email, password, loading, handleSubmit, handleGoogleSignIn } = useLoginF
 					:class="{ 'button--disabled': loading, 'button--loading': loading }"
 					:disabled="loading"
 				>
-					<span v-if="loading">Iniciando sesión...</span>
-					<span v-else>Iniciar Sesión</span>
+					<span v-if="loading">{{ $t('auth.login.loading') }}</span>
+					<span v-else>{{ $t('auth.login.submit') }}</span>
 				</button>
 			</form>
 
 			<div data-testid="login-separator" class="login__separator">
-				<span class="login__separator-text">o</span>
+				<span class="login__separator-text">{{ $t('auth.login.separator') }}</span>
 			</div>
 
 			<button
@@ -65,14 +65,40 @@ const { email, password, loading, handleSubmit, handleGoogleSignIn } = useLoginF
 				:disabled="loading"
 				@click="handleGoogleSignIn"
 			>
-				<span v-if="loading">Iniciando sesión...</span>
-				<span v-else>Continuar con Google</span>
+				<span v-if="loading">{{ $t('auth.login.loading') }}</span>
+				<span v-else class="button--google__content">
+					<svg
+						class="button--google__icon"
+						width="18"
+						height="18"
+						viewBox="0 0 18 18"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"
+							fill="#4285F4"
+						/>
+						<path
+							d="M9 18c2.43 0 4.467-.806 5.96-2.184l-2.908-2.258c-.806.54-1.837.86-3.052.86-2.347 0-4.337-1.584-5.047-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"
+							fill="#34A853"
+						/>
+						<path
+							d="M3.953 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.348 6.175 0 7.55 0 9s.348 2.825.957 4.039l2.996-2.332z"
+							fill="#FBBC05"
+						/>
+						<path
+							d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.953 7.293C4.663 5.163 6.653 3.58 9 3.58z"
+							fill="#EA4335"
+						/>
+					</svg>
+					{{ $t('auth.login.googleSignIn') }}
+				</span>
 			</button>
 
 			<div class="login__footer">
 				<p class="login__footer-text">
-					¿No tienes cuenta?
-					<RouterLink to="/signup" class="login__link">Regístrate</RouterLink>
+					{{ $t('auth.login.noAccount') }}
+					<RouterLink to="/signup" class="login__link">{{ $t('auth.login.signUp') }}</RouterLink>
 				</p>
 			</div>
 		</div>
@@ -135,6 +161,17 @@ const { email, password, loading, handleSubmit, handleGoogleSignIn } = useLoginF
 .button--google:hover:not(:disabled) {
 	background: var(--color-button-google-hover-bg);
 	border-color: var(--color-border-hover);
+}
+
+.button--google__content {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--spacing-sm);
+}
+
+.button--google__icon {
+	flex-shrink: 0;
 }
 
 .login__footer {

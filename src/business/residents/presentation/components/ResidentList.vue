@@ -60,11 +60,11 @@ const handleResidentClick = (resident: Resident) => {
 .empty-state {
 	padding: 2rem;
 	text-align: center;
-	color: #6b7280;
+	color: var(--color-text-tertiary);
 }
 
 .error-message {
-	color: #dc3545;
+	color: var(--color-border-error);
 }
 
 .residents-grid {

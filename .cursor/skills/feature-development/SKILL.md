@@ -484,11 +484,32 @@ if (!result.success) {
 
 ---
 
+## Relationship with Other Skills
+
+This skill works with:
+- **`clean-architecture`**: Use for validating architecture and dependencies
+- **`firebase`**: Use for implementing Firestore repositories in infrastructure layer
+- **`zod`**: Use for creating validation schemas in domain layer
+- **`coding-style`**: Follow code style conventions when implementing features
+
+**Workflow:**
+1. `clean-architecture` rule → Understand architectural constraints
+2. `feature-development` → Create feature structure
+3. `zod` → Create validation schemas
+4. `firebase` → Implement Firestore repositories
+5. `clean-architecture` skill → Validate architecture
+
+---
+
 ## Resources
 
+- **Clean Architecture Rule**: [`.cursor/rules/clean-architecture.md`](../../rules/clean-architecture.md) - Always-active architectural rules
+- **Clean Architecture Skill**: See `clean-architecture` skill for validation patterns
+- **Firebase Skill**: See `firebase` skill for Firestore and Auth patterns
 - **Result Type**: `src/shared/domain/Result.ts`
-- **Firebase Config**: `src/infrastructure/firebase/firebase.config.ts`
+- **Firebase Config**: `src/shared/infrastructure/firebase/firebase.config.ts`
 - **Zod Validation**: See `zod` skill for validation schema patterns
+- **Architecture Docs**: `docs/architecture/README.md`
 - **Example Feature**: `src/business/residents/`
 - **Example Domain**: `src/business/residents/domain/`
 - **Example Infrastructure**: `src/business/residents/infrastructure/`

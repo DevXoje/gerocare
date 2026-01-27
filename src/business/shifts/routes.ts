@@ -9,6 +9,7 @@ export const shiftRoutes: RouteRecordRaw[] = [
 		component: ShiftsPage,
 		meta: {
 			requiresAuth: true,
+			requiresEmailVerification: true,
 			title: 'Gestión de Turnos',
 		},
 	},
@@ -18,6 +19,7 @@ export const shiftRoutes: RouteRecordRaw[] = [
 		component: ShiftsPage,
 		meta: {
 			requiresAuth: true,
+			requiresEmailVerification: true,
 			title: 'Gestión de Turnos',
 		},
 	},

@@ -1,14 +1,17 @@
 import { z } from 'zod'
 
-export const SignUpFormSchema = z
-	.object({
-		email: z.string().email({ message: 'Por favor, ingresa un email válido' }),
-		password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
-		passwordConfirmation: z.string(),
-	})
-	.refine(data => data.password === data.passwordConfirmation, {
-		message: 'Las contraseñas no coinciden',
-		path: ['passwordConfirmation'],
-	})
+import type { I18nTranslationFunction } from '@/shared/i18n'
 
-export type SignUpFormInput = z.infer<typeof SignUpFormSchema>
+export type SignUpFormInput = z.infer<ReturnType<typeof createSignUpFormSchema>>
+
+export const createSignUpFormSchema = (t: I18nTranslationFunction) =>
+	z
+		.object({
+			email: z.string().email({ message: t('validation.email.invalid') }),
+			password: z.string().min(6, t('validation.password.minLength', { min: 6 })),
+			passwordConfirmation: z.string(),
+		})
+		.refine(data => data.password === data.passwordConfirmation, {
+			message: t('validation.password.mismatch'),
+			path: ['passwordConfirmation'],
+		})

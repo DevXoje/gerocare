@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { createActivityLogRepository } from '@/business/activity-logs/infrastructure'
+import EmailVerificationBanner from '@/business/auth/presentation/components/EmailVerificationBanner.vue'
 import { createCarePlanRepository } from '@/business/care-plans/infrastructure'
 import { Sidebar as AppSidebar } from '@design-system/organisms'
 import { createIncidentRepository } from '@/business/incidents/infrastructure'
@@ -41,6 +42,7 @@ useSyncQueue(queue, {
 		<AppSidebar />
 
 		<div class="layout-main">
+			<EmailVerificationBanner />
 			<header class="layout-header" v-if="isMobile">
 				<button class="menu-toggle" @click="toggle" aria-label="Toggle menu">
 					<span class="hamburger-icon">☰</span>

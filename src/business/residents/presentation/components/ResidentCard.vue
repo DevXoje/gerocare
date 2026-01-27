@@ -58,7 +58,7 @@ const handleClick = () => {
 	border-radius: 50%;
 	overflow: hidden;
 	flex-shrink: 0;
-	background-color: #e5e7eb;
+	background-color: var(--token-color-neutral-200);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -73,7 +73,7 @@ const handleClick = () => {
 .avatar-placeholder {
 	font-size: 1.5rem;
 	font-weight: 600;
-	color: #6b7280;
+	color: var(--color-text-tertiary);
 }
 
 .resident-info {
@@ -85,7 +85,7 @@ const handleClick = () => {
 	margin: 0 0 0.25rem 0;
 	font-size: 1rem;
 	font-weight: 600;
-	color: #111827;
+	color: var(--color-text-primary);
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -93,7 +93,7 @@ const handleClick = () => {
 
 .resident-age {
 	margin: 0;
-	font-size: 0.875rem;
-	color: #6b7280;
+	font-size: var(--font-size-sm);
+	color: var(--color-text-tertiary);
 }
 </style>

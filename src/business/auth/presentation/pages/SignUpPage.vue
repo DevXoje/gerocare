@@ -11,16 +11,16 @@ const { email, password, passwordConfirmation, loading, handleSubmit, handleGoog
 <template>
 	<div class="signup">
 		<div class="signup__card">
-			<h1 class="signup__title">Crear Cuenta</h1>
+			<h1 class="signup__title">{{ $t('auth.signup.title') }}</h1>
 
 			<form class="form signup__form" @submit.prevent="handleSubmit">
 				<div class="form__group">
-					<label for="email" class="form__label">Email</label>
+					<label for="email" class="form__label">{{ $t('auth.signup.email') }}</label>
 					<input
 						id="email"
 						v-model="email"
 						type="email"
-						placeholder="tu@email.com"
+						:placeholder="$t('auth.signup.emailPlaceholder')"
 						class="input"
 						:class="{ 'input--disabled': loading }"
 						:required="true"
@@ -30,7 +30,7 @@ const { email, password, passwordConfirmation, loading, handleSubmit, handleGoog
 				</div>
 
 				<div class="form__group">
-					<label for="password" class="form__label">Contraseña</label>
+					<label for="password" class="form__label">{{ $t('auth.signup.password') }}</label>
 					<PasswordInput
 						id="password"
 						v-model="password"
@@ -41,7 +41,7 @@ const { email, password, passwordConfirmation, loading, handleSubmit, handleGoog
 				</div>
 
 				<div class="form__group">
-					<label for="password-confirmation" class="form__label">Confirmar Contraseña</label>
+					<label for="password-confirmation" class="form__label">{{ $t('auth.signup.confirmPassword') }}</label>
 					<PasswordInput
 						id="password-confirmation"
 						v-model="passwordConfirmation"
@@ -59,13 +59,13 @@ const { email, password, passwordConfirmation, loading, handleSubmit, handleGoog
 					:class="{ 'button--disabled': loading, 'button--loading': loading }"
 					:disabled="loading"
 				>
-					<span v-if="loading">Creando cuenta...</span>
-					<span v-else>Registrarse</span>
+					<span v-if="loading">{{ $t('auth.signup.loading') }}</span>
+					<span v-else>{{ $t('auth.signup.submit') }}</span>
 				</button>
 			</form>
 
 			<div data-testid="signup-separator" class="signup__separator">
-				<span class="signup__separator-text">o</span>
+				<span class="signup__separator-text">{{ $t('auth.signup.separator') }}</span>
 			</div>
 
 			<button
@@ -76,15 +76,41 @@ const { email, password, passwordConfirmation, loading, handleSubmit, handleGoog
 				:disabled="loading"
 				@click="handleGoogleSignIn"
 			>
-				<span v-if="loading">Creando cuenta...</span>
-				<span v-else>Continuar con Google</span>
+				<span v-if="loading">{{ $t('auth.signup.loading') }}</span>
+				<span v-else class="button--google__content">
+					<svg
+						class="button--google__icon"
+						width="18"
+						height="18"
+						viewBox="0 0 18 18"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"
+							fill="#4285F4"
+						/>
+						<path
+							d="M9 18c2.43 0 4.467-.806 5.96-2.184l-2.908-2.258c-.806.54-1.837.86-3.052.86-2.347 0-4.337-1.584-5.047-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"
+							fill="#34A853"
+						/>
+						<path
+							d="M3.953 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.348 6.175 0 7.55 0 9s.348 2.825.957 4.039l2.996-2.332z"
+							fill="#FBBC05"
+						/>
+						<path
+							d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.953 7.293C4.663 5.163 6.653 3.58 9 3.58z"
+							fill="#EA4335"
+						/>
+					</svg>
+					{{ $t('auth.signup.googleSignIn') }}
+				</span>
 			</button>
 
 			<div class="signup__footer">
 				<p class="signup__footer-text">
-					¿Ya tienes cuenta?
+					{{ $t('auth.signup.hasAccount') }}
 					<RouterLink data-testid="login-link" to="/login" class="signup__link"
-						>Inicia sesión</RouterLink
+						>{{ $t('auth.signup.signIn') }}</RouterLink
 					>
 				</p>
 			</div>
@@ -148,6 +174,17 @@ const { email, password, passwordConfirmation, loading, handleSubmit, handleGoog
 .button--google:hover:not(:disabled) {
 	background: var(--color-button-google-hover-bg);
 	border-color: var(--color-border-hover);
+}
+
+.button--google__content {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--spacing-sm);
+}
+
+.button--google__icon {
+	flex-shrink: 0;
 }
 
 .signup__footer {
